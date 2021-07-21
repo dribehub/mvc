@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    thead { font-weight: bold; }
+    td {
+      width: 150px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div id="search-div">
+  <h2>Get order by ID</h2>
+  <input type="number" id="input" name="input" min="1" th:max="${orders.size}">
+  <input type="button" id="search-btn" value="Search" onclick="getById()">
+</div>
+<div id="table-div">
+  <h2>List of orders</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <td>Order ID</td>
+        <td>Customer</td>
+        <td>Date Created</td>
+      </tr>
+    </thead>
+    <tbody th:each="customer:${customers}">
+      <tr th:each="order:${orders}" th:if="${order.customerId} == ${customer.id}">
+        <td th:text="${order.id}">Order ID</td>
+        <td th:text="|${customer.firstName} ${customer.lastName}|">Customer Name</td>
+        <td th:text="${order.date}">Order Date</td>
+      </tr>
+    </tbody>
+  </table><br>
+</div>
+<input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
+<script type="text/javascript">
+  const getById = () => window.location.href += "/" + input.value;
+  const input = document.getElementById("input");
+  input.addEventListener("keyup", (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      getById();
+    }
+  })
+</script>
+</body>
+</html>

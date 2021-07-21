@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order By ID</title>
+  <style>
+    .bold { font-weight: bold; }
+    td {
+      width: 150px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<table border="1">
+  <tr>
+    <td class="bold">Order ID</td>
+    <td th:text="${order.id}">ID</td>
+  </tr>
+  <tr>
+    <td class="bold">Order Date</td>
+    <td th:text="${order.date}">Date</td>
+  </tr>
+  <tr>
+    <td class="bold">Customer</td>
+    <td th:text="|${customer.firstName} ${customer.lastName}|">Customer</td>
+  </tr>
+</table><br>
+<input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
+</body>
+</html>
