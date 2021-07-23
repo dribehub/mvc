@@ -29,5 +29,4 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream().map(CustomerMapper::toDto)
                 .collect(Collectors.toList());
     }
-
 }

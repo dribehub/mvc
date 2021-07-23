@@ -7,36 +7,41 @@
 <body>
 <div id="create-order">
     <h2>Create your order</h2>
-    <form id="form" th:action="@{/orders/add}" th:object="${order}" method="POST">
+    <form method="POST" th:action="@{/orders/add}" th:object="${order}">
         <label for="customer">Choose a customer:</label><br>
-        <select name="customer" id="customer" th:field="*{customerId}">
+        <select id="customer" th:field="*{customerId}">
             <option th:value="0" disabled selected></option>
             <option th:each="customer:${customers}"
                     th:value="${customer.id}"
                     th:text="|${customer.firstName} ${customer.lastName}|">[Customer]</option>
         </select><br><br>
         <label for="items">Add items:</label><br>
-        <div id="items" th:each="entry : ${order.items.entrySet()}">
-            <input type="checkbox"
-                   th:value="1"
-                   th:field="*{items['__${entry.key}__']}">
-            <span th:text="${entry.key.name}">[Item Name]</span>
-            <span th:text="|(${entry.key.currency} ${entry.key.price})|">[Item Price]</span>
-            <br><br>
-        </div>
-        <input id="submit" type="submit" value="Submit" style="display: none">
+        <div id="items" th:each="entry : ${order.itemsIds.entrySet()}">
+            <input id="hidden" type="hidden" th:value="${false}" th:field="*{itemsIds['__${entry.key}__']}">
+            <input id="checkbox" type="checkbox" th:value="${true}" th:field="*{itemsIds['__${entry.key}__']}">
+            <span th:each="item:${items}">
+                <span th:if="${item.id == entry.key}">
+                    <span th:text="${item.name}">[Item Name]</span>
+                    <span th:text="|(${item.currency} ${item.price})|">[Item Price]</span>
+                </span>
+            </span>
+        </div><br>
+        <input id="submit-form" type="submit" value="Submit" style="display: none">
     </form>
     <input type="submit" value="Submit order" onclick="validate()"><br><br>
     <input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
 </div>
 <script type="text/javascript">
     function validate() {
-        if (!document.getElementById("customer").value)
+        if (!document.getElementById("customer").value) {
             alert("Please choose one customer!");
-        else if (!document.querySelectorAll('input[type=checkbox]:checked').length)
+        } else if (!document.querySelectorAll('input[type=checkbox]:checked').length) {
             alert("Please choose at least one item from the list!");
-        else
-            document.getElementById("submit").click();
+        } else {
+            if (document.getElementById("checkbox").checked)
+                document.getElementById('hidden').disabled = true;
+            document.getElementById("submit-form").click();
+        }
     }
 </script>
 </body>

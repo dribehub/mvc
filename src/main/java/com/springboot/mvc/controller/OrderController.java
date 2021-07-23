@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/orders")
@@ -54,13 +53,15 @@ public class OrderController {
     public String addOrder(Model model, @ModelAttribute(name = "order") OrderRequestDto order) {
         Integer customerId = order.getCustomerId();
         List<ItemDto> items = new ArrayList<>();
-        for (ItemDto key : order.getItems().keySet())
-            if (order.getItems().get(key))
-                items.add(key);
+        for (Integer itemId : order.getItemsIds().keySet())
+            if (order.getItemsIds().get(itemId))
+                items.add(itemService.findById(itemId));
+//            else System.out.println(items.add(itemService.findById(itemId)));
         OrderDto newOrder = orderService.addOrder(customerId, items);
         CustomerDto customer = customerService.findById(customerId);
         model.addAttribute("newOrder", newOrder);
         model.addAttribute("customer", customer);
+        model.addAttribute("items", items);
         return "result";
     }
 }

@@ -19,27 +19,36 @@
     </tr>
     <tr>
         <td class="bold">Order Date</td>
-        <td th:text="${order.date}">[Date]</td>
+        <td th:text="${newOrder.date}">[Date]</td>
     </tr>
     <tr>
         <td class="bold">Customer</td>
         <td th:text="|${customer.firstName} ${customer.lastName}|">[Customer]</td>
     </tr>
 </table><br>
+
 <table border="1">
     <thead>
-    <tr><td colspan="3">Order Items</td></tr>
-    </thead>
-    <tbody></tbody>
-    <tr th:each="item:${order.items}">
-        <td th:text="${item.name}">[Item Name]</td>
-        <td th:text="${item.category}">[Item Category]</td>
-        <td th:text="|${item.currency} ${item.price}|">[Item Price]</td>
+    <tr>
+        <td colspan="3">Order Items</td>
     </tr>
+    <tr>
+        <td>Name</td>
+        <td>Category</td>
+        <td>Price</td>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item:${items}">
+            <td th:text="${item.name}">[Item Name]</td>
+            <td th:text="${item.category}">[Item Category]</td>
+            <td th:text="|${item.currency} ${item.price}|">[Item Price]</td>
+        </tr>
+    </tbody>
 </table><br>
 <input type="button" id="back-btn" value="Go to index" onclick="goToIndex()">
 <script type="text/javascript">
-    const goToIndex = () => window.location.href += "/result";
+    const goToIndex = () => window.location.href = "/";
 </script>
 </body>
 </html>
