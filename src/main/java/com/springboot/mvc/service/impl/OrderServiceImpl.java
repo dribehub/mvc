@@ -36,11 +36,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto addOrder(Integer customerId, List<ItemEntity> items) {
+    public OrderDto addOrder(Integer customerId, List<ItemDto> items) {
         OrderEntity entity = new OrderEntity();
         entity.setDate(LocalDate.now());
         entity.setCustomerId(customerId);
-        entity.setItems(items);
+        entity.setItems(items.stream()
+                .map(ItemMapper::toEntity)
+                .collect(Collectors.toList()));
         return OrderMapper.toDto(repository.save(entity));
     }
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order By ID</title>
+    <style>
+        thead, .bold { font-weight: bold; }
+        td {
+            width: 150px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <td class="bold">Order ID</td>
+        <td th:text="${newOrder.id}">[ID]</td>
+    </tr>
+    <tr>
+        <td class="bold">Order Date</td>
+        <td th:text="${order.date}">[Date]</td>
+    </tr>
+    <tr>
+        <td class="bold">Customer</td>
+        <td th:text="|${customer.firstName} ${customer.lastName}|">[Customer]</td>
+    </tr>
+</table><br>
+<table border="1">
+    <thead>
+    <tr><td colspan="3">Order Items</td></tr>
+    </thead>
+    <tbody></tbody>
+    <tr th:each="item:${order.items}">
+        <td th:text="${item.name}">[Item Name]</td>
+        <td th:text="${item.category}">[Item Category]</td>
+        <td th:text="|${item.currency} ${item.price}|">[Item Price]</td>
+    </tr>
+</table><br>
+<input type="button" id="back-btn" value="Go to index" onclick="goToIndex()">
+<script type="text/javascript">
+    const goToIndex = () => window.location.href += "/result";
+</script>
+</body>
+</html>

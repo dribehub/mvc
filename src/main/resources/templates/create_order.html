@@ -7,44 +7,36 @@
 <body>
 <div id="create-order">
     <h2>Create your order</h2>
-    <form id="form" th:action="@{/add}" th:object="${order}" method="post">
-
+    <form id="form" th:action="@{/orders/add}" th:object="${order}" method="POST">
         <label for="customer">Choose a customer:</label><br>
-
         <select name="customer" id="customer" th:field="*{customerId}">
-            <option disabled selected></option>
+            <option th:value="0" disabled selected></option>
             <option th:each="customer:${customers}"
                     th:value="${customer.id}"
                     th:text="|${customer.firstName} ${customer.lastName}|">[Customer]</option>
         </select><br><br>
-
-        <label for="items">Add items:</label>
-
-        <ul id="items" style="list-style: none;">
-            <li th:each="item:${items}">
-                <input type="checkbox" th:field="*{items}" name="${item}">
-                <span th:text="${item.name}">[Item Name]</span>
-                <span th:text="|(${item.currency} ${item.price})|">[Item Price]</span>
-                <br>
-            </li>
-        </ul>
-
+        <label for="items">Add items:</label><br>
+        <div id="items" th:each="entry : ${order.items.entrySet()}">
+            <input type="checkbox"
+                   th:value="1"
+                   th:field="*{items['__${entry.key}__']}">
+            <span th:text="${entry.key.name}">[Item Name]</span>
+            <span th:text="|(${entry.key.currency} ${entry.key.price})|">[Item Price]</span>
+            <br><br>
+        </div>
+        <input id="submit" type="submit" value="Submit" style="display: none">
     </form>
-    <input type="submit" value="Submit order" onclick="submit()">
+    <input type="submit" value="Submit order" onclick="validate()"><br><br>
+    <input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
 </div>
 <script type="text/javascript">
-    function submit() {
-        const customer = document.getElementById("customer").value;
-        const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
-        let checked = [];
-        for (let i = 0; i < checkboxes.length; i++)
-            checked.push(checkboxes[i].getAttribute("ID"));
-        if (!customer)
+    function validate() {
+        if (!document.getElementById("customer").value)
             alert("Please choose one customer!");
-        else if (checked.length === 0)
+        else if (!document.querySelectorAll('input[type=checkbox]:checked').length)
             alert("Please choose at least one item from the list!");
         else
-            window.location.href += "/add";
+            document.getElementById("submit").click();
     }
 </script>
 </body>
