@@ -4,7 +4,7 @@ import com.springboot.mvc.dto.ItemDto;
 
 import java.util.List;
 
-public interface ItemService {
+public interface IItemService {
 
     ItemDto findById(Integer id);
     List<ItemDto> selectAll();

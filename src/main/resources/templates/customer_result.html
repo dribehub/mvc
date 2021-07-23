@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Customer By ID</title>
+  <title>Customer Result</title>
   <style>
-    .bold { font-weight: bold; }
+    thead, .bold { font-weight: bold; }
     td {
       width: 150px;
       text-align: center;
@@ -12,6 +12,7 @@
   </style>
 </head>
 <body>
+<h2>New customer has been added successfully</h2>
 <table border="1">
   <tr>
     <td class="bold">Customer ID</td>
@@ -30,6 +31,9 @@
     <td th:text="${customer.email}">[Email]</td>
   </tr>
 </table><br>
-<input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
+<input type="button" id="back-btn" value="Go to index" onclick="goToIndex()">
+<script type="text/javascript">
+  const goToIndex = () => window.location.href = "/";
+</script>
 </body>
 </html>

@@ -5,9 +5,9 @@ import com.springboot.mvc.dto.OrderDto;
 
 import java.util.List;
 
-public interface OrderService {
+public interface IOrderService {
 
-    OrderDto findById(Integer id);
     List<OrderDto> selectAll();
+    OrderDto findById(Integer id);
     OrderDto addOrder(Integer customerId, List<ItemDto> items);
 }

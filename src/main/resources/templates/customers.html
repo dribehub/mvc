@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="search-div">
-  <h2 >Get customer by ID</h2>
+  <h2>Get customer by ID</h2>
   <input type="number" id="input" name="input" min="1" th:max="${customers.size}">
   <input type="button" id="search-btn" value="Search" onclick="getById()">
 </div>
@@ -24,16 +24,17 @@
     <td>ID</td>
     <td>First Name</td>
     <td>Last Name</td>
+    <td>Email</td>
   </tr>
   </thead>
   <tr th:each="customer:${customers}">
-    <td th:text="${customer.id}">ID</td>
-    <td th:text="${customer.firstName}">First Name</td>
-    <td th:text="${customer.lastName}">Last Name</td>
+    <td th:text="${customer.id}">[ID]</td>
+    <td th:text="${customer.firstName}">[First Name]</td>
+    <td th:text="${customer.lastName}">[Last Name]</td>
+    <td th:text="${customer.email}">[Email]</td>
   </tr>
 </table><br>
 <input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
-
 <script type="text/javascript">
   const input = document.getElementById("input");
   const getById = () => window.location.href += "/" + input.value;

@@ -7,18 +7,13 @@ import java.util.Map;
 public class OrderRequestDto {
 
     private Integer customerId;
-    private Map<ItemDto, Boolean> items;
-    public final Boolean TRUE = true;
+    private Map<Integer, String> itemsIds;
 
-    // [Failed to convert value of type 'java.lang.String' to required type 'java.util.List';
-    // nested exception is java.lang.IllegalStateException:
-    // Cannot convert value of type 'java.lang.String' to required type 'com.springboot.mvc.dto.ItemDto':
-    // no matching editors or conversion strategy found]]
-
+    public OrderRequestDto() {}
     public OrderRequestDto(List<ItemDto> items) {
-        this.items = new HashMap<>();
+        itemsIds = new HashMap<>();
         for (ItemDto item : items)
-            this.items.put(item, false);
+            itemsIds.put(item.getId(), "false");
     }
 
     public Integer getCustomerId() {
@@ -27,10 +22,10 @@ public class OrderRequestDto {
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
-    public Map<ItemDto, Boolean> getItems() {
-        return items;
+    public Map<Integer, String> getItemsIds() {
+        return itemsIds;
     }
-    public void setItems(Map<ItemDto, Boolean> items) {
-        this.items = items;
+    public void setItemsIds(Map<Integer, String> itemsIds) {
+        this.itemsIds = itemsIds;
     }
 }

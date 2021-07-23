@@ -2,16 +2,17 @@ package com.springboot.mvc.service.impl;
 
 import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.mapper.CustomerMapper;
-import com.springboot.mvc.service.CustomerService;
+import com.springboot.mvc.service.ICustomerService;
 import com.springboot.mvc.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerService implements ICustomerService {
 
     @Autowired
     private CustomerRepository repository;
@@ -30,4 +31,13 @@ public class CustomerServiceImpl implements CustomerService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public CustomerDto addCustomer(CustomerDto newCustomer) {
+        List<String> emails = selectAll()
+                .stream().map(CustomerDto::getEmail)
+                .collect(Collectors.toList());
+        if (emails.contains(newCustomer.getEmail()))
+            throw new NonUniqueResultException("This email is already inserted!");
+        return CustomerMapper.toDto(repository.save(CustomerMapper.toEntity(newCustomer)));
+    }
 }

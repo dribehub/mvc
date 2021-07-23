@@ -10,6 +10,7 @@ public class CustomerMapper {
         entity.setId(dto.getId());
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
+        entity.setEmail(dto.getEmail());
         return entity;
     }
 
@@ -18,6 +19,7 @@ public class CustomerMapper {
         dto.setId(entity.getId());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
+        dto.setEmail(entity.getEmail());
         return dto;
     }
 }

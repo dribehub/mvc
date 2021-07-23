@@ -4,8 +4,9 @@ import com.springboot.mvc.dto.CustomerDto;
 
 import java.util.List;
 
-public interface CustomerService {
+public interface ICustomerService {
 
     CustomerDto findById(Integer id);
     List<CustomerDto> selectAll();
+    CustomerDto addCustomer(CustomerDto newCustomer);
 }

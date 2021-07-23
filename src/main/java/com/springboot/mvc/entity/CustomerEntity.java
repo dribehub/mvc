@@ -11,6 +11,8 @@ public class CustomerEntity {
     private Integer id;
     private String firstName;
     private String lastName;
+    @Column(unique=true)
+    private String email;
 
     public Integer getId() {
         return id;
@@ -29,5 +31,11 @@ public class CustomerEntity {
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -4,25 +4,31 @@ import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.dto.OrderRequestDto;
-import com.springboot.mvc.service.CustomerService;
-import com.springboot.mvc.service.ItemService;
+import com.springboot.mvc.service.ICustomerService;
+import com.springboot.mvc.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.springboot.mvc.service.OrderService;
+import com.springboot.mvc.service.IOrderService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
 
-    @Autowired private OrderService orderService;
-    @Autowired private CustomerService customerService;
-    @Autowired private ItemService itemService;
+    @Autowired private IOrderService orderService;
+    @Autowired private ICustomerService customerService;
+    @Autowired private IItemService itemService;
+
+    @GetMapping({"/", ""})
+    public String getAll(Model model) {
+        model.addAttribute("orders", orderService.selectAll());
+        model.addAttribute("customers", customerService.selectAll());
+        return "orders";
+    }
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value="id") Integer id) {
@@ -31,13 +37,6 @@ public class OrderController {
         model.addAttribute("order", order);
         model.addAttribute("customer", customer);
         return "order";
-    }
-
-    @GetMapping({"/", ""})
-    public String getAll(Model model) {
-        model.addAttribute("orders", orderService.selectAll());
-        model.addAttribute("customers", customerService.selectAll());
-        return "orders";
     }
 
     @GetMapping("/create")
@@ -54,13 +53,14 @@ public class OrderController {
     public String addOrder(Model model, @ModelAttribute(name = "order") OrderRequestDto order) {
         Integer customerId = order.getCustomerId();
         List<ItemDto> items = new ArrayList<>();
-        for (ItemDto key : order.getItems().keySet())
-            if (order.getItems().get(key))
-                items.add(key);
+        for (Integer itemId : order.getItemsIds().keySet())
+            if (order.getItemsIds().get(itemId).equals("true"))
+                items.add(itemService.findById(itemId));
         OrderDto newOrder = orderService.addOrder(customerId, items);
         CustomerDto customer = customerService.findById(customerId);
         model.addAttribute("newOrder", newOrder);
         model.addAttribute("customer", customer);
-        return "result";
+        model.addAttribute("items", items);
+        return "order_result";
     }
 }
