@@ -23,11 +23,16 @@ public class OrderController {
     @Autowired private ICustomerService customerService;
     @Autowired private IItemService itemService;
 
+    private static final String ORDER_LIST = "orders";
+    private static final String ORDER_BY_ID = "order";
+    private static final String FORM = "create_order";
+    private static final String RESULT = "order_result";
+
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         model.addAttribute("orders", orderService.selectAll());
         model.addAttribute("customers", customerService.selectAll());
-        return "orders";
+        return ORDER_LIST;
     }
 
     @GetMapping("/{id}")
@@ -36,7 +41,7 @@ public class OrderController {
         CustomerDto customer = customerService.findById(order.getCustomerId());
         model.addAttribute("order", order);
         model.addAttribute("customer", customer);
-        return "order";
+        return ORDER_BY_ID;
     }
 
     @GetMapping("/create")
@@ -46,7 +51,7 @@ public class OrderController {
         model.addAttribute("customers", customers);
         model.addAttribute("items", items);
         model.addAttribute("order", new OrderRequestDto(items));
-        return "create_order";
+        return FORM;
     }
 
     @PostMapping("/add")
@@ -61,6 +66,6 @@ public class OrderController {
         model.addAttribute("newOrder", newOrder);
         model.addAttribute("customer", customer);
         model.addAttribute("items", items);
-        return "order_result";
+        return RESULT;
     }
 }

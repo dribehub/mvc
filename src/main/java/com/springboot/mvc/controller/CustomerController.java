@@ -19,24 +19,29 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
+    private static final String CUSTOMER_LIST = "customers";
+    private static final String CUSTOMER_BY_ID = "customer";
+    private static final String FORM = "create_customer";
+    private static final String RESULT = "customer_result";
+
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         List<CustomerDto> customers = customerService.selectAll();
         model.addAttribute("customers", customers);
-        return "customers";
+        return CUSTOMER_LIST;
     }
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value="id") Integer id) {
         CustomerDto customer = customerService.findById(id);
         model.addAttribute("customer", customer);
-        return "customer";
+        return CUSTOMER_BY_ID;
     }
 
     @GetMapping("/create")
     public String createForm(Model model) {
         model.addAttribute("customer", new CustomerDto());
-        return "create_customer";
+        return FORM;
     }
 
     @PostMapping("/add")
@@ -44,17 +49,17 @@ public class CustomerController {
                               BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("customer", customer);
-            return "create_customer";
+            return FORM;
         }
 
         try {
             CustomerDto newCustomer = customerService.addCustomer(customer);
             model.addAttribute("customer", newCustomer);
-            return "customer_result";
+            return RESULT;
         } catch (NonUniqueResultException ex) {
             model.addAttribute("nonUniqueEmailError", ex.getMessage());
             model.addAttribute("customer", customer);
-            return "create_customer";
+            return FORM;
         }
     }
 }
