@@ -71,5 +71,3 @@ SELECT * FROM customers;
 SELECT * FROM items;
 SELECT * FROM orders;
 SELECT * FROM order_item;
-
--- delete from customers where id=9;

@@ -14,24 +14,24 @@
         <label for="first-name">First Name:</label><br>
         <input type="text" id="first-name" th:field="*{firstName}">
         <span th:if="${#fields.hasErrors('firstName')}"
-           th:errorclass="error"
-           th:errors="*{firstName}">[Invalid First Name]</span>
+              th:errorclass="error"
+              th:errors="*{firstName}">[Invalid First Name]</span>
         <br><br>
 
         <label for="last-name">Last Name:</label><br>
         <input type="text" id="last-name" th:field="*{lastName}">
         <span th:if="${#fields.hasErrors('lastName')}"
-           th:errorclass="error"
-           th:errors="*{lastName}">[Invalid Last Name]</span>
+              th:errorclass="error"
+              th:errors="*{lastName}">[Invalid Last Name]</span>
         <br><br>
 
         <label for="email">Email:</label><br>
         <input type="email" id="email" th:field="*{email}">
         <span th:if="${#fields.hasErrors('email')}"
-           th:errorclass="error"
-           th:errors="*{email}">[Invalid Email]</span>
+              th:errorclass="error"
+              th:errors="*{email}">[Invalid Email]</span>
         <span th:if="${nonUniqueEmailError != null}" class="error"
-           th:text="${nonUniqueEmailError}"></span>
+              th:text="${nonUniqueEmailError}"></span>
         <br><br>
 
         <input id="submit-form" type="submit" value="==> Submit customer">
