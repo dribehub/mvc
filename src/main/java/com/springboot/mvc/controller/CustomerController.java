@@ -17,15 +17,15 @@ import java.util.List;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    @Autowired
-    private ICustomerService customerService;
-
     private static final String
             CUSTOMER_LIST = "customers",
             CUSTOMER_BY_ID = "customer",
             FORM = "create_customer",
             RESULT = "customer_result",
             ERROR = "error";
+
+    @Autowired
+    private ICustomerService customerService;
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {

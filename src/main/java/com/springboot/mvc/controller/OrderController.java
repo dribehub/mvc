@@ -19,10 +19,6 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
-    @Autowired private IOrderService orderService;
-    @Autowired private ICustomerService customerService;
-    @Autowired private IItemService itemService;
-
     private static final String
             ORDER_LIST = "orders",
             ORDER_BY_ID = "order",
@@ -30,10 +26,16 @@ public class OrderController {
             RESULT = "order_result",
             ERROR = "error";
 
+    @Autowired private IOrderService orderService;
+    @Autowired private ICustomerService customerService;
+    @Autowired private IItemService itemService;
+
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        model.addAttribute("orders", orderService.selectAll());
-        model.addAttribute("customers", customerService.selectAll());
+        List<OrderDto> orders = orderService.selectAll();
+        List<CustomerDto> customers = customerService.selectAll();
+        model.addAttribute("orders", orders);
+        model.addAttribute("customers", customers);
         return ORDER_LIST;
     }
 
@@ -54,8 +56,8 @@ public class OrderController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        List<CustomerDto> customers =  customerService.selectAll();
-        List<ItemDto> items =  itemService.selectAll();
+        List<CustomerDto> customers = customerService.selectAll();
+        List<ItemDto> items = itemService.selectAll();
         model.addAttribute("customers", customers);
         model.addAttribute("items", items);
         model.addAttribute("order", new OrderRequestDto(items));
