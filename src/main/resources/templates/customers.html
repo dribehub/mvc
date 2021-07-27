@@ -15,7 +15,7 @@
 <div id="search-div">
   <h2>Get customer by ID</h2>
   <input type="number" id="input" name="input" min="1" th:max="${customers.size}">
-  <input type="button" id="search-btn" value="Search" onclick="getById()">
+  <input type="button" id="search-btn" value="Search" onclick="goToCustomer()">
 </div>
 <h2>List of customers</h2>
 <table border="1">
@@ -34,14 +34,15 @@
     <td th:text="${customer.email}">[Email]</td>
   </tr>
 </table><br>
-<input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
+<input type="button" id="back-btn" value="Go back" onclick="goToIndex()">
 <script type="text/javascript">
   const input = document.getElementById("input");
-  const getById = () => window.location.href += "/" + input.value;
+  const goToIndex = () => window.location.href = "/";
+  const goToCustomer = () => window.location.href += "/" + input.value;
   input.addEventListener("keyup", (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      getById();
+      goToCustomer();
     }
   });
 </script>

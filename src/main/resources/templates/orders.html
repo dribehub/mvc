@@ -15,7 +15,7 @@
 <div id="search-div">
   <h2>Get order by ID</h2>
   <input type="number" id="input" name="input" min="1" th:max="${orders.size}">
-  <input type="button" id="search-btn" value="Search" onclick="getById()">
+  <input type="button" id="search-btn" value="Search" onclick="goToOrder()">
 </div>
 <div id="table-div">
   <h2>List of orders</h2>
@@ -36,14 +36,15 @@
     </tbody>
   </table><br>
 </div>
-<input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
+<input type="button" id="back-btn" value="Go back" onclick="goToIndex()">
 <script type="text/javascript">
-  const getById = () => window.location.href += "/" + input.value;
   const input = document.getElementById("input");
+  const goToIndex = () => window.location.href = "/";
+  const goToOrder = () => window.location.href += "/" + input.value;
   input.addEventListener("keyup", (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      getById();
+      goToOrder();
     }
   })
 </script>

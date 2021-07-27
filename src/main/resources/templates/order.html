@@ -46,6 +46,9 @@
     </tr>
   </tbody>
 </table><br>
-<input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
+<input type="button" id="back-btn" value="Go back" onclick="goToOrders()">
+<script type="text/javascript">
+  const goToOrders = () => window.location.href = "/orders";
+</script>
 </body>
 </html>

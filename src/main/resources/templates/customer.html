@@ -30,6 +30,9 @@
     <td th:text="${customer.email}">[Email]</td>
   </tr>
 </table><br>
-<input type="button" id="back-btn" value="Go back" onclick="history.go(-1)">
+<input type="button" id="back-btn" value="Go back" onclick="goToCustomers()">
+<script type="text/javascript">
+  const goToCustomers = () => window.location.href = "/customers";
+</script>
 </body>
 </html>

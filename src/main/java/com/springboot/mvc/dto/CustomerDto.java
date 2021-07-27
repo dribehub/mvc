@@ -1,5 +1,6 @@
 package com.springboot.mvc.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class CustomerDto {

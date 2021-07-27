@@ -32,9 +32,10 @@
         <input id="submit-form" type="submit" value="Submit" style="display: none">
     </form>
     <input type="button" value="==> Submit order" onclick="validate()"><br><br>
-    <input type="button" id="back-btn" value="<== Go back" onclick="history.go(-1)">
+    <input type="button" id="back-btn" value="<== Go back" onclick="goToIndex()">
 </div>
 <script type="text/javascript">
+    const goToIndex = () => window.location.href = "/";
     function validate() {
         if (!document.getElementById("customer").value) {
             alert("Please select one customer!");
