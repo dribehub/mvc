@@ -28,7 +28,8 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value="id") Integer id) {
-        model.addAttribute("customer", customerService.findById(id));
+        CustomerDto customer = customerService.findById(id);
+        model.addAttribute("customer", customer);
         return "customer";
     }
 
