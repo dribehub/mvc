@@ -20,11 +20,12 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
-    private static final String CUSTOMER_LIST = "customers";
-    private static final String CUSTOMER_BY_ID = "customer";
-    private static final String FORM = "create_customer";
-    private static final String RESULT = "customer_result";
-    private static final String ERROR = "error";
+    private static final String
+            CUSTOMER_LIST = "customers",
+            CUSTOMER_BY_ID = "customer",
+            FORM = "create_customer",
+            RESULT = "customer_result",
+            ERROR = "error";
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {

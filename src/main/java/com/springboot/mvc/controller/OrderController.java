@@ -23,11 +23,12 @@ public class OrderController {
     @Autowired private ICustomerService customerService;
     @Autowired private IItemService itemService;
 
-    private static final String ORDER_LIST = "orders";
-    private static final String ORDER_BY_ID = "order";
-    private static final String FORM = "create_order";
-    private static final String RESULT = "order_result";
-    private static final String ERROR = "error";
+    private static final String
+            ORDER_LIST = "orders",
+            ORDER_BY_ID = "order",
+            FORM = "create_order",
+            RESULT = "order_result",
+            ERROR = "error";
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
