@@ -24,7 +24,7 @@
             <span th:each="item:${items}">
                 <span th:if="${item.id == entry.key}">
                     <span th:text="${item.name}">[Item Name]</span>
-                    <span th:text="|(${item.currency} ${item.price})|">[Item Price]</span>
+                    <span th:text="|(${symbols.get(item.currency)} ${item.price})|">[Item Price]</span>
                 </span>
             </span>
         </div><br>

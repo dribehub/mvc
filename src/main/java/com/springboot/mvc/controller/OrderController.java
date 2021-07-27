@@ -4,8 +4,10 @@ import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.dto.OrderRequestDto;
+import com.springboot.mvc.mapper.ItemMapper;
 import com.springboot.mvc.service.ICustomerService;
 import com.springboot.mvc.service.IItemService;
+import com.springboot.mvc.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.springboot.mvc.service.IOrderService;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")
@@ -48,8 +52,11 @@ public class OrderController {
             return ERROR;
         } else {
             CustomerDto customer = customerService.findById(order.getCustomerId());
+            List<ItemDto> items = itemService.selectAllByOrder(order);
+            Map<String, String> symbols = ValidationUtil.getItemsSymbols(items);
             model.addAttribute("order", order);
             model.addAttribute("customer", customer);
+            model.addAttribute("symbols", symbols);
             return ORDER_BY_ID;
         }
     }
@@ -58,8 +65,10 @@ public class OrderController {
     public String createForm(Model model) {
         List<CustomerDto> customers = customerService.selectAll();
         List<ItemDto> items = itemService.selectAll();
+        Map<String, String> symbols = ValidationUtil.getItemsSymbols(items);
         model.addAttribute("customers", customers);
         model.addAttribute("items", items);
+        model.addAttribute("symbols", symbols);
         model.addAttribute("order", new OrderRequestDto(items));
         return FORM;
     }
@@ -73,9 +82,11 @@ public class OrderController {
                 items.add(itemService.findById(itemId));
         OrderDto newOrder = orderService.addOrder(customerId, items);
         CustomerDto customer = customerService.findById(customerId);
+        Map<String, String> symbols = ValidationUtil.getItemsSymbols(items);
         model.addAttribute("newOrder", newOrder);
         model.addAttribute("customer", customer);
         model.addAttribute("items", items);
+        model.addAttribute("symbols", symbols);
         return RESULT;
     }
 }

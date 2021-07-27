@@ -1,6 +1,7 @@
 package com.springboot.mvc.service.impl;
 
 import com.springboot.mvc.dto.ItemDto;
+import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.mapper.ItemMapper;
 import com.springboot.mvc.service.IItemService;
 import com.springboot.mvc.repository.ItemRepository;
@@ -26,6 +27,13 @@ public class ItemService implements IItemService {
     @Override
     public List<ItemDto> selectAll() {
         return repository.findAll()
+                .stream().map(ItemMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ItemDto> selectAllByOrder(OrderDto order) {
+        return order.getItems()
                 .stream().map(ItemMapper::toDto)
                 .collect(Collectors.toList());
     }

@@ -1,17 +1,29 @@
 package com.springboot.mvc.dto;
 
 import com.springboot.mvc.entity.OrderEntity;
+import com.springboot.mvc.util.ValidationUtil;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDto {
 
     private Integer id;
+    @Pattern(regexp = ValidationUtil.NAME_REGEX, message="Item name is invalid!")
     private String name;
+    @Pattern(regexp = ValidationUtil.NAME_REGEX, message="Category is invalid!")
     private String category;
+    @Min(value = 0)
     private Double price;
+    @Pattern(regexp = ValidationUtil.CURR_REGEX, message="Currency is invalid!")
     private String currency;
     private List<OrderEntity> orders;
+
+    public ItemDto() {
+        orders = new ArrayList<>();
+    }
 
     public Integer getId() {
         return id;
@@ -23,13 +35,13 @@ public class ItemDto {
         return name;
     }
     public void setName(String name) {
-        this.name = name;
+        this.name = ValidationUtil.capitalizeFirst(name);
     }
     public String getCategory() {
         return category;
     }
     public void setCategory(String category) {
-        this.category = category;
+        this.category = ValidationUtil.capitalizeFirst(category);
     }
     public Double getPrice() {
         return price;
@@ -41,7 +53,7 @@ public class ItemDto {
         return currency;
     }
     public void setCurrency(String currency) {
-        this.currency = currency;
+        this.currency = ValidationUtil.capitalizeAll(currency);
     }
     public List<OrderEntity> getOrders() {
         return orders;

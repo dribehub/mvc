@@ -24,13 +24,13 @@ public class CustomerDto {
         return firstName;
     }
     public void setFirstName(String firstName) {
-        this.firstName = ValidationUtil.capitalize(firstName);
+        this.firstName = ValidationUtil.capitalizeFirst(firstName);
     }
     public String getLastName() {
         return lastName;
     }
     public void setLastName(String lastName) {
-        this.lastName = ValidationUtil.capitalize(lastName);
+        this.lastName = ValidationUtil.capitalizeFirst(lastName);
     }
     public String getEmail() {
         return email;

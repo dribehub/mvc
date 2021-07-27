@@ -42,7 +42,7 @@
     <tr th:each="item:${order.items}">
       <td th:text="${item.name}">[Item Name]</td>
       <td th:text="${item.category}">[Item Category]</td>
-      <td th:text="|${item.currency} ${item.price}|">[Item Price]</td>
+      <td th:text="|${symbols.get(item.currency)} ${item.price}|">[Item Price]</td>
     </tr>
   </tbody>
 </table><br>
