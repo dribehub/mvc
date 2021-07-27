@@ -27,6 +27,7 @@ public class OrderController {
     private static final String ORDER_BY_ID = "order";
     private static final String FORM = "create_order";
     private static final String RESULT = "order_result";
+    private static final String ERROR = "error";
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
@@ -38,10 +39,16 @@ public class OrderController {
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value="id") Integer id) {
         OrderDto order = orderService.findById(id);
-        CustomerDto customer = customerService.findById(order.getCustomerId());
-        model.addAttribute("order", order);
-        model.addAttribute("customer", customer);
-        return ORDER_BY_ID;
+        if (order == null) {
+            String message = "Requested order could not be found!";
+            model.addAttribute("error", message);
+            return ERROR;
+        } else {
+            CustomerDto customer = customerService.findById(order.getCustomerId());
+            model.addAttribute("order", order);
+            model.addAttribute("customer", customer);
+            return ORDER_BY_ID;
+        }
     }
 
     @GetMapping("/create")

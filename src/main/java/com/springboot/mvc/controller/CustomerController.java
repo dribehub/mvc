@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.util.List;
@@ -23,6 +24,7 @@ public class CustomerController {
     private static final String CUSTOMER_BY_ID = "customer";
     private static final String FORM = "create_customer";
     private static final String RESULT = "customer_result";
+    private static final String ERROR = "error";
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
@@ -34,8 +36,14 @@ public class CustomerController {
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value="id") Integer id) {
         CustomerDto customer = customerService.findById(id);
-        model.addAttribute("customer", customer);
-        return CUSTOMER_BY_ID;
+        if (customer == null) {
+            String message = "Requested customer could not be found!";
+            model.addAttribute("error", message);
+            return ERROR;
+        } else {
+            model.addAttribute("customer", customer);
+            return CUSTOMER_BY_ID;
+        }
     }
 
     @GetMapping("/create")
