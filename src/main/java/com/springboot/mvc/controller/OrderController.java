@@ -28,9 +28,12 @@ public class OrderController {
             RESULT = "order/result",
             ERROR = "error";
 
-    @Autowired private IOrderService orderService;
-    @Autowired private ICustomerService customerService;
-    @Autowired private IItemService itemService;
+    @Autowired
+    private IOrderService orderService;
+    @Autowired
+    private ICustomerService customerService;
+    @Autowired
+    private IItemService itemService;
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
@@ -42,7 +45,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable(value="id") Integer id) {
+    public String getById(Model model, @PathVariable(value = "id") Integer id) {
         OrderDto order = orderService.findById(id);
         if (order == null) {
             String message = "Requested order could not be found!";

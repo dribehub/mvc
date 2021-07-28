@@ -34,7 +34,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable(value="id") Integer id) {
+    public String getById(Model model, @PathVariable(value = "id") Integer id) {
         CustomerDto customer = customerService.findById(id);
         if (customer == null) {
             String message = "Requested customer could not be found!";

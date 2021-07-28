@@ -28,8 +28,10 @@ public class ItemController {
             RESULT = "item/result",
             ERROR = "error";
 
-    @Autowired private IItemService itemService;
-    @Autowired private ICustomerService customerService;
+    @Autowired
+    private IItemService itemService;
+    @Autowired
+    private ICustomerService customerService;
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
@@ -41,7 +43,7 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable(value="id") Integer id) {
+    public String getById(Model model, @PathVariable(value = "id") Integer id) {
         ItemDto item = itemService.findById(id);
         if (item == null) {
             String message = "Requested item could not be found!";
