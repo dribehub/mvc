@@ -28,10 +28,8 @@ public class ItemController {
             RESULT = "item_result",
             ERROR = "error";
 
-    @Autowired
-    private IItemService itemService;
-    @Autowired
-    private ICustomerService customerService;
+    @Autowired private IItemService itemService;
+    @Autowired private ICustomerService customerService;
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
@@ -86,20 +84,7 @@ public class ItemController {
 
         try {
             ItemDto newItem = itemService.addItem(item);
-            String symbol = ValidationUtil.getCurrencySymbol(newItem.getCurrency());
-            model.addAttribute("item", newItem);
-            model.addAttribute("symbol", symbol);
-            List<OrderEntity> orders = newItem.getOrders();
-            if (!orders.isEmpty()) {
-                model.addAttribute("orders", orders);
-                Map<Integer, CustomerDto> customers = new HashMap<>();
-                for (OrderEntity order : orders) {
-                    Integer customerId = order.getCustomerId();
-                    CustomerDto customer = customerService.findById(customerId);
-                    customers.put(customerId, customer);
-                }
-                model.addAttribute("customers", customers);
-            }
+            getById(model, newItem.getId());
             return RESULT;
         } catch (IllegalArgumentException ex) {
             String message = "This currency is not supported!";
