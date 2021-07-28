@@ -10,4 +10,5 @@ public interface IItemService {
     ItemDto findById(Integer id);
     List<ItemDto> selectAll();
     List<ItemDto> selectAllByOrder(OrderDto order);
+    ItemDto addItem(ItemDto item);
 }

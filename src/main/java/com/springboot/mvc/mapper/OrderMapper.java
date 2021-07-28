@@ -3,6 +3,8 @@ package com.springboot.mvc.mapper;
 import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.entity.OrderEntity;
 
+import java.util.stream.Collectors;
+
 public class OrderMapper {
 
     public static OrderEntity toEntity(OrderDto dto) {

@@ -24,7 +24,7 @@ public class ValidationUtil {
         return name.toUpperCase();
     }
 
-    public static String getCurrencySymbol(String currency) {
+    public static String getCurrencySymbol(String currency) throws IllegalArgumentException {
         return Currency.getInstance(currency).getSymbol();
     }
 

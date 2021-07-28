@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Item By ID</title>
+  <style>
+    thead, .bold { font-weight: bold; }
+    td {
+      width: 150px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<table border="1">
+  <tr>
+    <td class="bold">Item ID</td>
+    <td th:text="${item.id}">[ID]</td>
+  </tr>
+  <tr>
+    <td class="bold">Name</td>
+    <td th:text="${item.name}">[Name]</td>
+  </tr>
+  <tr>
+    <td class="bold">Category</td>
+    <td th:text="${item.category}">[Category]</td>
+  </tr>
+  <tr>
+    <td class="bold">Price</td>
+    <td th:text="|${symbol} ${item.price}|">[Price]</td>
+  </tr>
+</table><br>
+
+<table border="1" th:if="${orders != null}">
+  <thead>
+  <tr>
+    <td th:text="|Orders including ${item.name}|" colspan="3">[Orders]</td>
+  </tr>
+  <tr>
+    <td>Order ID</td>
+    <td>Date</td>
+    <td>Customer</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="order:${orders}">
+    <td th:text="${order.id}">[Order ID]</td>
+    <td th:text="${order.date}">[Date]</td>
+    <td th:text="${customers.get(order.customerId).name}">[Customer]</td>
+  </tr>
+  </tbody>
+</table><br>
+
+<input type="button" id="back-btn" value="Go back" onclick="goToItems()">
+<script type="text/javascript">
+  const goToItems = () => window.location.href = "/items";
+</script>
+</body>
+</html>

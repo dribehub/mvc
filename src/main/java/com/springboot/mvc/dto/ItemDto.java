@@ -3,7 +3,6 @@ package com.springboot.mvc.dto;
 import com.springboot.mvc.entity.OrderEntity;
 import com.springboot.mvc.util.ValidationUtil;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +14,10 @@ public class ItemDto {
     private String name;
     @Pattern(regexp = ValidationUtil.NAME_REGEX, message="Category is invalid!")
     private String category;
-    @Min(value = 0)
     private Double price;
     @Pattern(regexp = ValidationUtil.CURR_REGEX, message="Currency is invalid!")
     private String currency;
-    private List<OrderEntity> orders;
-
-    public ItemDto() {
-        orders = new ArrayList<>();
-    }
+    private List<OrderEntity> orders = new ArrayList<>(); // TODO: to be tested
 
     public Integer getId() {
         return id;

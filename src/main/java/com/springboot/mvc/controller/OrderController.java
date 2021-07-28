@@ -4,7 +4,6 @@ import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.dto.OrderRequestDto;
-import com.springboot.mvc.mapper.ItemMapper;
 import com.springboot.mvc.service.ICustomerService;
 import com.springboot.mvc.service.IItemService;
 import com.springboot.mvc.util.ValidationUtil;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")

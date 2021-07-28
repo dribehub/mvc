@@ -37,4 +37,9 @@ public class ItemService implements IItemService {
                 .stream().map(ItemMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ItemDto addItem(ItemDto item) {
+        return ItemMapper.toDto(repository.save(ItemMapper.toEntity(item)));
+    }
 }

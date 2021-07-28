@@ -2,16 +2,20 @@ package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
-import com.springboot.mvc.dto.OrderDto;
+import com.springboot.mvc.entity.OrderEntity;
+import com.springboot.mvc.service.ICustomerService;
+import com.springboot.mvc.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.springboot.mvc.service.IItemService;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/items")
@@ -26,11 +30,15 @@ public class ItemController {
 
     @Autowired
     private IItemService itemService;
+    @Autowired
+    private ICustomerService customerService;
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         List<ItemDto> items = itemService.selectAll();
+        Map<String, String> symbols = ValidationUtil.getItemsSymbols(items);
         model.addAttribute("items", items);
+        model.addAttribute("symbols", symbols);
         return ITEM_LIST;
     }
 
@@ -42,8 +50,62 @@ public class ItemController {
             model.addAttribute("error", message);
             return ERROR;
         } else {
+            String symbol = ValidationUtil.getCurrencySymbol(item.getCurrency());
             model.addAttribute("item", item);
+            model.addAttribute("symbol", symbol);
+            List<OrderEntity> orders = item.getOrders();
+            if (!orders.isEmpty()) {
+                model.addAttribute("orders", orders);
+                Map<Integer, CustomerDto> customers = new HashMap<>();
+                for (OrderEntity order : orders) {
+                    Integer customerId = order.getCustomerId();
+                    CustomerDto customer = customerService.findById(customerId);
+                    customers.put(customerId, customer);
+                }
+                model.addAttribute("customers", customers);
+            }
             return ITEM_BY_ID;
+        }
+    }
+
+    @GetMapping("/create")
+    public String createForm(Model model) {
+        List<ItemDto> items = itemService.selectAll();
+        model.addAttribute("items", items);
+        model.addAttribute("item", new ItemDto());
+        return FORM;
+    }
+
+    @PostMapping("/add")
+    public String addOrder(@Valid @ModelAttribute(name = "item") ItemDto item,
+                           BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("item", item);
+            return FORM;
+        }
+
+        try {
+            ItemDto newItem = itemService.addItem(item);
+            String symbol = ValidationUtil.getCurrencySymbol(newItem.getCurrency());
+            model.addAttribute("item", newItem);
+            model.addAttribute("symbol", symbol);
+            List<OrderEntity> orders = newItem.getOrders();
+            if (!orders.isEmpty()) {
+                model.addAttribute("orders", orders);
+                Map<Integer, CustomerDto> customers = new HashMap<>();
+                for (OrderEntity order : orders) {
+                    Integer customerId = order.getCustomerId();
+                    CustomerDto customer = customerService.findById(customerId);
+                    customers.put(customerId, customer);
+                }
+                model.addAttribute("customers", customers);
+            }
+            return RESULT;
+        } catch (IllegalArgumentException ex) {
+            String message = "This currency is not supported!";
+            model.addAttribute("currNotValid", message);
+            model.addAttribute("item", item);
+            return FORM;
         }
     }
 }
