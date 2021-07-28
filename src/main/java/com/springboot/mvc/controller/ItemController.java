@@ -4,7 +4,7 @@ import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.entity.OrderEntity;
 import com.springboot.mvc.service.ICustomerService;
-import com.springboot.mvc.util.ValidationUtil;
+import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.springboot.mvc.service.IItemService;
@@ -34,7 +34,7 @@ public class ItemController {
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         List<ItemDto> items = itemService.selectAll();
-        Map<String, String> symbols = ValidationUtil.getAllSymbols(items);
+        Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
         return ITEM_LIST;
@@ -48,7 +48,7 @@ public class ItemController {
             model.addAttribute("error", message);
             return ERROR;
         } else {
-            String symbol = ValidationUtil.getCurrencySymbol(item.getCurrency());
+            String symbol = Utils.getCurrencySymbol(item.getCurrency());
             model.addAttribute("item", item);
             model.addAttribute("symbol", symbol);
             List<OrderEntity> orders = item.getOrders();

@@ -13,8 +13,8 @@ CREATE TABLE customers (
 );
 CREATE TABLE items (
     id     		INT         AUTO_INCREMENT,
-    name		VARCHAR(20) NOT NULL,
-    category    VARCHAR(30),
+    name		VARCHAR(30) NOT NULL,
+    category    VARCHAR(50),
     price       DOUBLE      NOT NULL,
     currency    VARCHAR(3)  NOT NULL,
     PRIMARY KEY (id)

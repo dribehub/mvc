@@ -16,16 +16,8 @@ public class OrderRequestDto {
             itemsIds.put(item.getId(), "false");
     }
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-    public Map<Integer, String> getItemsIds() {
-        return itemsIds;
-    }
-    public void setItemsIds(Map<Integer, String> itemsIds) {
-        this.itemsIds = itemsIds;
-    }
+    public Integer getCustomerId() { return customerId; }
+    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
+    public Map<Integer, String> getItemsIds() { return itemsIds; }
+    public void setItemsIds(Map<Integer, String> itemsIds) { this.itemsIds = itemsIds; }
 }

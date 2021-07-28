@@ -6,7 +6,7 @@ import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.dto.OrderRequestDto;
 import com.springboot.mvc.service.ICustomerService;
 import com.springboot.mvc.service.IItemService;
-import com.springboot.mvc.util.ValidationUtil;
+import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.springboot.mvc.service.IOrderService;
@@ -51,7 +51,7 @@ public class OrderController {
         } else {
             CustomerDto customer = customerService.findById(order.getCustomerId());
             List<ItemDto> items = itemService.selectAllByOrder(order);
-            Map<String, String> symbols = ValidationUtil.getAllSymbols(items);
+            Map<String, String> symbols = Utils.getAllSymbols(items);
             model.addAttribute("order", order);
             model.addAttribute("customer", customer);
             model.addAttribute("symbols", symbols);
@@ -63,7 +63,7 @@ public class OrderController {
     public String createForm(Model model) {
         List<CustomerDto> customers = customerService.selectAll();
         List<ItemDto> items = itemService.selectAll();
-        Map<String, String> symbols = ValidationUtil.getAllSymbols(items);
+        Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("customers", customers);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
@@ -80,7 +80,7 @@ public class OrderController {
                 items.add(itemService.findById(itemId));
         OrderDto newOrder = orderService.addOrder(customerId, items);
         CustomerDto customer = customerService.findById(customerId);
-        Map<String, String> symbols = ValidationUtil.getAllSymbols(items);
+        Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("newOrder", newOrder);
         model.addAttribute("customer", customer);
         model.addAttribute("items", items);

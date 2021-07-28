@@ -33,9 +33,7 @@ public class ItemService implements IItemService {
 
     @Override
     public List<ItemDto> selectAllByOrder(OrderDto order) {
-        return order.getItems()
-                .stream().map(ItemMapper::toDto)
-                .collect(Collectors.toList());
+        return order.getItems();
     }
 
     @Override
