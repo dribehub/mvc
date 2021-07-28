@@ -5,18 +5,15 @@
     <title>Item List</title>
   <style>
     thead { font-weight: bold; }
-    td {
-      width: 150px;
-      text-align: center;
-    }
+    td { width: 150px; text-align: center; }
   </style>
 </head>
 <body>
-<div id="search-div">
-  <h2>Get item by ID</h2>
-  <input type="number" id="input" name="input" min="1" th:max="${items.size}">
-  <input type="button" id="search-btn" value="Search" onclick="goToItem()">
-</div>
+
+<h2>Get item by ID</h2>
+<input type="number" id="input" name="input" min="1" th:max="${items.size}">
+<input type="button" id="search-btn" value="Search" onclick="goToItem()">
+
 <h2>List of items</h2>
 <table border="1">
   <thead>
@@ -31,10 +28,12 @@
     <td th:text="${item.id}">[ID]</td>
     <td th:text="${item.name}">[Name]</td>
     <td th:text="${item.category}">[Category]</td>
-    <td th:text="|${symbols.get(item.currency)} ${item.price}|">[Price]</td>
+    <td th:text="${item.fullPrice}">[Price]</td>
   </tr>
 </table><br>
-<input type="button" id="back-btn" value="Go back" onclick="goToIndex()">
+
+<input type="button" value="<== Go back" onclick="goToIndex()">
+
 <script type="text/javascript">
   const input = document.getElementById("input");
   const goToIndex = () => window.location.href = "/";
@@ -46,5 +45,6 @@
     }
   });
 </script>
+
 </body>
 </html>

@@ -6,6 +6,9 @@
 </head>
 <body>
 <h2 th:text="${error}"></h2><br>
-<input type="button" id="back-btn" value="Go back" onclick="history.back(-1)">
+<input type="button" value="<== Go to index" onclick="goToIndex()">
+<script type="text/javascript">
+    const goToIndex = () => window.location.href = "/";
+</script>
 </body>
 </html>

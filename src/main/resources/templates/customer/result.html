@@ -4,36 +4,24 @@
   <meta charset="UTF-8">
   <title>Customer Result</title>
   <style>
-    thead, .bold { font-weight: bold; }
-    td {
-      width: 150px;
-      text-align: center;
-    }
+    .normal { font-weight: normal; }
+    h2 { width: max-content; text-shadow: 1px 1px 1px gray; }
+    td { width: 150px; text-align: center; }
   </style>
 </head>
 <body>
-<h2>New customer has been added successfully</h2>
-<table border="1">
-  <tr>
-    <td class="bold">Customer ID</td>
-    <td th:text="${customer.id}">[ID]</td>
-  </tr>
-  <tr>
-    <td class="bold">First Name</td>
-    <td th:text="${customer.firstName}">[First Name]</td>
-  </tr>
-  <tr>
-    <td class="bold">Last Name</td>
-    <td th:text="${customer.lastName}">[Last Name]</td>
-  </tr>
-  <tr>
-    <td class="bold">Email</td>
-    <td th:text="${customer.email}">[Email]</td>
-  </tr>
-</table><br>
-<input type="button" id="back-btn" value="Go to index" onclick="goToIndex()">
+
+<h3 class="normal">New customer has been added successfully!</h3>
+<h2 th:text="|Customer #${customer.id}|">[Customer #]</h2>
+<h3>First Name: <span th:text="${customer.firstName}" class="normal">[First Name]</span></h3>
+<h3>Last Name: <span th:text="${customer.lastName}" class="normal">[Last Name]</span></h3>
+<h3>Email: <span th:text="${customer.email}" class="normal">[Email]</span></h3>
+
+<input type="button" value="<== Go to index" onclick="goToIndex()">
+
 <script type="text/javascript">
   const goToIndex = () => window.location.href = "/";
 </script>
+
 </body>
 </html>

@@ -4,35 +4,22 @@
     <meta charset="UTF-8">
     <title>Order Result</title>
     <style>
-        thead, .bold { font-weight: bold; }
-        td {
-            width: 150px;
-            text-align: center;
-        }
+        thead { font-weight: bold; }
+        .normal { font-weight: normal; }
+        h2 { width: max-content; text-shadow: 1px 1px 1px gray; }
+        td { width: 150px; text-align: center; }
     </style>
 </head>
 <body>
-<h2>New order has been created successfully</h2>
-<table border="1">
-    <tr>
-        <td class="bold">Order ID</td>
-        <td th:text="${newOrder.id}">[ID]</td>
-    </tr>
-    <tr>
-        <td class="bold">Order Date</td>
-        <td th:text="${newOrder.date}">[Date]</td>
-    </tr>
-    <tr>
-        <td class="bold">Customer</td>
-        <td th:text="${customer.name}">[Customer]</td>
-    </tr>
-</table><br>
 
+<h3 class="normal">New order has been added successfully!</h3>
+<h2 th:text="|Order #${newOrder.id}|">[Order #]</h2>
+<h3>Order Date: <span th:text="${newOrder.date}" class="normal">[Date]</span></h3>
+<h3>Customer: <span th:text="${customer.name}" class="normal">[Customer]</span></h3>
+
+<h2>Order Items</h2>
 <table border="1">
     <thead>
-    <tr>
-        <td colspan="3">Order Items</td>
-    </tr>
     <tr>
         <td>Name</td>
         <td>Category</td>
@@ -43,13 +30,16 @@
         <tr th:each="item:${items}">
             <td th:text="${item.name}">[Item Name]</td>
             <td th:text="${item.category}">[Item Category]</td>
-            <td th:text="|${symbols.get(item.currency)} ${item.price}|">[Item Price]</td>
+            <td th:text="${item.fullPrice}">[Item Price]</td>
         </tr>
     </tbody>
 </table><br>
-<input type="button" id="back-btn" value="Go to index" onclick="goToIndex()">
+
+<input type="button" value="<== Go to index" onclick="goToIndex()">
+
 <script type="text/javascript">
     const goToIndex = () => window.location.href = "/";
 </script>
+
 </body>
 </html>

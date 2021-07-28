@@ -4,57 +4,45 @@
   <meta charset="UTF-8">
   <title>Item Result</title>
   <style>
-    thead, .bold { font-weight: bold; }
-    td {
-      width: 150px;
-      text-align: center;
-    }
+    thead { font-weight: bold; }
+    .normal { font-weight: normal; }
+    h2 { width: max-content; text-shadow: 1px 1px 1px gray; }
+    td { width: 150px; text-align: center; }
   </style>
 </head>
 <body>
-<h2>New item has been added successfully</h2>
-<table border="1">
-  <tr>
-    <td class="bold">Item ID</td>
-    <td th:text="${item.id}">[ID]</td>
-  </tr>
-  <tr>
-    <td class="bold">Name</td>
-    <td th:text="${item.name}">[Name]</td>
-  </tr>
-  <tr>
-    <td class="bold">Category</td>
-    <td th:text="${item.category}">[Category]</td>
-  </tr>
-  <tr>
-    <td class="bold">Price</td>
-    <td th:text="|${symbol} ${item.price}|">[Price]</td>
-  </tr>
-</table><br>
 
-<table border="1" th:if="${orders != null}">
-  <thead>
-  <tr>
-    <td th:text="|Orders including ${item.name}|" colspan="3">[Orders]</td>
-  </tr>
-  <tr>
-    <td>Order ID</td>
-    <td>Date</td>
-    <td>Customer</td>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="order:${orders}">
-    <td th:text="${order.id}">[Order ID]</td>
-    <td th:text="${order.date}">[Date]</td>
-    <td th:text="${customers.get(order.customerId).name}">[Customer]</td>
-  </tr>
-  </tbody>
-</table><br>
+<h3 class="normal">New item has been added successfully!</h3>
+<h2 th:text="|Item #${item.id}|">[Item #]</h2>
+<h3>Name: <span th:text="${item.name}" class="normal">[Name]</span></h3>
+<h3>Category: <span th:text="${item.category}" class="normal">[Category]</span></h3>
+<h3>Price: <span th:text="${item.fullPrice}" class="normal">[Price]</span></h3>
 
-<input type="button" id="back-btn" value="Go to index" onclick="goToIndex()">
+<div th:if="${orders != null}">
+  <h2 th:text="|Orders including ${item.name}|">[Orders]</h2>
+  <table border="1">
+    <thead>
+    <tr>
+      <td>Order ID</td>
+      <td>Date</td>
+      <td>Customer</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order:${orders}">
+      <td th:text="${order.id}">[Order ID]</td>
+      <td th:text="${order.date}">[Date]</td>
+      <td th:text="${customers.get(order.customerId).name}">[Customer]</td>
+    </tr>
+    </tbody>
+  </table>
+</div><br>
+
+<input type="button" value="<== Go to index" onclick="goToIndex()">
+
 <script type="text/javascript">
   const goToIndex = () => window.location.href = "/";
 </script>
+
 </body>
 </html>

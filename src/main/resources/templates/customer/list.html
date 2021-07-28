@@ -5,18 +5,15 @@
     <title>Customer List</title>
   <style>
     thead { font-weight: bold; }
-    td {
-      width: 150px;
-      text-align: center;
-    }
+    td { width: 150px; text-align: center; }
   </style>
 </head>
 <body>
-<div id="search-div">
-  <h2>Get customer by ID</h2>
-  <input type="number" id="input" name="input" min="1" th:max="${customers.size}">
-  <input type="button" id="search-btn" value="Search" onclick="goToCustomer()">
-</div>
+
+<h2>Get customer by ID</h2>
+<input type="number" id="input" name="input" min="1" th:max="${customers.size}">
+<input type="button" id="search-btn" value="Search" onclick="goToCustomer()">
+
 <h2>List of customers</h2>
 <table border="1">
   <thead>
@@ -34,7 +31,9 @@
     <td th:text="${customer.email}">[Email]</td>
   </tr>
 </table><br>
-<input type="button" id="back-btn" value="Go back" onclick="goToIndex()">
+
+<input type="button" value="<== Go back" onclick="goToIndex()">
+
 <script type="text/javascript">
   const input = document.getElementById("input");
   const goToIndex = () => window.location.href = "/";
@@ -46,5 +45,6 @@
     }
   });
 </script>
+
 </body>
 </html>
