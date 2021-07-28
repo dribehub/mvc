@@ -17,10 +17,10 @@ import java.util.List;
 public class CustomerController {
 
     private static final String
-            CUSTOMER_LIST = "customers",
-            CUSTOMER_BY_ID = "customer",
-            FORM = "create_customer",
-            RESULT = "customer_result",
+            CUSTOMER_LIST = "customer/list",
+            CUSTOMER_BY_ID = "customer/id",
+            FORM = "customer/form",
+            RESULT = "customer/result",
             ERROR = "error";
 
     @Autowired

@@ -37,7 +37,7 @@ public class ValidationUtil {
         return symbols;
     }
 
-    public static Map<String, String> getItemsSymbols(List<ItemDto> items) {
+    public static Map<String, String> getAllSymbols(List<ItemDto> items) {
         List<String> currencies = items.stream()
                 .map(ItemDto::getCurrency)
                 .collect(Collectors.toList());

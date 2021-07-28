@@ -22,10 +22,10 @@ import java.util.Map;
 public class ItemController {
 
     private static final String
-            ITEM_LIST = "items",
-            ITEM_BY_ID = "item",
-            FORM = "create_item",
-            RESULT = "item_result",
+            ITEM_LIST = "item/list",
+            ITEM_BY_ID = "item/id",
+            FORM = "item/form",
+            RESULT = "item/result",
             ERROR = "error";
 
     @Autowired private IItemService itemService;
@@ -34,7 +34,7 @@ public class ItemController {
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         List<ItemDto> items = itemService.selectAll();
-        Map<String, String> symbols = ValidationUtil.getItemsSymbols(items);
+        Map<String, String> symbols = ValidationUtil.getAllSymbols(items);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
         return ITEM_LIST;
