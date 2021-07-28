@@ -8,13 +8,10 @@
 <div id="create-order">
     <h2>Create your order</h2>
     <form method="POST" th:action="@{/orders/add}" th:object="${order}">
-
         <label for="customer">Choose a customer:</label><br>
         <select id="customer" th:field="*{customerId}">
             <option th:value="0" selected disabled></option>
-            <option th:each="customer:${customers}"
-                    th:value="${customer.id}"
-                    th:text="${customer.name}">[Customer]</option>
+            <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}">[Customer]</option>
         </select><br><br>
 
         <label for="items">Add items:</label><br>

@@ -13,25 +13,18 @@
     <form method="POST" th:action="@{/customers/add}" th:object="${customer}">
         <label for="first-name">First Name:</label><br>
         <input type="text" id="first-name" th:field="*{firstName}" required="required">
-        <span th:if="${#fields.hasErrors('firstName')}"
-              th:errorclass="error"
-              th:errors="*{firstName}">[Invalid First Name]</span>
+        <span th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}">[Invalid First Name]</span>
         <br><br>
 
         <label for="last-name">Last Name:</label><br>
         <input type="text" id="last-name" th:field="*{lastName}" required="required">
-        <span th:if="${#fields.hasErrors('lastName')}"
-              th:errorclass="error"
-              th:errors="*{lastName}">[Invalid Last Name]</span>
+        <span th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}">[Invalid Last Name]</span>
         <br><br>
 
         <label for="email">Email:</label><br>
         <input type="email" id="email" th:field="*{email}" required="required">
-        <span th:if="${#fields.hasErrors('email')}"
-              th:errorclass="error"
-              th:errors="*{email}">[Invalid Email]</span>
-        <span th:if="${nonUniqueEmailError != null}" class="error"
-              th:text="${nonUniqueEmailError}"></span>
+        <span th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}">[Invalid Email]</span>
+        <span th:if="${nonUniqueEmailError != null}" class="error" th:text="${nonUniqueEmailError}"></span>
         <br><br>
 
         <input id="submit-form" type="submit" value="==> Submit customer">
