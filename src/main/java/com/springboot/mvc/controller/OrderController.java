@@ -68,28 +68,28 @@ public class OrderController {
         List<CustomerDto> customers = customerService.selectAll();
         List<ItemDto> items = itemService.selectAll();
         Map<String, String> symbols = Utils.getAllSymbols(items);
+        model.addAttribute("order", new OrderRequestDto(items));
         model.addAttribute("customers", customers);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
-        model.addAttribute("order", new OrderRequestDto(items));
         return FORM;
     }
 
     @PostMapping("/add")
     public String addOrder(Model model, @ModelAttribute(name = "order") OrderRequestDto order) {
-        Integer customerId = order.getCustomerId();
         List<ItemDto> items = new ArrayList<>();
         Set<Integer> itemIds = order.getItemIds().keySet();
         for (Integer itemId : itemIds)
             if (order.getItemIds().get(itemId))
                 items.add(itemService.findById(itemId));
+        Map<String, String> symbols = Utils.getAllSymbols(items);
+        Integer customerId = order.getCustomerId();
         OrderDto newOrder = orderService.addOrder(customerId, items);
         CustomerDto customer = customerService.findById(customerId);
-        Map<String, String> symbols = Utils.getAllSymbols(items);
-        model.addAttribute("newOrder", newOrder);
-        model.addAttribute("customer", customer);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
+        model.addAttribute("newOrder", newOrder);
+        model.addAttribute("customer", customer);
         return RESULT;
     }
 }
