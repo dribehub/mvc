@@ -79,7 +79,7 @@ public class OrderController {
         Integer customerId = order.getCustomerId();
         List<ItemDto> items = new ArrayList<>();
         for (Integer itemId : order.getItemsIds().keySet())
-            if (order.getItemsIds().get(itemId).equals("true"))
+            if (order.getItemsIds().get(itemId))
                 items.add(itemService.findById(itemId));
         OrderDto newOrder = orderService.addOrder(customerId, items);
         CustomerDto customer = customerService.findById(customerId);

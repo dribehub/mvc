@@ -7,17 +7,17 @@ import java.util.Map;
 public class OrderRequestDto {
 
     private Integer customerId;
-    private Map<Integer, String> itemsIds;
+    private Map<Integer, Boolean> itemsIds;
 
     public OrderRequestDto() {}
     public OrderRequestDto(List<ItemDto> items) {
         itemsIds = new HashMap<>();
         for (ItemDto item : items)
-            itemsIds.put(item.getId(), "false");
+            itemsIds.put(item.getId(), false);
     }
 
     public Integer getCustomerId() { return customerId; }
     public void setCustomerId(Integer customerId) { this.customerId = customerId; }
-    public Map<Integer, String> getItemsIds() { return itemsIds; }
-    public void setItemsIds(Map<Integer, String> itemsIds) { this.itemsIds = itemsIds; }
+    public Map<Integer, Boolean> getItemsIds() { return itemsIds; }
+    public void setItemsIds(Map<Integer, Boolean> itemsIds) { this.itemsIds = itemsIds; }
 }
