@@ -21,6 +21,7 @@ public class CustomerController {
             CUSTOMER_BY_ID = "customer/id",
             FORM = "customer/form",
             RESULT = "customer/result",
+            EDIT = "customer/edit",
             ERROR = "error";
 
     @Autowired
@@ -69,5 +70,12 @@ public class CustomerController {
             model.addAttribute("customer", customer);
             return FORM;
         }
+    }
+
+    @PutMapping("/{id}/edit")
+    public String editById(Model model, @PathVariable(value = "id") Integer id) {
+        CustomerDto customer = customerService.findById(id);
+        model.addAttribute("customer", customer);
+        return EDIT;
     }
 }
