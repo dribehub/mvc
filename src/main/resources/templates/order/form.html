@@ -15,9 +15,9 @@
     </select><br><br>
 
     <label for="items">Add items:</label><br>
-    <div id="items" th:each="entry : ${order.itemsIds.entrySet()}">
-        <input th:id="|hidden${entry.key}|" type="hidden" th:value="${false}" th:field="*{itemsIds['__${entry.key}__']}">
-        <input th:id="${entry.key}" class="checkbox" type="checkbox" th:value="${true}" th:field="*{itemsIds['__${entry.key}__']}">
+    <div id="items" th:each="entry : ${order.itemIds.entrySet()}">
+        <input th:id="|hidden${entry.key}|" type="hidden" th:value="${false}" th:field="*{itemIds['__${entry.key}__']}">
+        <input th:id="${entry.key}" class="checkbox" type="checkbox" th:value="${true}" th:field="*{itemIds['__${entry.key}__']}">
         <span th:each="item:${items}">
             <span th:if="${item.id == entry.key}">
                 <span th:text="${item.name}">[Item Name]</span>
