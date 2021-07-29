@@ -36,7 +36,7 @@
 
 <script type="text/javascript">
   const input = document.getElementById("input");
-  const goToItem = () => window.location.href += "/" + input.value;
+  const goToItem = () => goTo("/items/" + input.value);
   input.addEventListener("keyup", (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
