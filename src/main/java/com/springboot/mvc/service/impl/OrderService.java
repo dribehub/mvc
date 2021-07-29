@@ -44,4 +44,11 @@ public class OrderService implements IOrderService {
                 .collect(Collectors.toList()));
         return OrderMapper.toDto(repository.save(entity));
     }
+
+    @Override
+    public OrderDto addOrder(OrderDto order) {
+        order.setDate(LocalDate.now());
+        repository.save(OrderMapper.toEntity(order));
+        return order;
+    }
 }

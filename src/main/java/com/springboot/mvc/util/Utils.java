@@ -28,7 +28,7 @@ public class Utils {
     }
 
     public static String capAll(String str) {
-            return str.toUpperCase();
+        return str.toUpperCase();
     }
 
     public static String getCurrencySymbol(String currency) throws IllegalArgumentException {

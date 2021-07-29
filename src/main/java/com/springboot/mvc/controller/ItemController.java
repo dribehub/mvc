@@ -70,15 +70,13 @@ public class ItemController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        List<ItemDto> items = itemService.selectAll();
-        model.addAttribute("items", items);
         model.addAttribute("item", new ItemDto());
         return FORM;
     }
 
     @PostMapping("/add")
-    public String addOrder(@Valid @ModelAttribute(name = "item") ItemDto item,
-                           BindingResult result, Model model) {
+    public String addItem(@Valid @ModelAttribute(name = "item") ItemDto item,
+                          BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("item", item);
             return FORM;

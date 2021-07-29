@@ -10,4 +10,5 @@ public interface IOrderService {
     List<OrderDto> selectAll();
     OrderDto findById(Integer id);
     OrderDto addOrder(Integer customerId, List<ItemDto> items);
+    OrderDto addOrder(OrderDto order);
 }
