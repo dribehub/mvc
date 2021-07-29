@@ -15,7 +15,7 @@ public class Utils {
             NAME_REGEX = "^[A-Z][a-z]+$",
             MULT_NAMES_REGEX = "^[A-Z][a-z]+(\\s[A-Z][a-z]+)*$",
             EMAIL_REGEX = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z]+\\.[a-z]+$",
-            CURRENCY_REGEX = "^[A-Za-z]{3}$";
+            CURRENCY_REGEX = "^[A-Z]{3}$";
 
     public static String capFirst(String str) {
         if (str.contains(" ")) {
@@ -28,7 +28,7 @@ public class Utils {
     }
 
     public static String capAll(String str) {
-        return str.toUpperCase();
+            return str.toUpperCase();
     }
 
     public static String getCurrencySymbol(String currency) throws IllegalArgumentException {
