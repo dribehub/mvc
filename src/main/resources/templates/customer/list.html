@@ -36,7 +36,6 @@
 
 <script type="text/javascript">
   const input = document.getElementById("input");
-  const goToIndex = () => window.location.href = "/";
   const goToCustomer = () => window.location.href += "/" + input.value;
   input.addEventListener("keyup", (e) => {
     if (e.key === 'Enter') {
@@ -45,6 +44,6 @@
     }
   });
 </script>
-
+<script type="text/javascript" th:src="@{/functions.js}"></script>
 </body>
 </html>
