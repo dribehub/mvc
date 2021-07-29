@@ -23,12 +23,14 @@
       <td>Date Created</td>
     </tr>
   </thead>
-  <tbody th:each="customer:${customers}">
-    <tr th:each="order:${orders}" th:if="${order.customerId} == ${customer.id}">
-      <td th:text="${order.id}">[Order ID]</td>
-      <td th:text="${customer.name}">[Customer Name]</td>
-      <td th:text="${order.date}">[Order Date]</td>
-    </tr>
+  <tbody>
+    <th:block th:each="customer:${customers}">
+      <tr th:each="order:${orders}" th:if="${order.customerId} == ${customer.id}">
+        <td th:text="${order.id}">[Order ID]</td>
+        <td th:text="${customer.name}">[Customer Name]</td>
+        <td th:text="${order.date}">[Order Date]</td>
+      </tr>
+    </th:block>
   </tbody>
 </table><br>
 

@@ -33,7 +33,6 @@
 <input type="button" value="<== Go back" onclick="goToIndex()">
 
 <script type="text/javascript">
-    const goToIndex = () => window.location.href = "/";
     function validate() {
         if (!document.getElementById("customer").value) {
             alert("Please select one customer!");
@@ -50,6 +49,6 @@
         }
     }
 </script>
-
+<script type="text/javascript" th:src="@{/functions.js}"></script>
 </body>
 </html>
