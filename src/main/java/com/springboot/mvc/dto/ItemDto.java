@@ -18,7 +18,7 @@ public class ItemDto {
     private Double price;
     @Pattern(regexp = Utils.CURRENCY_REGEX, message="Currency is invalid!")
     private String currency;
-    private List<OrderEntity> orders = new ArrayList<>(); // TODO: to be tested
+    private List<OrderEntity> orders = new ArrayList<>();
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
