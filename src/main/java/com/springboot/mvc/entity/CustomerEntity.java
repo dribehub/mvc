@@ -11,7 +11,7 @@ public class CustomerEntity {
     private Integer id;
     private String firstName;
     private String lastName;
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
     public Integer getId() { return id; }

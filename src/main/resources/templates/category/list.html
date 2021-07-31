@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Category List</title>
+  <style>
+    thead { font-weight: bold; }
+    td { width: 150px; text-align: center; }
+  </style>
+</head>
+<body>
+<h2>List of categories</h2>
+<form method="POST" th:action="@{/categories/update}" th:object="${ctgEdits}">
+  <table id="table" border="1">
+    <tr th:each="ctg, stats : *{categories}" th:class="${stats.index}">
+      <td><input type="text" th:value="${ctg.name}" th:field="*{categories[__${stats.index}__].name}" readonly></td>
+      <td onclick="editCtg(this)">Edit</td>
+      <td onclick="deleteCtg(this)">Delete</td>
+    </tr>
+  </table><br>
+  <input type="submit" id="submit" value="==> Submit changes" hidden>
+  <br><br>
+</form>
+
+<input type="button" value="<== Go back" onclick="goToIndex()">
+
+<script type="text/javascript" th:src="@{/functions.js}"></script>
+</body>
+</html>
