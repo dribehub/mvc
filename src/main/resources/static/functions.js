@@ -3,25 +3,29 @@ const goToIndex = () => goTo("/");
 const goToCustomers = () => goTo("/customers");
 const goToOrders = () => goTo("/orders");
 const goToItems = () => goTo("/items");
+const setColor = (el, color) => el.setAttribute("style", "color: " + color + ";");
 
-function editCtg(td) {
+function getCtg(td) {
     const rowIndex = td.parentElement.className;
-    const rowCells = document.getElementsByClassName(rowIndex)[0].children;
-    const input = rowCells[0].children[0];
-    const button = rowCells[1];
-    input.removeAttribute("readonly");
-    button.setAttribute("onclick", "saveCtg(this)");
-    button.innerHTML = "Save";
+    const row = document.getElementsByClassName(rowIndex)[0];
+    return row.children[0].children[0];
+}
+function editCtg(td) {
+    const ctg = getCtg(td);
+    ctg.removeAttribute("readonly");
+    td.setAttribute("onclick", "saveCtg(this)");
+    td.setAttribute("onmouseenter", "setColor(this, 'green')");
+    setColor(td, "green");
+    td.innerHTML = "Save";
     showSubmitBtn();
 }
 function saveCtg(td) {
-    const rowIndex = td.parentElement.className;
-    const rowCells = document.getElementsByClassName(rowIndex)[0].children;
-    const input = rowCells[0].children[0];
-    const button = rowCells[1];
-    input.setAttribute("readonly", "readonly");
-    button.setAttribute("onclick", "editCtg(this)");
-    button.innerHTML = "Edit";
+    const ctg = getCtg(td);
+    ctg.setAttribute("readonly", "readonly");
+    td.setAttribute("onclick", "editCtg(this)");
+    td.setAttribute("onmouseenter", "setColor(this, 'darkorange')");
+    setColor(td, "darkorange");
+    td.innerHTML = "Edit";
     showSubmitBtn();
 }
 function deleteCtg(td) {
