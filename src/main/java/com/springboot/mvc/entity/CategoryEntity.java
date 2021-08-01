@@ -1,5 +1,7 @@
 package com.springboot.mvc.entity;
 
+import com.springboot.mvc.util.Utils;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,5 +12,5 @@ public class CategoryEntity {
     private String name;
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) { this.name = Utils.capFirst(name); }
 }

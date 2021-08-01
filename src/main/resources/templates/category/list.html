@@ -4,18 +4,29 @@
   <meta charset="UTF-8">
   <title>Category List</title>
   <style>
-    thead { font-weight: bold; }
-    td { text-align: center; }
-    input { width: 200px; }
+    .input { width: 200px; margin-right: 10px; }
     .btn { width: 40px; cursor: pointer; }
   </style>
 </head>
 <body>
+<h2>Add a new category</h2>
+<input id="newCtg" class="input" type="text">
+<span class="btn" onclick="addNewCtg()"
+      onmouseenter="setColor(this, 'green')"
+      onmouseleave="setColor(this, 'black')">Save</span>
+
 <h2>List of categories</h2>
-<form method="POST" th:action="@{/categories/update}" th:object="${ctgEdits}">
+<form method="POST"
+      th:action="@{/categories/update}"
+      th:object="${ctgEdits}">
   <table id="table">
-    <tr th:each="ctg, stats : *{categories}" th:class="${stats.index}">
-      <td><input type="text" th:value="${ctg.name}" th:field="*{categories[__${stats.index}__].name}" readonly></td>
+    <tr th:each="ctg, stats : *{categories}"
+        th:class="${stats.index}">
+      <td><input type="text"
+                 class="input"
+                 th:value="${ctg.name}"
+                 th:field="*{categories[__${stats.index}__].name}"
+                 readonly></td>
       <td class="btn" onclick="editCtg(this)"
           onmouseenter="setColor(this, 'darkorange')"
           onmouseleave="setColor(this, 'black')">Edit</td>
@@ -24,12 +35,11 @@
           onmouseleave="setColor(this, 'black')">Delete</td>
     </tr>
   </table><br>
+  <input type="button" value="<== Go back" onclick="goToIndex()">
   <input type="submit" id="submit" value="==> Submit changes" hidden>
-  <br><br>
 </form>
 
-<input type="button" value="<== Go back" onclick="goToIndex()">
-
 <script type="text/javascript" th:src="@{/functions.js}"></script>
+<script type="text/javascript" th:src="@{/ctgFunctions.js}"></script>
 </body>
 </html>
