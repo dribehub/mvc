@@ -48,6 +48,7 @@ CREATE TABLE order_item (
 
 -- print database schema
 -- DESCRIBE customers;
+-- DESCRIBE categories;
 -- DESCRIBE items;
 -- DESCRIBE orders;
 -- DESCRIBE order_item;
@@ -85,6 +86,7 @@ INSERT INTO order_item VALUES (4, 4); -- order4 item4
 
 -- print data
 SELECT * FROM customers;
+SELECT * FROM categories;
 SELECT * FROM items;
 SELECT * FROM orders;
 SELECT * FROM order_item;

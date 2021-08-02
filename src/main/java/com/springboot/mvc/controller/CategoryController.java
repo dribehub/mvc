@@ -1,6 +1,7 @@
 package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoriesRequestDto;
+import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.entity.CategoryEntity;
 import com.springboot.mvc.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,7 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private static final String
-            LIST = "category/list",
-            RESULT = "category/result";
-
+    private static final String LIST = "category/list";
     private final CategoryService categoryService;
 
     @Autowired
@@ -30,16 +28,21 @@ public class CategoryController {
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         List<CategoryEntity> categories = categoryService.selectAll();
+        model.addAttribute("newCtg", new CategoryDto());
         model.addAttribute("ctgEdits", new CategoriesRequestDto(categories));
         return LIST;
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute(name = "ctgEdits")
-                      @Valid CategoriesRequestDto edits,
+    public String add(@ModelAttribute(name = "newCtg")
+                      @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
-        if (result.hasErrors()) return LIST;
-        categoryService.addCategory(new CategoryEntity(edits.getNewCategory()));
+        if (result.hasErrors()) {
+            List<CategoryEntity> categories = categoryService.selectAll();
+            model.addAttribute("ctgEdits", new CategoriesRequestDto(categories));
+            return LIST;
+        }
+        categoryService.addCategory(newCtg);
         return "redirect:/categories";
     }
 
@@ -47,6 +50,6 @@ public class CategoryController {
     public String update(@ModelAttribute(name = "ctgEdits")
                          @Valid CategoriesRequestDto edits,
                          BindingResult result, Model model) {
-        return RESULT;
+        return LIST;
     }
 }

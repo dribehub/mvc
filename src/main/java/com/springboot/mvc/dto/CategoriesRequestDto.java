@@ -9,8 +9,6 @@ import java.util.List;
 public class CategoriesRequestDto {
 
     List<CategoryEntity> categories;
-    @Pattern(regexp = Utils.NAME_REGEX, message = "Category is invalid!")
-    private String newCategory;
 
     public CategoriesRequestDto() {}
     public CategoriesRequestDto(List<CategoryEntity> categories) {
@@ -19,6 +17,4 @@ public class CategoriesRequestDto {
 
     public List<CategoryEntity> getCategories() { return categories; }
     public void setCategories(List<CategoryEntity> categories) { this.categories = categories; }
-    public String getNewCategory() { return newCategory; }
-    public void setNewCategory(String newCategory) { this.newCategory = newCategory; }
 }

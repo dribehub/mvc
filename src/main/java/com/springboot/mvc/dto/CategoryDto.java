@@ -1,14 +1,12 @@
-package com.springboot.mvc.entity;
+package com.springboot.mvc.dto;
 
 import com.springboot.mvc.util.Utils;
 
-import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
-@Entity
-@Table(name = "categories")
-public class CategoryEntity {
+public class CategoryDto {
 
-    @Id
+    @Pattern(regexp = Utils.MULT_NAMES_REGEX, message = "Category is invalid!")
     private String name;
 
     public String getName() { return name; }

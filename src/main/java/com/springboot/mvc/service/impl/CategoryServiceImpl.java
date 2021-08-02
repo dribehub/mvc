@@ -1,6 +1,8 @@
 package com.springboot.mvc.service.impl;
 
+import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.entity.CategoryEntity;
+import com.springboot.mvc.mapper.CategoryMapper;
 import com.springboot.mvc.repository.CategoryRepository;
 import com.springboot.mvc.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity addCategory(CategoryEntity newCategory) {
-        return repository.save(newCategory);
+    public CategoryEntity addCategory(CategoryDto newCategory) {
+        return repository.save(CategoryMapper.toEntity(newCategory));
     }
 }
