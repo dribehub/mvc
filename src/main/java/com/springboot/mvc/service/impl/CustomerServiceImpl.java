@@ -2,7 +2,7 @@ package com.springboot.mvc.service.impl;
 
 import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.mapper.CustomerMapper;
-import com.springboot.mvc.service.ICustomerService;
+import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerService implements ICustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository repository;

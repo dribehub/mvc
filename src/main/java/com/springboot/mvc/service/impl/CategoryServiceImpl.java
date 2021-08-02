@@ -2,14 +2,14 @@ package com.springboot.mvc.service.impl;
 
 import com.springboot.mvc.entity.CategoryEntity;
 import com.springboot.mvc.repository.CategoryRepository;
-import com.springboot.mvc.service.ICategoryService;
+import com.springboot.mvc.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CategoryService implements ICategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository repository;

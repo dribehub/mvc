@@ -5,7 +5,7 @@ import com.springboot.mvc.dto.OrderDto;
 
 import java.util.List;
 
-public interface IItemService {
+public interface ItemService {
 
     List<ItemDto> selectAll();
     List<ItemDto> selectAllByOrder(OrderDto order);

@@ -5,7 +5,7 @@ import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.entity.OrderEntity;
 import com.springboot.mvc.mapper.ItemMapper;
 import com.springboot.mvc.mapper.OrderMapper;
-import com.springboot.mvc.service.IOrderService;
+import com.springboot.mvc.service.OrderService;
 import com.springboot.mvc.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderService implements IOrderService {
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository repository;

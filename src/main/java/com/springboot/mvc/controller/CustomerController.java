@@ -1,7 +1,7 @@
 package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CustomerDto;
-import com.springboot.mvc.service.ICustomerService;
+import com.springboot.mvc.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,12 @@ public class CustomerController {
             EDIT = "customer/edit",
             ERROR = "error";
 
+    private final CustomerService customerService;
+
     @Autowired
-    private ICustomerService customerService;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
@@ -54,13 +58,10 @@ public class CustomerController {
     }
 
     @PostMapping("/add")
-    public String addCustomer(@Valid @ModelAttribute(name = "customer") CustomerDto customer,
+    public String addCustomer(@ModelAttribute(name = "customer")
+                              @Valid CustomerDto customer,
                               BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("customer", customer);
-            return FORM;
-        }
-
+        if (result.hasErrors()) return FORM;
         try {
             CustomerDto newCustomer = customerService.addCustomer(customer);
             model.addAttribute("customer", newCustomer);

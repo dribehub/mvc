@@ -7,24 +7,26 @@
     .input { width: 200px; margin-right: 10px; }
     .btn { width: 40px; cursor: pointer; }
   </style>
+  <script type="text/javascript" th:src="@{/functions.js}"></script>
+  <script type="text/javascript" th:src="@{/ctgFunctions.js}"></script>
 </head>
 <body>
 <h2>Add a new category</h2>
-<input id="newCtg" class="input" type="text">
-<span class="btn" onclick="addNewCtg()"
-      onmouseenter="setColor(this, 'green')"
-      onmouseleave="setColor(this, 'black')">Save</span>
+<form method="POST" th:action="@{/categories/add}" th:object="${ctgEdits}">
+  <input id="newCtg" class="input" type="text" th:field="*{newCategory}">
+  <span class="btn" onclick="addNewCtg()"
+        onmouseenter="setColor(this, 'green')"
+        onmouseleave="setColor(this, 'black')">Save</span>
+  <p th:if="${#fields.hasErrors('newCategory')}" th:errorclass="error" th:errors="*{newCategory}"></p>
+  <input type="submit" id="submitNew" hidden>
+</form>
 
 <h2>List of categories</h2>
-<form method="POST"
-      th:action="@{/categories/update}"
-      th:object="${ctgEdits}">
+<form method="POST" th:action="@{/categories/update}" th:object="${ctgEdits}">
   <table id="table">
     <tr th:each="ctg, stats : *{categories}"
         th:class="${stats.index}">
-      <td><input type="text"
-                 class="input"
-                 th:value="${ctg.name}"
+      <td><input type="text" class="input" th:value="${ctg.name}"
                  th:field="*{categories[__${stats.index}__].name}"
                  readonly></td>
       <td class="btn" onclick="editCtg(this)"
@@ -36,10 +38,12 @@
     </tr>
   </table><br>
   <input type="button" value="<== Go back" onclick="goToIndex()">
-  <input type="submit" id="submit" value="==> Submit changes" hidden>
+  <input type="submit" id="submitAll" value="==> Submit changes" hidden>
 </form>
 
-<script type="text/javascript" th:src="@{/functions.js}"></script>
-<script type="text/javascript" th:src="@{/ctgFunctions.js}"></script>
+<script type="text/javascript">
+  const input = document.getElementById("newCtg");
+  onEnter(input, addNewCtg);
+</script>
 </body>
 </html>

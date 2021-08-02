@@ -3,11 +3,11 @@ package com.springboot.mvc.controller;
 import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.entity.OrderEntity;
-import com.springboot.mvc.service.ICustomerService;
+import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.springboot.mvc.service.IItemService;
+import com.springboot.mvc.service.ItemService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +28,15 @@ public class ItemController {
             RESULT = "item/result",
             ERROR = "error";
 
+    private final ItemService itemService;
+    private final CustomerService customerService;
+
     @Autowired
-    private IItemService itemService;
-    @Autowired
-    private ICustomerService customerService;
+    public ItemController(ItemService itemService,
+                          CustomerService customerService) {
+        this.itemService = itemService;
+        this.customerService = customerService;
+    }
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
@@ -75,13 +80,10 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    public String addItem(@Valid @ModelAttribute(name = "item") ItemDto item,
+    public String addItem(@ModelAttribute(name = "item")
+                          @Valid ItemDto item,
                           BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("item", item);
-            return FORM;
-        }
-
+        if (result.hasErrors()) return FORM;
         try {
             String symbol = Utils.getCurrencySymbol(item.getCurrency());
             ItemDto newItem = itemService.addItem(item);

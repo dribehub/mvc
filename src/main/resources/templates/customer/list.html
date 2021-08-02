@@ -7,6 +7,7 @@
     thead { font-weight: bold; }
     td { width: 150px; text-align: center; }
   </style>
+  <script type="text/javascript" th:src="@{/functions.js}"></script>
 </head>
 <body>
 
@@ -37,13 +38,7 @@
 <script type="text/javascript">
   const input = document.getElementById("input");
   const goToCustomer = () => goTo("/customers/" + input.value);
-  input.addEventListener("keyup", (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      goToCustomer();
-    }
-  });
+  onEnter(input, goToCustomer);
 </script>
-<script type="text/javascript" th:src="@{/functions.js}"></script>
 </body>
 </html>

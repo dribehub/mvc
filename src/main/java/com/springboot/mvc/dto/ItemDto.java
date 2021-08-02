@@ -11,12 +11,12 @@ import java.util.List;
 public class ItemDto {
 
     private Integer id;
-    @Pattern(regexp = Utils.MULT_NAMES_REGEX, message="Item name is invalid!")
+    @Pattern(regexp = Utils.MULT_NAMES_REGEX, message = "Item name is invalid!")
     private String name;
-    @Pattern(regexp = Utils.MULT_NAMES_REGEX, message="Category is invalid!")
+    @Pattern(regexp = Utils.MULT_NAMES_REGEX, message = "Category is invalid!")
     private String category;
     private Double price;
-    @Pattern(regexp = Utils.CURRENCY_REGEX, message="Currency is invalid!")
+    @Pattern(regexp = Utils.CURRENCY_REGEX, message = "Currency is invalid!")
     private String currency;
     private List<OrderEntity> orders = new ArrayList<>();
 

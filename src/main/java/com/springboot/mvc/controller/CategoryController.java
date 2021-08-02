@@ -2,10 +2,11 @@ package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoriesRequestDto;
 import com.springboot.mvc.entity.CategoryEntity;
-import com.springboot.mvc.service.ICategoryService;
+import com.springboot.mvc.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,24 +18,35 @@ public class CategoryController {
 
     private static final String
             LIST = "category/list",
-            RESULT = "category/result",
-            ERROR = "error";
+            RESULT = "category/result";
+
+    private final CategoryService categoryService;
 
     @Autowired
-    private ICategoryService categoryService;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
-    @GetMapping
+    @GetMapping({"/", ""})
     public String getAll(Model model) {
         List<CategoryEntity> categories = categoryService.selectAll();
-        CategoriesRequestDto ctgEdits = new CategoriesRequestDto(categories);
-        model.addAttribute("ctgEdits", ctgEdits);
+        model.addAttribute("ctgEdits", new CategoriesRequestDto(categories));
         return LIST;
     }
 
-    @PutMapping("/update")
-    public String update(@ModelAttribute CategoriesRequestDto edits,
-                         Model model) {
+    @PostMapping("/add")
+    public String add(@ModelAttribute(name = "ctgEdits")
+                      @Valid CategoriesRequestDto edits,
+                      BindingResult result, Model model) {
+        if (result.hasErrors()) return LIST;
+        categoryService.addCategory(new CategoryEntity(edits.getNewCategory()));
+        return "redirect:/categories";
+    }
 
+    @PutMapping("/update")
+    public String update(@ModelAttribute(name = "ctgEdits")
+                         @Valid CategoriesRequestDto edits,
+                         BindingResult result, Model model) {
         return RESULT;
     }
 }

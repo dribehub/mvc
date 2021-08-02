@@ -4,7 +4,7 @@ import com.springboot.mvc.dto.CustomerDto;
 
 import java.util.List;
 
-public interface ICustomerService {
+public interface CustomerService {
 
     List<CustomerDto> selectAll();
     CustomerDto findById(Integer id);

@@ -3,7 +3,7 @@ package com.springboot.mvc.service.impl;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.mapper.ItemMapper;
-import com.springboot.mvc.service.IItemService;
+import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ItemService implements IItemService {
+public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemRepository repository;

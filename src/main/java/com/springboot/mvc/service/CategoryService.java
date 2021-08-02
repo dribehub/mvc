@@ -4,7 +4,7 @@ import com.springboot.mvc.entity.CategoryEntity;
 
 import java.util.List;
 
-public interface ICategoryService {
+public interface CategoryService {
 
     List<CategoryEntity> selectAll();
     CategoryEntity findByName(String name);

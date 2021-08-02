@@ -10,7 +10,7 @@ function getCtg(btn) {
 }
 
 function showSubmitBtn() {
-    const submit = document.getElementById("submit");
+    const submit = document.getElementById("submitAll");
     if (submit.hasAttribute("hidden"))
         submit.removeAttribute("hidden");
 }
@@ -44,43 +44,6 @@ function deleteCtg(btn) {
 }
 
 function addNewCtg() {
-    const newCtg = document.getElementById("newCtg");
-    const inputVal = newCtg.value;
-    newCtg.value = "";
-    const table = document.getElementById("table");
-    const newRowIndex = table.rows.length;
-    const newRow = table.insertRow(newRowIndex);
-    newRow.className = newRowIndex;
-    addNewCtgInputField(newRow, inputVal);
-    addNewCtgEditBtn(newRow);
-    addNewCtgDeleteBtn(newRow);
-}
-
-function addNewCtgInputField(newRow, value) {
-    const field = document.createElement("input");
-    field.type = "text";
-    field.className = "input";
-    field.setAttribute("value", value);
-    field.setAttribute("th:field", "*{categories[__${stats.index}__].name}");
-    field.setAttribute("readonly", "readonly");
-    newRow.insertCell().insertAdjacentHTML("afterbegin", field.outerHTML);
     showSubmitBtn();
-}
-
-function addNewCtgEditBtn(newRow) {
-    const editBtn = newRow.insertCell();
-    editBtn.innerHTML = "Edit";
-    editBtn.className = "btn";
-    editBtn.setAttribute("onclick", "editCtg(this)");
-    editBtn.setAttribute("onmouseenter", "setColor(this, 'darkorange')");
-    editBtn.setAttribute("onmouseleave", "setColor(this, 'black')");
-}
-
-function addNewCtgDeleteBtn(newRow) {
-    const deleteBtn = newRow.insertCell();
-    deleteBtn.innerHTML = "Delete";
-    deleteBtn.className = "btn";
-    deleteBtn.setAttribute("onclick", "deleteCtg(this)");
-    deleteBtn.setAttribute("onmouseenter", "setColor(this, 'red')");
-    deleteBtn.setAttribute("onmouseleave", "setColor(this, 'black')");
+    document.getElementById("submitNew").click();
 }

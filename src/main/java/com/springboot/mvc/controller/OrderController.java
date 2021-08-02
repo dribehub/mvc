@@ -4,12 +4,12 @@ import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.dto.OrderRequestDto;
-import com.springboot.mvc.service.ICustomerService;
-import com.springboot.mvc.service.IItemService;
+import com.springboot.mvc.service.CustomerService;
+import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.springboot.mvc.service.IOrderService;
+import com.springboot.mvc.service.OrderService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +29,18 @@ public class OrderController {
             RESULT = "order/result",
             ERROR = "error";
 
+    private final OrderService orderService;
+    private final CustomerService customerService;
+    private final ItemService itemService;
+
     @Autowired
-    private IOrderService orderService;
-    @Autowired
-    private ICustomerService customerService;
-    @Autowired
-    private IItemService itemService;
+    public OrderController(OrderService orderService,
+                           CustomerService customerService,
+                           ItemService itemService) {
+        this.orderService = orderService;
+        this.customerService = customerService;
+        this.itemService = itemService;
+    }
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
