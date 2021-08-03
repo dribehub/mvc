@@ -3,7 +3,6 @@ package com.springboot.mvc.dto;
 import com.springboot.mvc.util.Utils;
 
 import javax.validation.constraints.Pattern;
-import java.util.Objects;
 
 public class CategoryDto {
 

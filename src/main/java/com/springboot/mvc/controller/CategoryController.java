@@ -43,7 +43,7 @@ public class CategoryController {
         }
 
         try {
-            categoryService.addCategory(newCtg);
+            categoryService.add(newCtg);
         } catch (NonUniqueResultException ex) {
             String name = ex.getMessage();
             String message = String.format("Category \"%s\" is already inserted!", name);
@@ -58,15 +58,18 @@ public class CategoryController {
                          BindingResult result, Model model) {
         if (result.hasErrors()) return LIST;
 
-        List<CategoryDto> currentCtgs = categoryService.selectAllToDto().getCategories();
+        List<CategoryDto> currentCtgs = categoryService.selectAll();
         List<CategoryDto> updatedCtgs = edits.getCategories();
 
         for (int i = 0; i < currentCtgs.size(); i++) {
             CategoryDto current = currentCtgs.get(i);
             CategoryDto updated = updatedCtgs.get(i);
-            if (!current.equals(updated)) {
+            if (edits.isDeleted(i)) {
+                categoryService.delete(updated);
+                System.out.println(i);
+            } else if (!current.equals(updated)) {
                 try {
-                    categoryService.updateCategory(current, updated);
+                    categoryService.update(current, updated);
                 } catch (NonUniqueResultException ex) {
                     String attr = "nonUniqueCtgError" + i;
                     String name = ex.getMessage();

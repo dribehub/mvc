@@ -12,11 +12,13 @@ public interface CategoryService {
     CategoriesRequestDto selectAllToDto();
     CategoryDto findByName(String name);
 
-    CategoryDto addCategory(CategoryDto newCategory)
+    CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException;
 
-    CategoryDto deleteCategory(CategoryDto category);
+    CategoryDto delete(CategoryDto category);
 
-    CategoryDto updateCategory(CategoryDto current, CategoryDto updated)
+    CategoryDto update(CategoryDto current, CategoryDto updated)
             throws NonUniqueResultException;
+
+    CategoryDto deleteByName(String name);
 }

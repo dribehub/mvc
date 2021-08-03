@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <title>Category List</title>
   <style>
-    .input { width: 200px; margin-right: 10px; }
-    .btn { width: 40px; cursor: pointer; }
+    td { padding-right: 10px; }
+    #newCtg { margin-right: 10px; }
+    .input { width: 200px; }
+    .btn { cursor: pointer; }
     .error { color: red; }
   </style>
   <script type="text/javascript" th:src="@{/functions.js}"></script>
@@ -18,8 +20,8 @@
   <span class="btn" onclick="addNewCtg()"
         onmouseenter="setColor(this, 'green')"
         onmouseleave="setColor(this, 'black')">Save</span>
-  <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></p>
-  <p th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}"></p>
+  <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Error]</p>
+  <p th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}">[Error]</p>
   <input type="submit" id="submitNew" hidden>
 </form>
 
@@ -36,12 +38,12 @@
       <td class="btn" onclick="deleteCtg(this)"
           onmouseenter="setColor(this, 'red')"
           onmouseleave="setColor(this, 'black')">Delete</td>
-      <td th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}">
-        <span th:errorclass="error" th:errors="*{ctg.name}"></span>
-      </td>
-      <td th:if="${__${'nonUniqueCtgError' + stats.index}__ != null}">
-        <span class="error" th:text="${__${'nonUniqueCtgError' + stats.index}__}"></span>
-      </td>
+      <td><input type="hidden" th:value="${false}" th:field="*{areDeleted['__${stats.index}__']}"></td>
+      <td>
+        <span th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"
+              th:errorclass="error" th:errors="*{ctg.name}">[Error]</span>
+        <span th:if="${__${'nonUniqueCtgError' + stats.index}__ != null}" class="error"
+              th:text="${__${'nonUniqueCtgError' + stats.index}__}">[Error]</span></td>
     </tr>
   </table><br>
   <input type="button" value="<== Go back" onclick="goToIndex()">

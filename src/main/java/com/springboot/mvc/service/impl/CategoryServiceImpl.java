@@ -5,7 +5,6 @@ import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.mapper.CategoryMapper;
 import com.springboot.mvc.repository.CategoryRepository;
 import com.springboot.mvc.service.CategoryService;
-import org.hibernate.procedure.ParameterMisuseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,32 +36,34 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto addCategory(CategoryDto newCategory)
+    public CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException {
-
-        if (isPresent(selectAll(), newCategory)) {
+        if (isPresent(selectAll(), newCategory))
             throw new NonUniqueResultException(newCategory.getName());
-        }
-
         return CategoryMapper.toDto(repository
                 .save(CategoryMapper.toEntity(newCategory)));
     }
 
+    private static boolean isPresent(List<CategoryDto> categories, CategoryDto category) {
+        return categories.stream().anyMatch(ctg -> ctg.equals(category));
+    }
+
     @Override
-    public CategoryDto deleteCategory(CategoryDto category) {
+    public CategoryDto delete(CategoryDto category) {
         repository.delete(CategoryMapper.toEntity(category));
         return category;
     }
 
     @Override
-    public CategoryDto updateCategory(CategoryDto current, CategoryDto updated)
+    public CategoryDto update(CategoryDto current, CategoryDto updated)
             throws NonUniqueResultException {
-        CategoryDto newCtg = addCategory(updated);
-        deleteCategory(current);
+        CategoryDto newCtg = add(updated);
+        delete(current);
         return newCtg;
     }
 
-    private static boolean isPresent(List<CategoryDto> categories, CategoryDto category) {
-        return categories.stream().anyMatch(ctg -> ctg.equals(category));
+    @Override
+    public CategoryDto deleteByName(String name) {
+        return delete(findByName(name));
     }
 }
