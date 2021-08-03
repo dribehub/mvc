@@ -24,7 +24,7 @@
 </form>
 
 <h2>List of categories</h2>
-<form method="POST" th:action="@{/categories/update}" th:object="${ctgEdits}">
+<form th:method="PUT" th:action="@{/categories/update}" th:object="${ctgEdits}">
   <table id="table">
     <tr th:each="ctg, stats : *{categories}"
         th:class="${stats.index}">
@@ -36,8 +36,12 @@
       <td class="btn" onclick="deleteCtg(this)"
           onmouseenter="setColor(this, 'red')"
           onmouseleave="setColor(this, 'black')">Delete</td>
-      <td th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"><span th:errorclass="error" th:errors="*{ctg.name}"></span></td>
-<!--      <td th:if="${nonUniqueCtgError != null}"><span class="error" th:text="${nonUniqueCtgError}"></span></td>-->
+      <td th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}">
+        <span th:errorclass="error" th:errors="*{ctg.name}"></span>
+      </td>
+      <td th:if="${__${'nonUniqueCtgError' + stats.index}__ != null}">
+        <span class="error" th:text="${__${'nonUniqueCtgError' + stats.index}__}"></span>
+      </td>
     </tr>
   </table><br>
   <input type="button" value="<== Go back" onclick="goToIndex()">

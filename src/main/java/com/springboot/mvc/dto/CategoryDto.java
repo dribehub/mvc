@@ -3,6 +3,7 @@ package com.springboot.mvc.dto;
 import com.springboot.mvc.util.Utils;
 
 import javax.validation.constraints.Pattern;
+import java.util.Objects;
 
 public class CategoryDto {
 
@@ -11,4 +12,9 @@ public class CategoryDto {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = Utils.capFirst(name); }
+
+    public boolean equals(CategoryDto o) {
+        if (this == o) return true;
+        return name.equals(o.name);
+    }
 }

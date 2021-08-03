@@ -22,7 +22,6 @@ function editCtg(btn) {
     btn.setAttribute("onmouseenter", "setColor(this, 'green')");
     setColor(btn, "green");
     btn.innerHTML = "Save";
-    showSubmitBtn();
 }
 
 function saveCtg(btn) {

@@ -5,6 +5,7 @@ import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.mapper.CategoryMapper;
 import com.springboot.mvc.repository.CategoryRepository;
 import com.springboot.mvc.service.CategoryService;
+import org.hibernate.procedure.ParameterMisuseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,18 +37,32 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto addCategory(CategoryDto newCategory) {
-        String ctgName = newCategory.getName();
-        List<String> ctgNames = selectAll()
-                .stream().map(CategoryDto::getName)
-                .collect(Collectors.toList());
+    public CategoryDto addCategory(CategoryDto newCategory)
+            throws NonUniqueResultException {
 
-        if (ctgNames.contains(ctgName)) {
-            String message = String.format("Category \"%s\" is already inserted!", ctgName);
-            throw new NonUniqueResultException(message);
+        if (isPresent(selectAll(), newCategory)) {
+            throw new NonUniqueResultException(newCategory.getName());
         }
 
         return CategoryMapper.toDto(repository
                 .save(CategoryMapper.toEntity(newCategory)));
+    }
+
+    @Override
+    public CategoryDto deleteCategory(CategoryDto category) {
+        repository.delete(CategoryMapper.toEntity(category));
+        return category;
+    }
+
+    @Override
+    public CategoryDto updateCategory(CategoryDto current, CategoryDto updated)
+            throws NonUniqueResultException {
+        CategoryDto newCtg = addCategory(updated);
+        deleteCategory(current);
+        return newCtg;
+    }
+
+    private static boolean isPresent(List<CategoryDto> categories, CategoryDto category) {
+        return categories.stream().anyMatch(ctg -> ctg.equals(category));
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/categories")
@@ -26,8 +27,8 @@ public class CategoryController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        CategoriesRequestDto ctgEdits = categoryService.selectAllToDto();
-        model.addAttribute("ctgEdits", ctgEdits);
+        CategoriesRequestDto categories = categoryService.selectAllToDto();
+        model.addAttribute("ctgEdits", categories);
         model.addAttribute("newCtg", new CategoryDto());
         return LIST;
     }
@@ -36,14 +37,17 @@ public class CategoryController {
     public String add(@ModelAttribute(name = "newCtg") @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("ctgEdits", categoryService.selectAllToDto());
+            CategoriesRequestDto categories = categoryService.selectAllToDto();
+            model.addAttribute("ctgEdits", categories);
             return LIST;
         }
 
         try {
             categoryService.addCategory(newCtg);
         } catch (NonUniqueResultException ex) {
-            model.addAttribute("nonUniqueCtgError", ex.getMessage());
+            String name = ex.getMessage();
+            String message = String.format("Category \"%s\" is already inserted!", name);
+            model.addAttribute("nonUniqueCtgError", message);
         }
 
         return getAll(model);
@@ -52,7 +56,26 @@ public class CategoryController {
     @PutMapping("/update")
     public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesRequestDto edits,
                          BindingResult result, Model model) {
+        if (result.hasErrors()) return LIST;
 
-        return LIST;
+        List<CategoryDto> currentCtgs = categoryService.selectAllToDto().getCategories();
+        List<CategoryDto> updatedCtgs = edits.getCategories();
+
+        for (int i = 0; i < currentCtgs.size(); i++) {
+            CategoryDto current = currentCtgs.get(i);
+            CategoryDto updated = updatedCtgs.get(i);
+            if (!current.equals(updated)) {
+                try {
+                    categoryService.updateCategory(current, updated);
+                } catch (NonUniqueResultException ex) {
+                    String attr = "nonUniqueCtgError" + i;
+                    String name = ex.getMessage();
+                    String message = String.format("Category \"%s\" is already present!", name);
+                    model.addAttribute(attr, message);
+                }
+            }
+        }
+
+        return getAll(model);
     }
 }
