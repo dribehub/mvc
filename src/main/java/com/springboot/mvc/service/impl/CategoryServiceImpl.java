@@ -1,7 +1,7 @@
 package com.springboot.mvc.service.impl;
 
+import com.springboot.mvc.dto.CategoriesRequestDto;
 import com.springboot.mvc.dto.CategoryDto;
-import com.springboot.mvc.entity.CategoryEntity;
 import com.springboot.mvc.mapper.CategoryMapper;
 import com.springboot.mvc.repository.CategoryRepository;
 import com.springboot.mvc.service.CategoryService;
@@ -26,17 +26,28 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoriesRequestDto selectAllToDto() {
+        return new CategoriesRequestDto(selectAll());
+    }
+
+    @Override
     public CategoryDto findByName(String name) {
         return CategoryMapper.toDto(repository.findByName(name));
     }
 
     @Override
     public CategoryDto addCategory(CategoryDto newCategory) {
-        List<String> categories = selectAll()
+        String ctgName = newCategory.getName();
+        List<String> ctgNames = selectAll()
                 .stream().map(CategoryDto::getName)
                 .collect(Collectors.toList());
-        if (categories.contains(newCategory.getName()))
-            throw new NonUniqueResultException("This category is already inserted!");
-        return CategoryMapper.toDto(repository.save(CategoryMapper.toEntity(newCategory)));
+
+        if (ctgNames.contains(ctgName)) {
+            String message = String.format("Category \"%s\" is already inserted!", ctgName);
+            throw new NonUniqueResultException(message);
+        }
+
+        return CategoryMapper.toDto(repository
+                .save(CategoryMapper.toEntity(newCategory)));
     }
 }

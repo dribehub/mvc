@@ -36,7 +36,8 @@
       <td class="btn" onclick="deleteCtg(this)"
           onmouseenter="setColor(this, 'red')"
           onmouseleave="setColor(this, 'black')">Delete</td>
-<!--      <td><span th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}"></span></td>-->
+      <td th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"><span th:errorclass="error" th:errors="*{ctg.name}"></span></td>
+<!--      <td th:if="${nonUniqueCtgError != null}"><span class="error" th:text="${nonUniqueCtgError}"></span></td>-->
     </tr>
   </table><br>
   <input type="button" value="<== Go back" onclick="goToIndex()">

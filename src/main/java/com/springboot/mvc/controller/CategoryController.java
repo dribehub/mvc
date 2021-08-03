@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/categories")
@@ -27,9 +26,9 @@ public class CategoryController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        List<CategoryDto> categories = categoryService.selectAll();
+        CategoriesRequestDto ctgEdits = categoryService.selectAllToDto();
+        model.addAttribute("ctgEdits", ctgEdits);
         model.addAttribute("newCtg", new CategoryDto());
-        model.addAttribute("ctgEdits", new CategoriesRequestDto(categories));
         return LIST;
     }
 
@@ -37,26 +36,23 @@ public class CategoryController {
     public String add(@ModelAttribute(name = "newCtg") @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            List<CategoryDto> categories = categoryService.selectAll();
-            CategoriesRequestDto ctgRequest = new CategoriesRequestDto(categories);
-            model.addAttribute("ctgEdits", ctgRequest);
+            model.addAttribute("ctgEdits", categoryService.selectAllToDto());
             return LIST;
         }
+
         try {
             categoryService.addCategory(newCtg);
-            return "redirect:/categories";
         } catch (NonUniqueResultException ex) {
-            List<CategoryDto> categories = categoryService.selectAll();
-            CategoriesRequestDto ctgRequest = new CategoriesRequestDto(categories);
-            model.addAttribute("ctgEdits", ctgRequest);
             model.addAttribute("nonUniqueCtgError", ex.getMessage());
-            return LIST;
         }
+
+        return getAll(model);
     }
 
     @PutMapping("/update")
     public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesRequestDto edits,
                          BindingResult result, Model model) {
+
         return LIST;
     }
 }
