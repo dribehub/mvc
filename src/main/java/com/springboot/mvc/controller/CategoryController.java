@@ -34,8 +34,7 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute(name = "newCtg")
-                      @Valid CategoryDto newCtg,
+    public String add(@ModelAttribute(name = "newCtg") @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
         if (result.hasErrors()) {
             List<CategoryDto> categories = categoryService.selectAll();
@@ -49,7 +48,6 @@ public class CategoryController {
         } catch (NonUniqueResultException ex) {
             List<CategoryDto> categories = categoryService.selectAll();
             CategoriesRequestDto ctgRequest = new CategoriesRequestDto(categories);
-            categories.indexOf(newCtg);
             model.addAttribute("ctgEdits", ctgRequest);
             model.addAttribute("nonUniqueCtgError", ex.getMessage());
             return LIST;
@@ -57,8 +55,7 @@ public class CategoryController {
     }
 
     @PutMapping("/update")
-    public String update(@ModelAttribute(name = "ctgEdits")
-                         @Valid CategoriesRequestDto edits,
+    public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesRequestDto edits,
                          BindingResult result, Model model) {
         return LIST;
     }

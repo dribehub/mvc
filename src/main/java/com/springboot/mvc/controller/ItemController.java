@@ -32,8 +32,7 @@ public class ItemController {
     private final CustomerService customerService;
 
     @Autowired
-    public ItemController(ItemService itemService,
-                          CustomerService customerService) {
+    public ItemController(ItemService itemService, CustomerService customerService) {
         this.itemService = itemService;
         this.customerService = customerService;
     }
@@ -80,8 +79,7 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute(name = "item")
-                          @Valid ItemDto item,
+    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto item,
                           BindingResult result, Model model) {
         if (result.hasErrors()) return FORM;
         try {

@@ -58,8 +58,7 @@ public class CustomerController {
     }
 
     @PostMapping("/add")
-    public String addCustomer(@ModelAttribute(name = "customer")
-                              @Valid CustomerDto customer,
+    public String addCustomer(@ModelAttribute(name = "customer") @Valid CustomerDto customer,
                               BindingResult result, Model model) {
         if (result.hasErrors()) return FORM;
         try {
