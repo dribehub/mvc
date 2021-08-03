@@ -2,7 +2,6 @@ package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoriesRequestDto;
 import com.springboot.mvc.dto.CategoryDto;
-import com.springboot.mvc.entity.CategoryEntity;
 import com.springboot.mvc.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class CategoryController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        List<CategoryEntity> categories = categoryService.selectAll();
+        List<CategoryDto> categories = categoryService.selectAll();
         model.addAttribute("newCtg", new CategoryDto());
         model.addAttribute("ctgEdits", new CategoriesRequestDto(categories));
         return LIST;
@@ -38,12 +38,22 @@ public class CategoryController {
                       @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            List<CategoryEntity> categories = categoryService.selectAll();
-            model.addAttribute("ctgEdits", new CategoriesRequestDto(categories));
+            List<CategoryDto> categories = categoryService.selectAll();
+            CategoriesRequestDto ctgRequest = new CategoriesRequestDto(categories);
+            model.addAttribute("ctgEdits", ctgRequest);
             return LIST;
         }
-        categoryService.addCategory(newCtg);
-        return "redirect:/categories";
+        try {
+            categoryService.addCategory(newCtg);
+            return "redirect:/categories";
+        } catch (NonUniqueResultException ex) {
+            List<CategoryDto> categories = categoryService.selectAll();
+            CategoriesRequestDto ctgRequest = new CategoriesRequestDto(categories);
+            categories.indexOf(newCtg);
+            model.addAttribute("ctgEdits", ctgRequest);
+            model.addAttribute("nonUniqueCtgError", ex.getMessage());
+            return LIST;
+        }
     }
 
     @PutMapping("/update")

@@ -8,13 +8,13 @@ import java.util.List;
 
 public class CategoriesRequestDto {
 
-    List<CategoryEntity> categories;
+    List<CategoryDto> categories;
 
     public CategoriesRequestDto() {}
-    public CategoriesRequestDto(List<CategoryEntity> categories) {
+    public CategoriesRequestDto(List<CategoryDto> categories) {
         this.categories = categories;
     }
 
-    public List<CategoryEntity> getCategories() { return categories; }
-    public void setCategories(List<CategoryEntity> categories) { this.categories = categories; }
+    public List<CategoryDto> getCategories() { return categories; }
+    public void setCategories(List<CategoryDto> categories) { this.categories = categories; }
 }

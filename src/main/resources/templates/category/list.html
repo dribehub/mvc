@@ -14,11 +14,12 @@
 <body>
 <h2>Add a new category</h2>
 <form method="POST" th:action="@{/categories/add}" th:object="${newCtg}">
-  <input id="newCtg" class="input" type="text" th:field="*{name}">
+  <input id="newCtg" class="input" type="text" th:field="*{name}" required>
   <span class="btn" onclick="addNewCtg()"
         onmouseenter="setColor(this, 'green')"
         onmouseleave="setColor(this, 'black')">Save</span>
   <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></p>
+  <p th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}"></p>
   <input type="submit" id="submitNew" hidden>
 </form>
 
@@ -35,6 +36,7 @@
       <td class="btn" onclick="deleteCtg(this)"
           onmouseenter="setColor(this, 'red')"
           onmouseleave="setColor(this, 'black')">Delete</td>
+<!--      <td><span th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}"></span></td>-->
     </tr>
   </table><br>
   <input type="button" value="<== Go back" onclick="goToIndex()">
