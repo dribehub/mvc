@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.util.List;
@@ -45,12 +44,13 @@ public class CategoryController {
             return LIST;
         }
 
-        try {
-            categoryService.add(newCtg);
-        } catch (NonUniqueResultException ex) {
-            String name = ex.getMessage();
+        if (categoryService.isPresent(newCtg)) { // if the new category is already present
+            // do not add category, throw error instead
+            String name = newCtg.getName();
             String message = String.format("Category \"%s\" is already inserted!", name);
             model.addAttribute("nonUniqueCtgError", message);
+        } else { // else add the new category
+            categoryService.add(newCtg);
         }
 
         return getAll(model);
@@ -69,27 +69,19 @@ public class CategoryController {
             CategoryDto updated = updatedCtgs.get(i);
             if (edits.isDeleted(i)) { // if category has been deleted
                 if (itemService.contains(current)) { // and there are items of this category
-                    // do not delete category, throw error
+                    // do not delete category, throw error instead
                     String message = "Category already has items and cannot be deleted!";
                     model.addAttribute(("isPresentError" + i), message);
                 } else { // else, delete category
                     categoryService.delete(updated);
                 }
             } else if (!current.equals(updated)) { // if category has been edited
-                /*try { // try updating category
-                    itemService.updateCategory(current, updated);
-                    categoryService.update(current, updated);
-                } catch (NonUniqueResultException ex) { // if duplicates occur
-                    // do not update category, throw error
-                    String name = ex.getMessage();
-                    String message = String.format("Category \"%s\" is already present!", name);
-                    model.addAttribute(("nonUniqueCtgError" + i), message);
-                }*/
-                if (categoryService.isPresent(updated)) {
+                if (categoryService.isPresent(updated)) { // and the new category already exists
+                    // do not update category, throw error instead
                     String name = updated.getName();
                     String message = String.format("Category \"%s\" is already present!", name);
                     model.addAttribute(("nonUniqueCtgError" + i), message);
-                } else {
+                } else { // else, update category
                     categoryService.add(updated);
                     itemService.updateCategory(current, updated);
                     categoryService.delete(current);
