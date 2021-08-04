@@ -16,58 +16,49 @@ import java.util.stream.Collectors;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    @Autowired
-    private ItemRepository repository;
+    @Autowired private ItemRepository repository;
 
-    @Override
-    public Boolean contains(ItemDto item) {
+    @Override public Boolean contains(ItemDto item) {
         return selectAll().contains(item);
     }
 
-    @Override
-    public Boolean contains(CategoryDto category) {
+    @Override public Boolean contains(CategoryDto category) {
         return selectAll().stream().anyMatch(item ->
                 category.getName().equals(item.getCategory()));
     }
 
-    @Override
-    public ItemDto findById(Integer id) {
+    @Override public ItemDto findById(Integer id) {
         return repository.findById(id)
                 .map(ItemMapper::toDto)
                 .orElse(null);
     }
 
-    @Override
-    public List<ItemDto> selectAll() {
+    @Override public List<ItemDto> selectAll() {
         return repository.findAll()
                 .stream().map(ItemMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ItemDto> selectAllByOrder(OrderDto order) {
+    @Override public List<ItemDto> selectAllByOrder(OrderDto order) {
         return order.getItems();
     }
 
-    @Override
-    public ItemDto add(ItemDto item) throws NonUniqueResultException {
-        if (isPresent(selectAll(), item))
+    @Override public ItemDto add(ItemDto item) throws NonUniqueResultException {
+        if (isPresent(item))
             throw new NonUniqueResultException(item.getName());
         return ItemMapper.toDto(repository.save(ItemMapper.toEntity(item)));
     }
 
-    private static boolean isPresent(List<ItemDto> items, ItemDto newItem) {
-        return items.stream().anyMatch(item -> item.equals(newItem));
+    @Override public Boolean isPresent(ItemDto newItem) {
+        return selectAll().stream().anyMatch(item -> item.equalsLogically(newItem));
     }
 
-    @Override
-    public ItemDto delete(ItemDto item) {
+    @Override public ItemDto delete(ItemDto item) {
         repository.delete(ItemMapper.toEntity(item));
         return item;
     }
 
-    @Override
-    public CategoryDto updateCategory(CategoryDto current, CategoryDto updated) {
+    @Override public CategoryDto updateCategory(CategoryDto current, CategoryDto updated) {
         for (ItemDto item : selectAll()) {
             if (current.equals(item.getCategory())) {
                 item.setCategory(updated);

@@ -48,9 +48,14 @@ public class ItemDto {
 
     public boolean equals(ItemDto o) {
         if (this == o) return true;
-        return name.equals(o.name)
+        return id.equals(o.id)
+            && name.equals(o.name)
             && category.equals(o.category)
             && price.equals(o.price)
-            && currency.equals(o.currency);
+            && currency.equals(o.currency)
+            && orders.equals(o.orders);
+    }
+    public boolean equalsLogically(ItemDto o) {
+        return this == o || name.equals(o.name) && category.equals(o.category);
     }
 }

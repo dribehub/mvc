@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -60,15 +59,17 @@ public class CustomerController {
     @PostMapping("/add")
     public String addCustomer(@ModelAttribute(name = "customer") @Valid CustomerDto customer,
                               BindingResult result, Model model) {
-        if (result.hasErrors()) return FORM;
-        try {
+        if (result.hasErrors()) {
+            return FORM;
+        } else if (customerService.existsByEmail(customer.getEmail())) {
+            String message = "This email is already inserted!";
+            model.addAttribute("nonUniqueEmailError", message);
+            model.addAttribute("customer", customer);
+            return FORM;
+        } else {
             CustomerDto newCustomer = customerService.addCustomer(customer);
             model.addAttribute("customer", newCustomer);
             return RESULT;
-        } catch (NonUniqueResultException ex) {
-            model.addAttribute("nonUniqueEmailError", ex.getMessage());
-            model.addAttribute("customer", customer);
-            return FORM;
         }
     }
 

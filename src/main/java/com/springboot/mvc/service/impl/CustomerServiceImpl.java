@@ -14,25 +14,25 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    private CustomerRepository repository;
+    @Autowired private CustomerRepository repository;
 
-    @Override
-    public CustomerDto findById(Integer id) {
+    @Override public Boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
+    }
+
+    @Override public CustomerDto findById(Integer id) {
         return repository.findById(id)
                 .map(CustomerMapper::toDto)
                 .orElse(null);
     }
 
-    @Override
-    public List<CustomerDto> selectAll() {
+    @Override public List<CustomerDto> selectAll() {
         return repository.findAll()
                 .stream().map(CustomerMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public CustomerDto addCustomer(CustomerDto newCustomer) {
+    @Override public CustomerDto addCustomer(CustomerDto newCustomer) {
         List<String> emails = selectAll()
                 .stream().map(CustomerDto::getEmail)
                 .collect(Collectors.toList());

@@ -15,33 +15,27 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository repository;
+    @Autowired private CategoryRepository repository;
 
-    @Override
-    public List<CategoryDto> selectAll() {
+    @Override public List<CategoryDto> selectAll() {
         return repository.findAll()
                 .stream().map(CategoryMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public CategoriesRequestDto selectAllToDto() {
+    @Override public CategoriesRequestDto selectAllToDto() {
         return new CategoriesRequestDto(selectAll());
     }
 
-    @Override
-    public CategoryDto findByName(String name) {
+    @Override public CategoryDto findByName(String name) {
         return CategoryMapper.toDto(repository.findByName(name));
     }
 
-    @Override
-    public Boolean isPresent(CategoryDto category) {
+    @Override public Boolean isPresent(CategoryDto category) {
         return selectAll().stream().anyMatch(ctg -> ctg.equals(category));
     }
 
-    @Override
-    public CategoryDto add(CategoryDto newCategory)
+    @Override public CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException {
         if (isPresent(newCategory))
             throw new NonUniqueResultException(newCategory.getName());
@@ -49,22 +43,19 @@ public class CategoryServiceImpl implements CategoryService {
                 .save(CategoryMapper.toEntity(newCategory)));
     }
 
-    @Override
-    public CategoryDto delete(CategoryDto category) {
+    @Override public CategoryDto delete(CategoryDto category) {
         repository.delete(CategoryMapper.toEntity(category));
         return category;
     }
 
-    @Override
-    public CategoryDto update(CategoryDto current, CategoryDto updated)
+    @Override public CategoryDto update(CategoryDto current, CategoryDto updated)
             throws NonUniqueResultException {
         CategoryDto newCtg = add(updated);
         delete(current);
         return newCtg;
     }
 
-    @Override
-    public CategoryDto deleteByName(String name) {
+    @Override public CategoryDto deleteByName(String name) {
         return delete(findByName(name));
     }
 }

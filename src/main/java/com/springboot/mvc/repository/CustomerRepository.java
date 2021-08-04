@@ -8,6 +8,7 @@ import com.springboot.mvc.entity.CustomerEntity;
 @Repository
 public interface CustomerRepository extends JpaRepository<CustomerEntity, Integer> {
 
+    Boolean existsByEmail(String email);
     Optional<CustomerEntity> findById(Integer id);
     CustomerEntity save(CustomerEntity entity);
 }

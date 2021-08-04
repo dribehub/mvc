@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Add Item</title>
-    <style>
-        .error { color: red; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Add Item</title>
+  <style>
+    .error { color: red; }
+  </style>
 </head>
 <body>
 
 <h2>Add a new item</h2>
 <form method="POST" th:action="@{/items/add}" th:object="${item}">
-    <label for="name">Name: </label><br>
-    <input type="text" id="name" th:field="*{name}" required="required">
-    <span th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Invalid Name]</span>
-    <br><br>
+  <label for="name">Name: </label><br>
+  <input type="text" id="name" th:field="*{name}" required="required">
+  <span th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Invalid Name]</span>
+  <br><br>
 
-    <label for="category">Category: </label><br>
-    <input type="text" id="category" th:field="*{category}" required="required">
-    <span th:if="${#fields.hasErrors('category')}" th:errorclass="error" th:errors="*{category}">[Invalid Category]</span>
-    <br><br>
+  <label for="category">Category: </label><br>
+  <input type="text" id="category" th:field="*{category}" required="required">
+  <span th:if="${#fields.hasErrors('category')}" th:errorclass="error" th:errors="*{category}">[Invalid Category]</span>
+  <br><br>
 
-    <label for="price">Price: </label><br>
-    <input type="number" id="price" th:field="*{price}" step="0.01" min="0" required="required">
-    <br><br>
+  <label for="price">Price: </label><br>
+  <input type="number" id="price" th:field="*{price}" step="0.01" min="0" required="required">
+  <br><br>
 
-    <label for="currency">Currency Code: </label><br>
-    <input type="text" id="currency" th:field="*{currency}" maxlength="3" required="required">
-    <span th:if="${#fields.hasErrors('currency')}" th:errorclass="error" th:errors="*{currency}">[Invalid Currency Code]</span>
-    <span th:if="${currNotValid != null}" class="error" th:text="${currNotValid}"></span>
-    <br><br>
+  <label for="currency">Currency Code: </label><br>
+  <input type="text" id="currency" th:field="*{currency}" maxlength="3" required="required">
+  <span th:if="${#fields.hasErrors('currency')}" th:errorclass="error" th:errors="*{currency}">[Invalid Currency Code]</span>
+  <span th:if="${currNotValid}" class="error" th:text="${currNotValid}"></span><br>
 
-    <input type="submit" value="==> Submit item">
+  <br th:if="not ${nonUniqueItemError}">
+  <p th:if="${nonUniqueItemError}" th:text="${nonUniqueItemError}" class="error">[Error]</p>
+
+  <input type="submit" value="==> Submit item">
 </form><br>
 
 <input type="button" value="<== Go back" onclick="goToIndex()">

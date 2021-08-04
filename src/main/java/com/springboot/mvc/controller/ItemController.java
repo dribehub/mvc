@@ -107,8 +107,8 @@ public class ItemController {
             return FORM;
         } catch (NonUniqueResultException ex) {
             String name = ex.getMessage();
-            String message = String.format("Item %s is already present!", name);
-            model.addAttribute("nonUniqueItemError", message); // TODO: get this error in the view
+            String message = String.format("Item \"%s\" is already present!", name);
+            model.addAttribute("nonUniqueItemError", message);
             return FORM;
         }
     }

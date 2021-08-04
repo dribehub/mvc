@@ -17,25 +17,21 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    private OrderRepository repository;
+    @Autowired private OrderRepository repository;
 
-    @Override
-    public List<OrderDto> selectAll() {
+    @Override public List<OrderDto> selectAll() {
         return repository.findAll()
                 .stream().map(OrderMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public OrderDto findById(Integer id) {
+    @Override public OrderDto findById(Integer id) {
         return repository.findById(id)
                 .map(OrderMapper::toDto)
                 .orElse(null);
     }
 
-    @Override
-    public OrderDto addOrder(Integer customerId, List<ItemDto> items) {
+    @Override public OrderDto addOrder(Integer customerId, List<ItemDto> items) {
         OrderEntity entity = new OrderEntity();
         entity.setDate(LocalDate.now());
         entity.setCustomerId(customerId);
@@ -45,8 +41,7 @@ public class OrderServiceImpl implements OrderService {
         return OrderMapper.toDto(repository.save(entity));
     }
 
-    @Override
-    public OrderDto addOrder(OrderDto order) {
+    @Override public OrderDto addOrder(OrderDto order) {
         order.setDate(LocalDate.now());
         repository.save(OrderMapper.toEntity(order));
         return order;

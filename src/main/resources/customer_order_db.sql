@@ -60,16 +60,16 @@ INSERT INTO customers VALUES (NULL, 'David', 'Reed', 'daver33d@outlook.com');		-
 INSERT INTO customers VALUES (NULL, 'Linda', 'Baker', 'lindabaker@wifi-map.net');	-- customer4
 INSERT INTO customers VALUES (NULL, 'William', 'Ford', 'ford_will14m@develop.it');	-- customer5
 INSERT INTO categories VALUES ('Accessories');              -- category1
-INSERT INTO categories VALUES ('Electronics');              -- category2
-INSERT INTO categories VALUES ('Household Furniture');      -- category3
-INSERT INTO categories VALUES ('Kitchen Utensils');         -- category4
-INSERT INTO categories VALUES ('Food and Groceries');       -- category5
-INSERT INTO categories VALUES ('Cleaning Products');        -- category6
-INSERT INTO categories VALUES ('Newspapers and Magazines'); -- category7
+INSERT INTO categories VALUES ('Cigarettes');               -- category2
+INSERT INTO categories VALUES ('Cleaning Products');        -- category3
+INSERT INTO categories VALUES ('Cosmetics');                -- category4
+INSERT INTO categories VALUES ('Electronics');              -- category5
+INSERT INTO categories VALUES ('Food and Groceries');       -- category6
+INSERT INTO categories VALUES ('Household Furniture');      -- category7
 INSERT INTO categories VALUES ('Jewelry');                  -- category8
-INSERT INTO categories VALUES ('Cosmetics');                -- category9
-INSERT INTO categories VALUES ('Cigarettes');               -- category10
-INSERT INTO categories VALUES ('Medicines');                -- category11
+INSERT INTO categories VALUES ('Kitchen Utensils');         -- category9
+INSERT INTO categories VALUES ('Medicines');                -- category10
+INSERT INTO categories VALUES ('Newspapers and Magazines'); -- category11
 INSERT INTO items VALUES (NULL, 'Phone', 'Electronics', 350, 'EUR'); 	            -- item1
 INSERT INTO items VALUES (NULL, 'Earphones', 'Electronics', 30, 'USD');             -- item2
 INSERT INTO items VALUES (NULL, 'Scarf', 'Accessories', 52.9, 'EUR'); 	            -- item3

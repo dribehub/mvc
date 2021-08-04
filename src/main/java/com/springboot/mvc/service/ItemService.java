@@ -14,7 +14,11 @@ public interface ItemService {
     List<ItemDto> selectAll();
     List<ItemDto> selectAllByOrder(OrderDto order);
     ItemDto findById(Integer id);
+    Boolean isPresent(ItemDto item);
+
     ItemDto add(ItemDto item) throws NonUniqueResultException;
+
     ItemDto delete(ItemDto item);
+
     CategoryDto updateCategory(CategoryDto current, CategoryDto updated);
 }
