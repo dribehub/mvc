@@ -83,7 +83,12 @@ public class ItemController {
     public String addItem(@ModelAttribute(name = "item") @Valid ItemDto item,
                           BindingResult result, Model model) {
         if (result.hasErrors()) return FORM;
-        try {
+
+        if (itemService.isPresent(item)) {
+            String name = item.getName();
+            String message = String.format("Item \"%s\" is already inserted!", name);
+            model.addAttribute("nonUniqueItemError", message);
+        } else if (Utils.isCurrencySupported(item.getCurrency())) {
             String symbol = Utils.getCurrencySymbol(item.getCurrency());
             ItemDto newItem = itemService.add(item);
             model.addAttribute("item", newItem);
@@ -92,24 +97,22 @@ public class ItemController {
             if (!orders.isEmpty()) {
                 model.addAttribute("orders", orders);
                 Map<Integer, CustomerDto> customers = new HashMap<>();
+
                 for (OrderEntity order : orders) {
                     Integer customerId = order.getCustomerId();
                     CustomerDto customer = customerService.findById(customerId);
                     customers.put(customerId, customer);
                 }
+
                 model.addAttribute("customers", customers);
             }
             return RESULT;
-        } catch (IllegalArgumentException ex) {
+        } else {
             String message = "This currency is not supported!";
             model.addAttribute("currNotValid", message);
             model.addAttribute("item", item);
-            return FORM;
-        } catch (NonUniqueResultException ex) {
-            String name = ex.getMessage();
-            String message = String.format("Item \"%s\" is already present!", name);
-            model.addAttribute("nonUniqueItemError", message);
-            return FORM;
         }
+
+        return FORM;
     }
 }

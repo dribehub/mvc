@@ -31,6 +31,15 @@ public class Utils {
         return str.toUpperCase();
     }
 
+    public static Boolean isCurrencySupported(String currency) {
+        try {
+            Currency.getInstance(currency);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public static String getCurrencySymbol(String currency) throws IllegalArgumentException {
         return Currency.getInstance(currency).getSymbol();
     }
