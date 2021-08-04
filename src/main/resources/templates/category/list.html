@@ -41,9 +41,11 @@
       <td><input type="hidden" value="false" th:field="*{areDeleted[__${stats.index}__]}"></td>
       <td>
         <span th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"
-              th:errorclass="error" th:errors="*{ctg.name}">[Pattern Error]</span>
+              th:errorclass="error" th:errors="*{ctg.name}">[patternError]</span>
         <span th:if="${__${'nonUniqueCtgError' + stats.index}__ != null}" class="error"
-              th:text="${__${'nonUniqueCtgError' + stats.index}__}">[Duplicate Error]</span>
+              th:text="${__${'nonUniqueCtgError' + stats.index}__}">[nonUniqueCtgError]</span>
+        <span th:if="${__${'isPresentError' + stats.index}__ != null}" class="error"
+              th:text="${__${'isPresentError' + stats.index}__}">[isPresentError]</span>
       </td>
     </tr>
   </table><br>

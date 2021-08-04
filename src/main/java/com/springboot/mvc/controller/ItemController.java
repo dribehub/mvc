@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +85,7 @@ public class ItemController {
         if (result.hasErrors()) return FORM;
         try {
             String symbol = Utils.getCurrencySymbol(item.getCurrency());
-            ItemDto newItem = itemService.addItem(item);
+            ItemDto newItem = itemService.add(item);
             model.addAttribute("item", newItem);
             model.addAttribute("symbol", symbol);
             List<OrderEntity> orders = newItem.getOrders();
@@ -103,6 +104,11 @@ public class ItemController {
             String message = "This currency is not supported!";
             model.addAttribute("currNotValid", message);
             model.addAttribute("item", item);
+            return FORM;
+        } catch (NonUniqueResultException ex) {
+            String name = ex.getMessage();
+            String message = String.format("Item %s is already present!", name);
+            model.addAttribute("nonUniqueItemError", message); // TODO: get this error in the view
             return FORM;
         }
     }

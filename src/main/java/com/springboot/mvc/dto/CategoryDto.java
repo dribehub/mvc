@@ -16,4 +16,7 @@ public class CategoryDto {
         if (this == o) return true;
         return name.equals(o.name);
     }
+    public boolean equals(String o) {
+        return name.equals(o);
+    }
 }

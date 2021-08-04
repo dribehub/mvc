@@ -1,5 +1,6 @@
 package com.springboot.mvc.service.impl;
 
+import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.mapper.ItemMapper;
@@ -8,6 +9,7 @@ import com.springboot.mvc.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,17 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemRepository repository;
+
+    @Override
+    public Boolean contains(ItemDto item) {
+        return selectAll().contains(item);
+    }
+
+    @Override
+    public Boolean contains(CategoryDto category) {
+        return selectAll().stream().anyMatch(item ->
+                category.getName().equals(item.getCategory()));
+    }
 
     @Override
     public ItemDto findById(Integer id) {
@@ -37,7 +50,30 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto addItem(ItemDto item) {
+    public ItemDto add(ItemDto item) throws NonUniqueResultException {
+        if (isPresent(selectAll(), item))
+            throw new NonUniqueResultException(item.getName());
         return ItemMapper.toDto(repository.save(ItemMapper.toEntity(item)));
+    }
+
+    private static boolean isPresent(List<ItemDto> items, ItemDto newItem) {
+        return items.stream().anyMatch(item -> item.equals(newItem));
+    }
+
+    @Override
+    public ItemDto delete(ItemDto item) {
+        repository.delete(ItemMapper.toEntity(item));
+        return item;
+    }
+
+    @Override
+    public CategoryDto updateCategory(CategoryDto current, CategoryDto updated) {
+        for (ItemDto item : selectAll()) {
+            if (current.equals(item.getCategory())) {
+                item.setCategory(updated);
+                add(item);
+            }
+        }
+        return updated;
     }
 }

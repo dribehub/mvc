@@ -17,7 +17,7 @@ CREATE TABLE categories (
 CREATE TABLE items (
     id     		INT         AUTO_INCREMENT,
     name		VARCHAR(30) NOT NULL,
-    category    VARCHAR(50),
+    category    VARCHAR(50) NOT NULL,
     price       DOUBLE      NOT NULL,
     currency    VARCHAR(3)  NOT NULL,
     PRIMARY KEY (id),
@@ -38,10 +38,10 @@ CREATE TABLE order_item (
     order_id    INT,
     item_id     INT,
     PRIMARY KEY (order_id, item_id),
-    FOREIGN KEY (order_id) 
+    FOREIGN KEY (order_id)
         REFERENCES orders(id)
         ON DELETE CASCADE,
-    FOREIGN KEY (item_id) 
+    FOREIGN KEY (item_id)
         REFERENCES items(id)
         ON DELETE CASCADE
 );

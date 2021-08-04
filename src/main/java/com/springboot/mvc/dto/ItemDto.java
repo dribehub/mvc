@@ -20,12 +20,23 @@ public class ItemDto {
     private String currency;
     private List<OrderEntity> orders = new ArrayList<>();
 
+    public ItemDto() {}
+    public ItemDto(ItemDto o) {
+        id = o.id;
+        name = o.name;
+        category = o.category;
+        price = o.price;
+        currency = o.currency;
+        orders = o.orders;
+    }
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = Utils.capFirst(name); }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = Utils.capFirst(category); }
+    public void setCategory(CategoryDto category) { this.category = Utils.capFirst(category.getName()); }
     public Double getPrice() { return price; }
     public void setPrice(Double price) { this.price = price; }
     public String getCurrency() { return currency; }
@@ -34,4 +45,12 @@ public class ItemDto {
     public void setOrders(List<OrderEntity> orders) { this.orders = orders; }
     public String getSymbol() { return Currency.getInstance(currency).getSymbol(); }
     public String getFullPrice() { return getSymbol() + " " + price; }
+
+    public boolean equals(ItemDto o) {
+        if (this == o) return true;
+        return name.equals(o.name)
+            && category.equals(o.category)
+            && price.equals(o.price)
+            && currency.equals(o.currency);
+    }
 }

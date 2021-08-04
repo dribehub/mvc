@@ -36,16 +36,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Boolean isPresent(CategoryDto category) {
+        return selectAll().stream().anyMatch(ctg -> ctg.equals(category));
+    }
+
+    @Override
     public CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException {
-        if (isPresent(selectAll(), newCategory))
+        if (isPresent(newCategory))
             throw new NonUniqueResultException(newCategory.getName());
         return CategoryMapper.toDto(repository
                 .save(CategoryMapper.toEntity(newCategory)));
-    }
-
-    private static boolean isPresent(List<CategoryDto> categories, CategoryDto category) {
-        return categories.stream().anyMatch(ctg -> ctg.equals(category));
     }
 
     @Override

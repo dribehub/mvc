@@ -11,14 +11,14 @@ public interface CategoryService {
     List<CategoryDto> selectAll();
     CategoriesRequestDto selectAllToDto();
     CategoryDto findByName(String name);
+    Boolean isPresent(CategoryDto category);
 
     CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException;
 
     CategoryDto delete(CategoryDto category);
+    CategoryDto deleteByName(String name);
 
     CategoryDto update(CategoryDto current, CategoryDto updated)
             throws NonUniqueResultException;
-
-    CategoryDto deleteByName(String name);
 }

@@ -19,6 +19,8 @@ public class CategoriesRequestDto {
     public void setCategories(List<CategoryDto> categories) { this.categories = categories; }
     public List<Boolean> getAreDeleted() { return areDeleted; }
     public void setAreDeleted(List<Boolean> areDeleted) { this.areDeleted = areDeleted; }
+    public CategoryDto getCategory(Integer index) { return categories.get(index); }
+    public void setCategory(Integer index, CategoryDto category) { categories.set(index, category); }
     public Boolean isDeleted(Integer index) { return areDeleted.get(index); }
     public void setDeleted(Integer index, Boolean isDeleted) { areDeleted.set(index, isDeleted); }
 }
