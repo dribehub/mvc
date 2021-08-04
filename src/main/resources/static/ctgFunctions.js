@@ -37,9 +37,9 @@ function saveCtg(btn) {
 function deleteCtg(btn) {
     const table = document.getElementById("table");
     const rowIndex = btn.parentElement.className;
-    table.rows[rowIndex].setAttribute("hidden", "hidden");
-    const isDeleted = document.getElementsByClassName(rowIndex)[0].children[3];
-    isDeleted.setAttribute("th:value", "${true}");
+    const isDeleted = document.getElementsByClassName(rowIndex)[0].children[3].children[0];
+    isDeleted.setAttribute("value", "true");
+    table.rows[rowIndex].setAttribute("style", "display: none;");
     showSubmitBtn();
 }
 

@@ -20,8 +20,8 @@
   <span class="btn" onclick="addNewCtg()"
         onmouseenter="setColor(this, 'green')"
         onmouseleave="setColor(this, 'black')">Save</span>
-  <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Error]</p>
-  <p th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}">[Error]</p>
+  <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Pattern Error]</p>
+  <p th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}">[Duplicate Error]</p>
   <input type="submit" id="submitNew" hidden>
 </form>
 
@@ -38,12 +38,13 @@
       <td class="btn" onclick="deleteCtg(this)"
           onmouseenter="setColor(this, 'red')"
           onmouseleave="setColor(this, 'black')">Delete</td>
-      <td><input type="hidden" th:value="${false}" th:field="*{areDeleted['__${stats.index}__']}"></td>
+      <td><input type="hidden" value="false" th:field="*{areDeleted[__${stats.index}__]}"></td>
       <td>
         <span th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"
-              th:errorclass="error" th:errors="*{ctg.name}">[Error]</span>
+              th:errorclass="error" th:errors="*{ctg.name}">[Pattern Error]</span>
         <span th:if="${__${'nonUniqueCtgError' + stats.index}__ != null}" class="error"
-              th:text="${__${'nonUniqueCtgError' + stats.index}__}">[Error]</span></td>
+              th:text="${__${'nonUniqueCtgError' + stats.index}__}">[Duplicate Error]</span>
+      </td>
     </tr>
   </table><br>
   <input type="button" value="<== Go back" onclick="goToIndex()">

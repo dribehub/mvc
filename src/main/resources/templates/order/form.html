@@ -41,7 +41,7 @@
         } else {
             for (let checkbox of document.getElementsByClassName("checkbox")) {
                 if (checkbox.checked) {
-                    let id = "hidden" + checkbox.getAttribute("id");
+                    const id = "hidden" + checkbox.getAttribute("id");
                     document.getElementById(id).disabled = true;
                 }
             }

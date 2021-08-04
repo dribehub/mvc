@@ -64,10 +64,10 @@ public class CategoryController {
         for (int i = 0; i < currentCtgs.size(); i++) {
             CategoryDto current = currentCtgs.get(i);
             CategoryDto updated = updatedCtgs.get(i);
-            if (edits.isDeleted(i)) {
+            if (edits.isDeleted(i)) { // if category has been deleted
+                System.out.println("delete " + i);
                 categoryService.delete(updated);
-                System.out.println(i);
-            } else if (!current.equals(updated)) {
+            } else if (!current.equals(updated)) { // else if category has been edited
                 try {
                     categoryService.update(current, updated);
                 } catch (NonUniqueResultException ex) {
