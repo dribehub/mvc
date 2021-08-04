@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Order Result</title>
-    <style>
-        thead { font-weight: bold; }
-        .normal { font-weight: normal; }
-        h2 { width: max-content; text-shadow: 1px 1px 1px gray; }
-        td { width: 150px; text-align: center; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Order Result</title>
+  <style>
+    thead { font-weight: bold; }
+    .normal { font-weight: normal; }
+    h2 { width: max-content; text-shadow: 1px 1px 1px gray; }
+    td { width: 150px; text-align: center; }
+  </style>
 </head>
 <body>
 
@@ -19,20 +19,20 @@
 
 <h2>Order Items</h2>
 <table border="1">
-    <thead>
-    <tr>
-        <td>Name</td>
-        <td>Category</td>
-        <td>Price</td>
-    </tr>
-    </thead>
-    <tbody>
-        <tr th:each="item:${items}">
-            <td th:text="${item.name}">[Item Name]</td>
-            <td th:text="${item.category}">[Item Category]</td>
-            <td th:text="${item.fullPrice}">[Item Price]</td>
-        </tr>
-    </tbody>
+  <thead>
+  <tr>
+    <td>Name</td>
+    <td>Category</td>
+    <td>Price</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item:${items}">
+    <td th:text="${item.name}">[Item Name]</td>
+    <td th:text="${item.category}">[Item Category]</td>
+    <td th:text="${item.fullPrice}">[Item Price]</td>
+  </tr>
+  </tbody>
 </table><br>
 
 <input type="button" value="<== Go to index" onclick="goToIndex()">

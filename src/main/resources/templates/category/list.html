@@ -21,7 +21,7 @@
         onmouseenter="setColor(this, 'green')"
         onmouseleave="setColor(this, 'black')">Save</span>
   <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Pattern Error]</p>
-  <p th:if="${nonUniqueCtgError != null}" class="error" th:text="${nonUniqueCtgError}">[Duplicate Error]</p>
+  <p th:if="${nonUniqueCtgError}" class="error" th:text="${nonUniqueCtgError}">[Duplicate Error]</p>
   <input type="submit" id="submitNew" hidden>
 </form>
 
@@ -42,9 +42,9 @@
       <td>
         <span th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"
               th:errorclass="error" th:errors="*{ctg.name}">[patternError]</span>
-        <span th:if="${__${'nonUniqueCtgError' + stats.index}__ != null}" class="error"
+        <span th:if="${__${'nonUniqueCtgError' + stats.index}__}" class="error"
               th:text="${__${'nonUniqueCtgError' + stats.index}__}">[nonUniqueCtgError]</span>
-        <span th:if="${__${'isPresentError' + stats.index}__ != null}" class="error"
+        <span th:if="${__${'isPresentError' + stats.index}__}" class="error"
               th:text="${__${'isPresentError' + stats.index}__}">[isPresentError]</span>
       </td>
     </tr>

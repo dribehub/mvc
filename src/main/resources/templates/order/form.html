@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Create Order</title>
+  <meta charset="UTF-8">
+  <title>Create Order</title>
 </head>
 <body>
 
 <h2>Create your order</h2>
 <form method="POST" th:action="@{/orders/add}" th:object="${order}">
-    <label for="customer">Choose a customer:</label><br>
-    <select id="customer" th:field="*{customerId}">
-        <option th:value="0" selected disabled></option>
-        <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}">[Customer]</option>
-    </select><br><br>
+  <label for="customer">Choose a customer:</label><br>
+  <select id="customer" th:field="*{customerId}">
+    <option th:value="0" selected disabled></option>
+    <option th:each="customer:${customers}" th:value="${customer.id}" th:text="${customer.name}">[Customer]</option>
+  </select><br><br>
 
-    <label for="items">Add items:</label><br>
-    <div id="items" th:each="entry : ${order.itemIds.entrySet()}">
-        <input th:id="|hidden${entry.key}|" type="hidden" th:value="${false}" th:field="*{itemIds['__${entry.key}__']}">
-        <input th:id="${entry.key}" class="checkbox" type="checkbox" th:value="${true}" th:field="*{itemIds['__${entry.key}__']}">
-        <span th:each="item:${items}">
-            <span th:if="${item.id == entry.key}">
-                <span th:text="${item.name}">[Item Name]</span>
-                <span th:text="|(${item.fullPrice})|">[Item Price]</span>
-            </span>
-        </span>
-    </div><br>
+  <label for="items">Add items:</label><br>
+  <div id="items" th:each="entry : ${order.itemIds.entrySet()}">
+    <input th:id="|hidden${entry.key}|" type="hidden" th:value="${false}" th:field="*{itemIds['__${entry.key}__']}">
+    <input th:id="${entry.key}" class="checkbox" type="checkbox" th:value="${true}" th:field="*{itemIds['__${entry.key}__']}">
+    <span th:each="item:${items}">
+      <span th:if="${item.id == entry.key}">
+        <span th:text="${item.name}">[Item Name]</span>
+        <span th:text="|(${item.fullPrice})|">[Item Price]</span>
+      </span>
+    </span>
+  </div><br>
 
-    <input id="submit-form" type="submit" value="Submit" style="display: none;">
+  <input id="submit-form" type="submit" value="Submit" style="display: none;">
 </form>
 
 <input type="button" value="==> Submit order" onclick="validate()"><br><br>
 <input type="button" value="<== Go back" onclick="goToIndex()">
 
 <script type="text/javascript">
-    function validate() {
-        if (!document.getElementById("customer").value) {
-            alert("Please select one customer!");
-        } else if (!document.querySelectorAll('input[type=checkbox]:checked').length) {
-            alert("Orders can't be empty! Please select at least one item.");
-        } else {
-            for (let checkbox of document.getElementsByClassName("checkbox")) {
-                if (checkbox.checked) {
-                    const id = "hidden" + checkbox.getAttribute("id");
-                    document.getElementById(id).disabled = true;
-                }
-            }
-            document.getElementById("submit-form").click();
+  function validate() {
+    if (!document.getElementById("customer").value) {
+      alert("Please select one customer!");
+    } else if (!document.querySelectorAll('input[type=checkbox]:checked').length) {
+      alert("Orders can't be empty! Please select at least one item.");
+    } else {
+      for (let checkbox of document.getElementsByClassName("checkbox")) {
+        if (checkbox.checked) {
+          const id = "hidden" + checkbox.getAttribute("id");
+          document.getElementById(id).disabled = true;
         }
+      }
+      document.getElementById("submit-form").click();
     }
+  }
 </script>
 <script type="text/javascript" th:src="@{/functions.js}"></script>
 </body>

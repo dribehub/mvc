@@ -17,7 +17,7 @@
 <h3>Category: <span th:text="${item.category}" class="normal">[Category]</span></h3>
 <h3>Price: <span th:text="${item.fullPrice}" class="normal">[Price]</span></h3>
 
-<div th:if="${orders != null}">
+<div th:if="${orders}">
   <h2 th:text="|Orders including '${item.name}'|">[Orders]</h2>
   <table border="1">
     <thead>
