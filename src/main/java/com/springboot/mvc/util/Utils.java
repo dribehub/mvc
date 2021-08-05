@@ -40,8 +40,16 @@ public class Utils {
         }
     }
 
+    public static Boolean isCurrencySupported(ItemDto item) {
+        return isCurrencySupported(item.getCurrency());
+    }
+
     public static String getCurrencySymbol(String currency) throws IllegalArgumentException {
         return Currency.getInstance(currency).getSymbol();
+    }
+
+    public static String getCurrencySymbol(ItemDto item) throws IllegalArgumentException {
+        return getCurrencySymbol(item.getCurrency());
     }
 
     public static Map<String, String> getAllSymbols(List<ItemDto> items) {

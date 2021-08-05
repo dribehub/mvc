@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -55,20 +54,7 @@ public class ItemController {
             model.addAttribute("error", message);
             return ERROR;
         } else {
-            String symbol = Utils.getCurrencySymbol(item.getCurrency());
-            model.addAttribute("item", item);
-            model.addAttribute("symbol", symbol);
-            List<OrderEntity> orders = item.getOrders();
-            if (!orders.isEmpty()) {
-                model.addAttribute("orders", orders);
-                Map<Integer, CustomerDto> customers = new HashMap<>();
-                for (OrderEntity order : orders) {
-                    Integer customerId = order.getCustomerId();
-                    CustomerDto customer = customerService.findById(customerId);
-                    customers.put(customerId, customer);
-                }
-                model.addAttribute("customers", customers);
-            }
+            getItemData(model, item);
             return ITEM_BY_ID;
         }
     }
@@ -88,31 +74,37 @@ public class ItemController {
             String name = item.getName();
             String message = String.format("Item \"%s\" is already inserted!", name);
             model.addAttribute("nonUniqueItemError", message);
-        } else if (Utils.isCurrencySupported(item.getCurrency())) {
-            String symbol = Utils.getCurrencySymbol(item.getCurrency());
-            ItemDto newItem = itemService.add(item);
-            model.addAttribute("item", newItem);
-            model.addAttribute("symbol", symbol);
-            List<OrderEntity> orders = newItem.getOrders();
-            if (!orders.isEmpty()) {
-                model.addAttribute("orders", orders);
-                Map<Integer, CustomerDto> customers = new HashMap<>();
+            return FORM;
+        }
 
-                for (OrderEntity order : orders) {
-                    Integer customerId = order.getCustomerId();
-                    CustomerDto customer = customerService.findById(customerId);
-                    customers.put(customerId, customer);
-                }
-
-                model.addAttribute("customers", customers);
-            }
-            return RESULT;
-        } else {
+        if (!Utils.isCurrencySupported(item)) {
             String message = "This currency is not supported!";
             model.addAttribute("currNotValid", message);
             model.addAttribute("item", item);
+            return FORM;
         }
 
-        return FORM;
+        getItemData(model, itemService.add(item));
+        return RESULT;
+    }
+
+    private void getItemData(Model model, ItemDto item) {
+        String symbol = Utils.getCurrencySymbol(item);
+        List<OrderEntity> orders = item.getOrders();
+        model.addAttribute("item", item);
+        model.addAttribute("symbol", symbol);
+
+        if (!orders.isEmpty()) {
+            System.out.println(orders.size());
+            Map<Integer, CustomerDto> customers = new HashMap<>();
+            for (OrderEntity order : orders) {
+                Integer customerId = order.getCustomerId();
+                CustomerDto customer = customerService.findById(customerId);
+                customers.put(customerId, customer);
+            }
+
+            model.addAttribute("orders", orders);
+            model.addAttribute("customers", customers);
+        }
     }
 }
