@@ -14,12 +14,13 @@ public class CustomerDto {
     private String email;
 
     public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
     public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = Utils.capFirst(firstName); }
     public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = Utils.capFirst(lastName); }
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
     public String getName() { return firstName + " " + lastName; }
+
+    public void setId(Integer id) { this.id = id; }
+    public void setFirstName(String firstName) { this.firstName = Utils.capFirst(firstName); }
+    public void setLastName(String lastName) { this.lastName = Utils.capFirst(lastName); }
+    public void setEmail(String email) { this.email = email; }
 }

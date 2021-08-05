@@ -18,15 +18,16 @@ public class ItemEntity {
     private List<OrderEntity> orders;
 
     public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
     public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
     public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
     public String getCurrency() { return currency; }
-    public void setCurrency(String currency) { this.currency = currency; }
     public List<OrderEntity> getOrders() { return orders; }
+
+    public void setId(Integer id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setCategory(String category) { this.category = category; }
+    public void setPrice(Double price) { this.price = price; }
+    public void setCurrency(String currency) { this.currency = currency; }
     public void setOrders(List<OrderEntity> orders) { this.orders = orders; }
 }

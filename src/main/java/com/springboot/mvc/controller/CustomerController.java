@@ -59,18 +59,18 @@ public class CustomerController {
     @PostMapping("/add")
     public String addCustomer(@ModelAttribute(name = "customer") @Valid CustomerDto customer,
                               BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return FORM;
-        } else if (customerService.existsByEmail(customer.getEmail())) {
+        if (result.hasErrors()) return FORM;
+
+        if (customerService.existsByEmail(customer)) {
             String message = "This email is already inserted!";
             model.addAttribute("nonUniqueEmailError", message);
             model.addAttribute("customer", customer);
             return FORM;
-        } else {
-            CustomerDto newCustomer = customerService.addCustomer(customer);
-            model.addAttribute("customer", newCustomer);
-            return RESULT;
         }
+
+        CustomerDto newCustomer = customerService.addCustomer(customer);
+        model.addAttribute("customer", newCustomer);
+        return RESULT;
     }
 
     @PutMapping("/{id}/edit")

@@ -1,6 +1,7 @@
 package com.springboot.mvc.service.impl;
 
 import com.springboot.mvc.dto.CustomerDto;
+import com.springboot.mvc.entity.CustomerEntity;
 import com.springboot.mvc.mapper.CustomerMapper;
 import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.repository.CustomerRepository;
@@ -19,6 +20,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override public Boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
+    @Override public Boolean existsByEmail(CustomerDto customer) {
+        return existsByEmail(customer.getEmail());
+    }
 
     @Override public CustomerDto findById(Integer id) {
         return repository.findById(id)
@@ -33,11 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override public CustomerDto addCustomer(CustomerDto newCustomer) {
-        List<String> emails = selectAll()
-                .stream().map(CustomerDto::getEmail)
-                .collect(Collectors.toList());
-        if (emails.contains(newCustomer.getEmail()))
+        if (existsByEmail(newCustomer))
             throw new NonUniqueResultException("This email is already inserted!");
-        return CustomerMapper.toDto(repository.save(CustomerMapper.toEntity(newCustomer)));
+        CustomerEntity entity = CustomerMapper.toEntity(newCustomer);
+        return CustomerMapper.toDto(repository.save(entity));
     }
 }

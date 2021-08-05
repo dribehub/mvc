@@ -1,5 +1,6 @@
 package com.springboot.mvc.util;
 
+import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.ItemDto;
 
 import java.util.Arrays;
@@ -26,12 +27,14 @@ public class Utils {
         return Character.toUpperCase(str.charAt(0))
                 + str.substring(1).toLowerCase();
     }
-
+    public static String capFirst(CategoryDto category) {
+        return capFirst(category.getName());
+    }
     public static String capAll(String str) {
         return str.toUpperCase();
     }
 
-    public static Boolean isCurrencySupported(String currency) {
+    public static Boolean isSupported(String currency) {
         try {
             Currency.getInstance(currency);
             return true;
@@ -39,26 +42,23 @@ public class Utils {
             return false;
         }
     }
-
     public static Boolean isCurrencySupported(ItemDto item) {
-        return isCurrencySupported(item.getCurrency());
+        return isSupported(item.getCurrency());
     }
 
-    public static String getCurrencySymbol(String currency) throws IllegalArgumentException {
+    public static String getSymbol(String currency) throws IllegalArgumentException {
         return Currency.getInstance(currency).getSymbol();
     }
-
     public static String getCurrencySymbol(ItemDto item) throws IllegalArgumentException {
-        return getCurrencySymbol(item.getCurrency());
+        return getSymbol(item.getCurrency());
     }
-
     public static Map<String, String> getAllSymbols(List<ItemDto> items) {
         List<String> currencies = items.stream()
                 .map(ItemDto::getCurrency)
                 .collect(Collectors.toList());
         Map<String, String> symbols = new HashMap<>();
         for (String curr : currencies) {
-            String symbol = getCurrencySymbol(curr);
+            String symbol = getSymbol(curr);
             symbols.put(curr, symbol);
         }
         return symbols;

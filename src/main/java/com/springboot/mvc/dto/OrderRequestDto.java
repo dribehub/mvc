@@ -17,7 +17,8 @@ public class OrderRequestDto {
     }
 
     public Integer getCustomerId() { return customerId; }
-    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
     public Map<Integer, Boolean> getItemIds() { return itemIds; }
+
+    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
     public void setItemIds(Map<Integer, Boolean> itemIds) { this.itemIds = itemIds; }
 }

@@ -22,11 +22,12 @@ public class OrderEntity {
     private List<ItemEntity> items;
 
     public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
     public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
     public Integer getCustomerId() { return customerId; }
-    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
     public List<ItemEntity> getItems() { return items; }
+
+    public void setId(Integer id) { this.id = id; }
+    public void setDate(LocalDate date) { this.date = date; }
+    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
     public void setItems(List<ItemEntity> items) { this.items = items; }
 }
