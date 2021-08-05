@@ -43,7 +43,7 @@ public class CategoryController {
             return LIST;
         }
 
-        if (categoryService.isPresent(newCtg)) { // if the new category is already present
+        if (categoryService.exists(newCtg)) { // if the new category is already present
             // do not add category, throw error instead
             String name = newCtg.getName();
             String message = String.format("Category \"%s\" is already inserted!", name);
@@ -75,10 +75,10 @@ public class CategoryController {
                     categoryService.delete(updated);
                 }
             } else if (!current.equals(updated)) { // if category has been edited
-                if (categoryService.isPresent(updated)) { // and the new category already exists
+                if (categoryService.exists(updated)) { // and the new category already exists
                     // do not update category, throw error instead
                     String name = updated.getName();
-                    String message = String.format("Category \"%s\" is already present!", name);
+                    String message = String.format("Category \"%s\" already exists!", name);
                     model.addAttribute(("nonUniqueCtgError" + i), message);
                 } else { // else, update category
                     categoryService.add(updated);

@@ -11,7 +11,7 @@ public interface CategoryService {
     List<CategoryDto> selectAll();
     CategoriesRequestDto selectAllToDto();
     CategoryDto findByName(String name);
-    Boolean isPresent(CategoryDto category);
+    Boolean exists(CategoryDto category);
 
     CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException;

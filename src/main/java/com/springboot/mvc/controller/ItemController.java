@@ -1,8 +1,10 @@
 package com.springboot.mvc.controller;
 
+import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.entity.OrderEntity;
+import com.springboot.mvc.service.CategoryService;
 import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +32,15 @@ public class ItemController {
 
     private final ItemService itemService;
     private final CustomerService customerService;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ItemController(ItemService itemService, CustomerService customerService) {
+    public ItemController(ItemService itemService,
+                          CustomerService customerService,
+                          CategoryService categoryService) {
         this.itemService = itemService;
         this.customerService = customerService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping({"/", ""})
@@ -61,6 +67,8 @@ public class ItemController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
+        List<CategoryDto> categories = categoryService.selectAll();
+        model.addAttribute("categories", categories);
         model.addAttribute("item", new ItemDto());
         return FORM;
     }
@@ -72,13 +80,17 @@ public class ItemController {
 
         if (itemService.isPresent(item)) {
             String name = item.getName();
-            String message = String.format("Item \"%s\" is already inserted!", name);
+            String message = String.format("Item \"%s\" already exists!", name);
+            List<CategoryDto> categories = categoryService.selectAll();
+            model.addAttribute("categories", categories);
             model.addAttribute("nonUniqueItemError", message);
             return FORM;
         }
 
         if (!Utils.isCurrencySupported(item)) {
             String message = "This currency is not supported!";
+            List<CategoryDto> categories = categoryService.selectAll();
+            model.addAttribute("categories", categories);
             model.addAttribute("currNotValid", message);
             model.addAttribute("item", item);
             return FORM;

@@ -31,13 +31,13 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryMapper.toDto(repository.findByName(name));
     }
 
-    @Override public Boolean isPresent(CategoryDto category) {
-        return selectAll().stream().anyMatch(ctg -> ctg.equals(category));
+    @Override public Boolean exists(CategoryDto category) {
+        return repository.existsByName(category.getName());
     }
 
     @Override public CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException {
-        if (isPresent(newCategory))
+        if (exists(newCategory))
             throw new NonUniqueResultException(newCategory.getName());
         return CategoryMapper.toDto(repository
                 .save(CategoryMapper.toEntity(newCategory)));

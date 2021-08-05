@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, String> {
 
+    Boolean existsByName(String name);
     List<CategoryEntity> findAll();
     CategoryEntity findByName(String name);
     CategoryEntity save(CategoryEntity entity);
