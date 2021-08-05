@@ -16,12 +16,6 @@
   <span th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Invalid Name]</span>
   <br><br>
 
-  <!-- convert to dropdown -->
-<!--  <label for="category">Category: </label><br>-->
-<!--  <input type="text" id="category" th:field="*{category}" required="required">-->
-<!--  <span th:if="${#fields.hasErrors('category')}" th:errorclass="error" th:errors="*{category}">[Invalid Category]</span>-->
-<!--  <br><br>-->
-
   <label for="category">Category: </label><br>
   <select id="category" th:field="*{category}">
     <option th:value="0" selected disabled></option>
