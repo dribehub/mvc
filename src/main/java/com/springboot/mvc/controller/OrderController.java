@@ -1,7 +1,6 @@
 package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.*;
-import com.springboot.mvc.service.CategoryService;
 import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.util.Utils;
@@ -53,8 +52,7 @@ public class OrderController {
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
         OrderDto order = orderService.findById(id);
         if (order == null) {
-            String message = "Requested order could not be found!";
-            model.addAttribute("error", message);
+            model.addAttribute("error", Utils.ORDER_NOT_FOUND);
             return ERROR;
         } else {
             CustomerDto customer = customerService.findById(order.getCustomerId());
@@ -69,13 +67,11 @@ public class OrderController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        List<CustomerDto> customers = customerService.selectAll();
         List<ItemDto> items = itemService.selectAll();
-        Map<String, String> symbols = Utils.getAllSymbols(items);
-        model.addAttribute("order", new OrderRequestDto(items));
-        model.addAttribute("customers", customers);
         model.addAttribute("items", items);
-        model.addAttribute("symbols", symbols);
+        model.addAttribute("symbols", Utils.getAllSymbols(items));
+        model.addAttribute("customers", customerService.selectAll());
+        model.addAttribute("order", new OrderRequestDto(items));
         return FORM;
     }
 

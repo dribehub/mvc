@@ -4,6 +4,7 @@ import com.springboot.mvc.dto.CategoriesRequestDto;
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.service.CategoryService;
 import com.springboot.mvc.service.ItemService;
+import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +29,7 @@ public class CategoryController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        CategoriesRequestDto categories = categoryService.selectAllToDto();
-        model.addAttribute("ctgEdits", categories);
+        model.addAttribute("ctgEdits", categoryService.selectAllToDto());
         model.addAttribute("newCtg", new CategoryDto());
         return LIST;
     }
@@ -38,16 +38,13 @@ public class CategoryController {
     public String add(@ModelAttribute(name = "newCtg") @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            CategoriesRequestDto categories = categoryService.selectAllToDto();
-            model.addAttribute("ctgEdits", categories);
+            model.addAttribute("ctgEdits", categoryService.selectAllToDto());
             return LIST;
         }
 
         if (categoryService.exists(newCtg)) { // if the new category is already present
             // do not add category, throw error instead
-            String name = newCtg.getName();
-            String message = String.format("Category \"%s\" is already inserted!", name);
-            model.addAttribute("nonUniqueCtgError", message);
+            model.addAttribute("nonUniqueCtgError", Utils.CtgNotUnique(newCtg));
         } else { // else add the new category
             categoryService.add(newCtg);
         }
@@ -69,17 +66,14 @@ public class CategoryController {
             if (edits.isDeleted(i)) { // if category has been deleted
                 if (itemService.contains(current)) { // and there are items of this category
                     // do not delete category, throw error instead
-                    String message = "Category already has items and cannot be deleted!";
-                    model.addAttribute(("isPresentError" + i), message);
+                    model.addAttribute(("isPresentError" + i), Utils.CTG_HAS_ITEMS);
                 } else { // else, delete category
-                    categoryService.delete(updated);
+                    categoryService.delete(current);
                 }
             } else if (!current.equals(updated)) { // if category has been edited
                 if (categoryService.exists(updated)) { // and the new category already exists
                     // do not update category, throw error instead
-                    String name = updated.getName();
-                    String message = String.format("Category \"%s\" already exists!", name);
-                    model.addAttribute(("nonUniqueCtgError" + i), message);
+                    model.addAttribute(("nonUniqueCtgError" + i), Utils.CtgNotUnique(current));
                 } else { // else, update category
                     categoryService.add(updated);
                     itemService.updateCategory(current, updated);

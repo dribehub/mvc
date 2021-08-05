@@ -56,8 +56,7 @@ public class ItemController {
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
         ItemDto item = itemService.findById(id);
         if (item == null) {
-            String message = "Requested item could not be found!";
-            model.addAttribute("error", message);
+            model.addAttribute("error", Utils.ITEM_NOT_FOUND);
             return ERROR;
         } else {
             getItemData(model, item);
@@ -79,19 +78,14 @@ public class ItemController {
         if (result.hasErrors()) return FORM;
 
         if (itemService.isPresent(item)) {
-            String name = item.getName();
-            String message = String.format("Item \"%s\" already exists!", name);
-            List<CategoryDto> categories = categoryService.selectAll();
-            model.addAttribute("categories", categories);
-            model.addAttribute("nonUniqueItemError", message);
+            model.addAttribute("categories", categoryService.selectAll());
+            model.addAttribute("nonUniqueItemError", Utils.ItemNotUnique(item));
             return FORM;
         }
 
         if (!Utils.isCurrencySupported(item)) {
-            String message = "This currency is not supported!";
-            List<CategoryDto> categories = categoryService.selectAll();
-            model.addAttribute("categories", categories);
-            model.addAttribute("currNotValid", message);
+            model.addAttribute("categories", categoryService.selectAll());
+            model.addAttribute("currNotValid", Utils.CURRENCY_NOT_SUPPORTED);
             model.addAttribute("item", item);
             return FORM;
         }

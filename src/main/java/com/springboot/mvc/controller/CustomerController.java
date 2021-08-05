@@ -2,6 +2,7 @@ package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.service.CustomerService;
+import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -40,11 +41,11 @@ public class CustomerController {
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
         CustomerDto customer = customerService.findById(id);
-        if (customer == null) {
+        if (customer == null) { // if customer doesn't exist, throw error
             String message = "Requested customer could not be found!";
             model.addAttribute("error", message);
             return ERROR;
-        } else {
+        } else { // else show corresponding customer
             model.addAttribute("customer", customer);
             return CUSTOMER_BY_ID;
         }
@@ -61,13 +62,14 @@ public class CustomerController {
                               BindingResult result, Model model) {
         if (result.hasErrors()) return FORM;
 
-        if (customerService.existsByEmail(customer)) {
-            String message = "This email is already inserted!";
-            model.addAttribute("nonUniqueEmailError", message);
+        if (customerService.existsByEmail(customer)) { // if customer email exists
+            // do not add customer, throw error instead
+            model.addAttribute("nonUniqueEmailError", Utils.EMAIL_NOT_UNIQUE);
             model.addAttribute("customer", customer);
             return FORM;
         }
 
+        // else, add customer
         CustomerDto newCustomer = customerService.addCustomer(customer);
         model.addAttribute("customer", newCustomer);
         return RESULT;
