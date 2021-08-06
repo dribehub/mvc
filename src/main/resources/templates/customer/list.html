@@ -5,36 +5,42 @@
   <title>Customer List</title>
   <style>
     thead { font-weight: bold; }
-    td { width: 150px; text-align: center; }
+    td {
+      width: 150px;
+      text-align: center;
+    }
   </style>
   <script type="text/javascript" th:src="@{/functions.js}"></script>
 </head>
 <body>
+<main>
+  <!-- replace with 'Search customers...' -->
+  <h2>Get customer by ID</h2>
+  <input type="number" id="input" name="input" min="1" th:max="${customers.size}">
+  <input type="button" id="search-btn" value="Search" onclick="goToCustomer()">
 
-<h2>Get customer by ID</h2>
-<input type="number" id="input" name="input" min="1" th:max="${customers.size}">
-<input type="button" id="search-btn" value="Search" onclick="goToCustomer()">
+  <h2>List of customers</h2>
+  <!--<input type="text" placeholder="Search customers..."><br><br>-->
+  <table border="1">
+    <thead>
+    <tr>
+      <td>ID</td>
+      <td>First Name</td>
+      <td>Last Name</td>
+      <td>Email</td>
+    </tr>
+    </thead>
+    <tr th:each="customer:${customers}">
+      <td th:text="${customer.id}">[ID]</td>
+      <td th:text="${customer.firstName}">[First Name]</td>
+      <td th:text="${customer.lastName}">[Last Name]</td>
+      <td th:text="${customer.email}">[Email]</td>
+    </tr>
+  </table>
+  <br>
 
-<h2>List of customers</h2>
-<table border="1">
-  <thead>
-  <tr>
-    <td>ID</td>
-    <td>First Name</td>
-    <td>Last Name</td>
-    <td>Email</td>
-  </tr>
-  </thead>
-  <tr th:each="customer:${customers}">
-    <td th:text="${customer.id}">[ID]</td>
-    <td th:text="${customer.firstName}">[First Name]</td>
-    <td th:text="${customer.lastName}">[Last Name]</td>
-    <td th:text="${customer.email}">[Email]</td>
-  </tr>
-</table><br>
-
-<input type="button" value="<== Go back" onclick="goToIndex()">
-
+  <input type="button" value="<== Go back" onclick="goToIndex()">
+</main>
 <script type="text/javascript">
   const input = document.getElementById("input");
   const goToCustomer = () => goTo("/customers/" + input.value);

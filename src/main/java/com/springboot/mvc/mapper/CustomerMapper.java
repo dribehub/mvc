@@ -11,6 +11,7 @@ public class CustomerMapper {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
+        entity.setPassword(dto.getPassword());
         return entity;
     }
 
@@ -20,6 +21,7 @@ public class CustomerMapper {
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
         dto.setEmail(entity.getEmail());
+        dto.setPassword(entity.getPassword());
         return dto;
     }
 }

@@ -3,22 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>Ordering System Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <style>
+    .accent {
+      background: floralwhite;
+      color: darkslategrey;
+    }
+    main {
+      display: flex;
+      flex-flow: column;
+      height: 100vh;
+    }
+  </style>
 </head>
 <body>
-<h1>Ordering System Management</h1>
-<nav class="links">
-  <ul>
-    <li><a href="/customers">See all customers</a></li>
-    <li><a href="/customers/create">Add a new customer</a></li>
-    <br>
-    <li><a href="/items">See all items</a></li>
-    <li><a href="/items/create">Add a new item</a></li>
-    <br>
-    <li><a href="/orders">See all orders</a></li>
-    <li><a href="/orders/create">Add a new order</a></li>
-    <br>
-    <li><a href="/categories">Modify categories</a></li>
-  </ul>
-</nav>
+<main class="bg-light text-center">
+  <header class="accent py-2 mb-4 border-bottom">
+    <h1 class="text-center">Ordering System Management</h1>
+  </header>
+  <nav class="links">
+    <ul>
+      <li><a href="/customers">See all customers</a></li>
+      <li><a href="/customers/create">Add a new customer</a></li>
+      <br>
+      <li><a href="/items">See all items</a></li>
+      <li><a href="/items/create">Add a new item</a></li>
+      <br>
+      <li><a href="/orders">See all orders</a></li>
+      <li><a href="/orders/create">Add a new order</a></li>
+      <br>
+      <li><a href="/categories">Modify categories</a></li>
+    </ul>
+  </nav>
+</main>
 </body>
 </html>
