@@ -20,19 +20,19 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // http builder configurations for authorize requests and form login (see below)
-        http.csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/anonymous*").anonymous()
-            .antMatchers("/login*").permitAll()
-            .anyRequest().authenticated();
+//        http.csrf().disable()
+//            .authorizeRequests()
+//            .antMatchers("/admin/**").hasRole("ADMIN")
+//            .antMatchers("/anonymous*").anonymous()
+//            .antMatchers("/login*").permitAll()
+//            .anyRequest().authenticated();
 
-//        http.authorizeRequests()
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/home")
-//                        .failureUrl("/login?error=true")
-//                );
+        http.authorizeRequests()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .permitAll();
     }
 
     @Bean
