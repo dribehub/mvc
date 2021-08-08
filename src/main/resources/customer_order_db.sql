@@ -6,6 +6,7 @@ USE customer_order_db;
 -- create database schema
 CREATE TABLE customers (
     id 			INT         AUTO_INCREMENT,
+    role        VARCHAR(10) NOT NULL,
     first_name  VARCHAR(20) NOT NULL,
     last_name   VARCHAR(20) NOT NULL,
     email		VARCHAR(50) NOT NULL UNIQUE,
@@ -48,12 +49,12 @@ CREATE TABLE order_item (
 );
 
 -- insert data
-INSERT INTO customers VALUES (NULL, 'Beder', 'Butka', 'beder.butka@gmail.com', 'beder.butka');       -- customer1
-INSERT INTO customers VALUES (NULL, 'Aretha', 'Sydney', 'ar3tha.sydney@gmail.com', 'aretha.sydney'); -- customer1
-INSERT INTO customers VALUES (NULL, 'Michael', 'Hall', 'm_ha11@yahoo.com', 'michael.hall');          -- customer2
-INSERT INTO customers VALUES (NULL, 'David', 'Reed', 'daver33d@outlook.com', 'david.reed');		     -- customer3
-INSERT INTO customers VALUES (NULL, 'Linda', 'Baker', 'lindabaker@wifi-map.net', 'linda.baker');	 -- customer4
-INSERT INTO customers VALUES (NULL, 'William', 'Ford', 'ford_will14m@develop.it', 'william.ford');	 -- customer5
+INSERT INTO customers VALUES (NULL, 'admin', 'Beder',   'Butka',  'b.butka@gmail.com',  'beder');   -- customer1
+INSERT INTO customers VALUES (NULL, 'user',  'Aretha',  'Sydney', 'a.sydney@gmail.com', 'aretha');  -- customer2
+INSERT INTO customers VALUES (NULL, 'user',  'Michael', 'Hall',   'm.hall@gmail.com',   'michael'); -- customer3
+INSERT INTO customers VALUES (NULL, 'user',  'David',   'Reed',   'd.reed@gmail.com',   'david');	-- customer4
+INSERT INTO customers VALUES (NULL, 'user',  'Linda',   'Baker',  'l.baker@gmail.com',  'linda');	-- customer5
+INSERT INTO customers VALUES (NULL, 'user',  'William', 'Ford',   'w.ford@gmail.com',   'william');	-- customer6
 INSERT INTO categories VALUES ('Accessories');              -- category1
 INSERT INTO categories VALUES ('Cigarettes');               -- category2
 INSERT INTO categories VALUES ('Cleaning Products');        -- category3
@@ -65,9 +66,9 @@ INSERT INTO categories VALUES ('Jewelry');                  -- category8
 INSERT INTO categories VALUES ('Kitchen Utensils');         -- category9
 INSERT INTO categories VALUES ('Medicines');                -- category10
 INSERT INTO categories VALUES ('Newspapers and Magazines'); -- category11
-INSERT INTO items VALUES (NULL, 'Phone', 'Electronics', 350, 'EUR'); 	           -- item1
-INSERT INTO items VALUES (NULL, 'Earphones', 'Electronics', 30, 'USD');            -- item2
-INSERT INTO items VALUES (NULL, 'Scarf', 'Accessories', 52.9, 'EUR'); 	           -- item3
+INSERT INTO items VALUES (NULL, 'Phone',         'Electronics',      350,  'EUR'); -- item1
+INSERT INTO items VALUES (NULL, 'Earphones',     'Electronics',      30,   'USD'); -- item2
+INSERT INTO items VALUES (NULL, 'Scarf',         'Accessories',      52.9, 'EUR'); -- item3
 INSERT INTO items VALUES (NULL, 'Set of plates', 'Kitchen Utensils', 23.7, 'GBP'); -- item4
 INSERT INTO orders VALUES (NULL, DATE('2021-07-25'), 1); -- order1
 INSERT INTO orders VALUES (NULL, DATE('2021-07-21'), 2); -- order2

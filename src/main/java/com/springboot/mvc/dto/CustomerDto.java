@@ -26,4 +26,11 @@ public class CustomerDto {
     public void setLastName(String lastName) { this.lastName = Utils.capFirst(lastName); }
     public void setEmail(String email) { this.email = email; }
     public void setPassword(String password) { this.password = password; }
+
+    public boolean equals(CustomerDto customer) {
+        return customer == this
+            || customer != null
+            && customer.email.equals(email)
+            && customer.password.equals(password);
+    }
 }

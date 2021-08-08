@@ -8,7 +8,10 @@ public interface CustomerService {
 
     Boolean existsByEmail(String email);
     Boolean existsByEmail(CustomerDto customer);
+    Boolean isValid(CustomerDto customer);
     List<CustomerDto> selectAll();
     CustomerDto findById(Integer id);
+    CustomerDto findByEmail(String email);
+    CustomerDto findByEmail(CustomerDto customer);
     CustomerDto addCustomer(CustomerDto newCustomer);
 }

@@ -23,11 +23,22 @@ public class CustomerServiceImpl implements CustomerService {
     @Override public Boolean existsByEmail(CustomerDto customer) {
         return existsByEmail(customer.getEmail());
     }
+    @Override public Boolean isValid(CustomerDto customer) {
+        return customer.equals(findByEmail(customer));
+    }
 
     @Override public CustomerDto findById(Integer id) {
         return repository.findById(id)
                 .map(CustomerMapper::toDto)
                 .orElse(null);
+    }
+    @Override public CustomerDto findByEmail(String email) {
+        return repository.findByEmail(email)
+                .map(CustomerMapper::toDto)
+                .orElse(null);
+    }
+    @Override public CustomerDto findByEmail(CustomerDto customer) {
+        return findByEmail(customer.getEmail());
     }
 
     @Override public List<CustomerDto> selectAll() {

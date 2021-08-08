@@ -23,7 +23,9 @@ public class Utils {
             EMAIL_NOT_UNIQUE = "This email already exists!",
             ORDER_NOT_FOUND = "Requested order could not be found!",
             ITEM_NOT_FOUND = "Requested item could not be found!",
-            CTG_HAS_ITEMS = "Category already has items and cannot be deleted!";
+            CTG_HAS_ITEMS = "Category already has items and cannot be deleted!",
+            EMAIL_NOT_FOUND = "This email doesn't exist!",
+            INVALID_PASS = "Password is incorrect!";
 
     public static String ItemNotUnique(ItemDto item) {
         return String.format("Item \"%s\" already exists!", item.getName());
