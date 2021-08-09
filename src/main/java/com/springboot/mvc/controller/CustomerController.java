@@ -69,7 +69,8 @@ public class CustomerController {
             return FORM;
         }
 
-        // else, add customer
+        // else, add customer (as user)
+        customer.setRole("user");
         CustomerDto newCustomer = customerService.addCustomer(customer);
         model.addAttribute("customer", newCustomer);
         return RESULT;

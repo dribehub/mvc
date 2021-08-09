@@ -35,14 +35,17 @@ public class AuthController {
     }
 
     @PostMapping("/perform_signup")
-    public String performSignup(@ModelAttribute @Valid CustomerDto customer,
+    public String performSignup(@ModelAttribute(name = "user") @Valid CustomerDto customer,
                                 BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return SIGNUP;
-        } else if (!customerService.existsByEmail(customer)) {
+        if (customerService.existsByEmail(customer)) {
             model.addAttribute("nonUniqueEmailError", Utils.EMAIL_NOT_UNIQUE);
-            return signup(model);
+            return SIGNUP;
+        } else if (result.hasErrors()) {
+            return SIGNUP;
         } else {
+            customer.setRole("user");
+            CustomerDto newCustomer = customerService.addCustomer(customer);
+            model.addAttribute("user", newCustomer);
             return home(model);
         }
     }
@@ -54,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/perform_login")
-    public String performLogin(@ModelAttribute CustomerDto customer, Model model) {
+    public String performLogin(@ModelAttribute(name = "user") CustomerDto customer, Model model) {
         if (!customerService.existsByEmail(customer)) {
             model.addAttribute("invalidEmailError", Utils.EMAIL_NOT_FOUND);
             model.addAttribute("user", customer);
