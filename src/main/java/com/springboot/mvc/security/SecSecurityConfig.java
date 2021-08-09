@@ -16,36 +16,32 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-            .withUser("aretha.sydney")
-                .password(passwordEncoder().encode("aretha.sydney"))
-                .roles("USER").and()
-            .withUser("michael.hall")
-                .password(passwordEncoder().encode("michael.hall"))
-                .roles("USER").and()
-            .withUser("beder.butka@gmail.com")
-                .password(passwordEncoder().encode("beder.butka"))
-                .roles("USER", "ADMIN").and()
-            .withUser("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN");
+            .withUser("sydney@gmail.com")
+                .password(passwordEncoder().encode("aretha"))
+                .roles("user").and()
+            .withUser("hall@gmail.com")
+                .password(passwordEncoder().encode("michael"))
+                .roles("user").and()
+            .withUser("reed@gmail.com")
+                .password(passwordEncoder().encode("david"))
+                .roles("user").and()
+            .withUser("baker@gmail.com")
+                .password(passwordEncoder().encode("linda"))
+                .roles("user").and()
+            .withUser("ford@gmail.com")
+                .password(passwordEncoder().encode("william"))
+                .roles("user").and()
+            .withUser("butka@gmail.com")
+                .password(passwordEncoder().encode("beder"))
+                .roles("user", "admin");
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-            .antMatchers("/index").hasRole("ADMIN")
+        http.authorizeRequests()
+            .antMatchers("/login").permitAll()
             .anyRequest().authenticated().and()
-            .formLogin().loginPage("/login").permitAll()
-            .loginProcessingUrl("/perform_login")
-            .defaultSuccessUrl("/index", true)
-            .failureUrl("/login?error=true");
-//            .failureHandler(authenticationFailureHandler()).and()
-//            .logout().logoutUrl("/perform_logout")
-//            .deleteCookies("JSESSIONID")
-//            .logoutSuccessHandler(logoutSuccessHandler());
-    //            .antMatchers("/admin/**").hasRole("ADMIN")
-    //            .antMatchers("/anonymous*").anonymous()
-    //            .antMatchers("/login*").permitAll();
+            .formLogin().loginPage("/signup").permitAll();
     }
 
     @Bean

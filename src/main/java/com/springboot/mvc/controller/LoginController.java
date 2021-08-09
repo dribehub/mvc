@@ -8,11 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
 
     private static final String
+            SIGNUP = "signup",
             LOGIN = "login",
             INDEX = "index";
 
@@ -23,13 +25,19 @@ public class LoginController {
         this.customerService = customerService;
     }
 
+    @GetMapping("/signup")
+    public String signup(Model model) {
+        model.addAttribute("user", new CustomerDto());
+        return SIGNUP;
+    }
+
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new CustomerDto());
         return LOGIN;
     }
 
-    @GetMapping("/perform_login")
+    @PostMapping("/perform_login")
     public String performLogin(@ModelAttribute CustomerDto customer, Model model) {
         if (!customerService.existsByEmail(customer)) {
             model.addAttribute("invalidEmailError", Utils.EMAIL_NOT_FOUND);
