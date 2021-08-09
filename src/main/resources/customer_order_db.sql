@@ -49,12 +49,12 @@ CREATE TABLE order_item (
 );
 
 -- insert data
-INSERT INTO customers VALUES (NULL, 'admin', 'Beder',   'Butka',  'butka@gmail.com',  'beder');   -- customer1
-INSERT INTO customers VALUES (NULL, 'user',  'Aretha',  'Sydney', 'sydney@gmail.com', 'aretha');  -- customer2
-INSERT INTO customers VALUES (NULL, 'user',  'Michael', 'Hall',   'hall@gmail.com',   'michael'); -- customer3
-INSERT INTO customers VALUES (NULL, 'user',  'David',   'Reed',   'reed@gmail.com',   'david');	  -- customer4
-INSERT INTO customers VALUES (NULL, 'user',  'Linda',   'Baker',  'baker@gmail.com',  'linda');	  -- customer5
-INSERT INTO customers VALUES (NULL, 'user',  'William', 'Ford',   'ford@gmail.com',   'william'); -- customer6
+INSERT INTO customers VALUES (NULL, 'admin', 'Beder',   'Butka',    'beder.butka@gmail.com', 'beder.butka');   -- customer1
+INSERT INTO customers VALUES (NULL, 'user',  'Aretha',  'Sydney', 'aretha.sydney@gmail.com', 'aretha.sydney'); -- customer2
+INSERT INTO customers VALUES (NULL, 'user',  'Michael', 'Hall',    'michael.hall@gmail.com', 'michael.hall');  -- customer3
+INSERT INTO customers VALUES (NULL, 'user',  'David',   'Reed',      'david.reed@gmail.com', 'david.reed');    -- customer4
+INSERT INTO customers VALUES (NULL, 'user',  'Linda',   'Baker',    'linda.baker@gmail.com', 'linda.baker');   -- customer5
+INSERT INTO customers VALUES (NULL, 'user',  'William', 'Ford',    'william.ford@gmail.com', 'william.ford');  -- customer6
 INSERT INTO categories VALUES ('Accessories');              -- category1
 INSERT INTO categories VALUES ('Cigarettes');               -- category2
 INSERT INTO categories VALUES ('Cleaning Products');        -- category3

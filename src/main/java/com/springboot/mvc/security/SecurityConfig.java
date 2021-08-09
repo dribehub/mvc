@@ -11,37 +11,39 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-            .withUser("sydney@gmail.com")
-                .password(passwordEncoder().encode("aretha"))
+            .withUser("aretha.sydney@gmail.com")
+                .password(passwordEncoder().encode("aretha.sydney"))
                 .roles("user").and()
-            .withUser("hall@gmail.com")
-                .password(passwordEncoder().encode("michael"))
+            .withUser("michael.hall@gmail.com")
+                .password(passwordEncoder().encode("michael.hall"))
                 .roles("user").and()
-            .withUser("reed@gmail.com")
-                .password(passwordEncoder().encode("david"))
+            .withUser("david.reed@gmail.com")
+                .password(passwordEncoder().encode("david.reed"))
                 .roles("user").and()
-            .withUser("baker@gmail.com")
-                .password(passwordEncoder().encode("linda"))
+            .withUser("linda.baker@gmail.com")
+                .password(passwordEncoder().encode("linda.baker"))
                 .roles("user").and()
-            .withUser("ford@gmail.com")
-                .password(passwordEncoder().encode("william"))
+            .withUser("william.ford@gmail.com")
+                .password(passwordEncoder().encode("william.ford"))
                 .roles("user").and()
-            .withUser("butka@gmail.com")
-                .password(passwordEncoder().encode("beder"))
+            .withUser("beder.butka@gmail.com")
+                .password(passwordEncoder().encode("beder.butka"))
                 .roles("user", "admin");
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/login").permitAll()
+            .antMatchers("/").hasRole("admin")
+            .antMatchers("/**").permitAll()
             .anyRequest().authenticated().and()
             .formLogin().loginPage("/signup").permitAll();
+//            .and().logout().logoutUrl("/logout").permitAll();
     }
 
     @Bean
