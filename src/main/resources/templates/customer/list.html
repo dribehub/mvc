@@ -30,26 +30,32 @@
   <script type="text/javascript" th:src="@{/functions.js}"></script>
 </head>
 <body>
-<main>
-  <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
+<aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
+<main style="float: right; width: 80%;">
   <!-- replace with 'Search customers...' -->
-  <h2>Get customer by ID</h2>
-  <input type="number" id="input" name="input" min="1" th:max="${customers.size}">
-  <input type="button" id="search-btn" value="Search" onclick="goToCustomer()">
+<!--  <h2>Get customer by ID</h2>-->
+<!--  <input type="number" id="input" name="input" min="1" th:max="${customers.size}">-->
+<!--  <input type="button" id="search-btn" value="Search" onclick="goToCustomer()">-->
+  <nav class="navbar navbar-light bg-light align-self-center">
+    <form class="form-inline">
+      <input class="form-control mr-sm-2 d-inline" type="search" placeholder="Search customers..." aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0 position-absolute" type="submit">Search</button>
+    </form>
+  </nav>
 
-  <h2>List of customers</h2>
-  <!--<input type="text" placeholder="Search customers..."><br><br>-->
-  <table border="1">
-    <thead>
+  <table class="table">
+    <thead class="thead-dark">
     <tr>
-      <td>ID</td>
-      <td>First Name</td>
-      <td>Last Name</td>
-      <td>Email</td>
+      <td scope="col">#</td>
+      <td scope="col">Role</td>
+      <td scope="col">First Name</td>
+      <td scope="col">Last Name</td>
+      <td scope="col">Email</td>
     </tr>
     </thead>
     <tr th:each="customer:${customers}">
-      <td th:text="${customer.id}">[ID]</td>
+      <td scope="row" th:text="${customer.id}">[ID]</td>
+      <td th:text="${customer.role}">[Role]</td>
       <td th:text="${customer.firstName}">[First Name]</td>
       <td th:text="${customer.lastName}">[Last Name]</td>
       <td th:text="${customer.email}">[Email]</td>
