@@ -1,7 +1,7 @@
 -- create database
-DROP DATABASE customer_order_db;
-CREATE DATABASE customer_order_db;
-USE customer_order_db;
+DROP DATABASE order_management;
+CREATE DATABASE order_management;
+USE order_management;
 
 -- create database schema
 CREATE TABLE customers (
@@ -79,17 +79,3 @@ INSERT INTO order_item VALUES (1, 2); -- order1 item2
 INSERT INTO order_item VALUES (2, 2); -- order2 item2
 INSERT INTO order_item VALUES (3, 3); -- order3 item3
 INSERT INTO order_item VALUES (4, 4); -- order4 item4
-
--- print database schema
-DESCRIBE customers;
-DESCRIBE categories;
-DESCRIBE items;
-DESCRIBE orders;
-DESCRIBE order_item;
-
--- print data
-SELECT * FROM customers;
-SELECT * FROM categories;
-SELECT * FROM items;
-SELECT * FROM orders;
-SELECT * FROM order_item;

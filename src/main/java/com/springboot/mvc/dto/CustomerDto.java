@@ -22,8 +22,8 @@ public class CustomerDto {
     public String getRole() { return role; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
-    public String getEmail() { return email; }
     public String getName() { return firstName + " " + lastName; }
+    public String getEmail() { return email; }
     public String getPassword() { return password; }
 
     public void setId(Integer id) { this.id = id; }
