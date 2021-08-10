@@ -10,6 +10,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -43,9 +44,9 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logout(Model model) {
+    public String logout() {
         loggedInUser = null;
-        return LOGIN;
+        return "redirect:/login";
     }
 
     @PostMapping("/perform_signup")
@@ -74,15 +75,18 @@ public class AuthController {
             model.addAttribute("invalidPassError", Utils.INVALID_PASS);
             return LOGIN;
         } else {
-            loggedInUser = customer;
+            loggedInUser = customerService.findByEmail(customer.getEmail());;
             return "redirect:/home";
         }
     }
 
     @GetMapping("/home")
     public String home(Model model) {
-        if (loggedInUser == null) return LOGIN;
-        model.addAttribute("user", loggedInUser);
-        return INDEX;
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        } else {
+            model.addAttribute("user", loggedInUser);
+            return INDEX;
+        }
     }
 }

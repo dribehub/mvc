@@ -33,6 +33,7 @@ public class ItemController {
     private final ItemService itemService;
     private final CustomerService customerService;
     private final CategoryService categoryService;
+    private CustomerDto loggedInUser;
 
     @Autowired
     public ItemController(ItemService itemService,
@@ -45,6 +46,7 @@ public class ItemController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
+        model.addAttribute("user", loggedInUser);
         List<ItemDto> items = itemService.selectAll();
         Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("items", items);
@@ -66,6 +68,7 @@ public class ItemController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
+        model.addAttribute("user", loggedInUser);
         List<CategoryDto> categories = categoryService.selectAll();
         model.addAttribute("categories", categories);
         model.addAttribute("item", new ItemDto());
@@ -95,6 +98,7 @@ public class ItemController {
     }
 
     private void getItemData(Model model, ItemDto item) {
+        model.addAttribute("user", loggedInUser);
         String symbol = Utils.getCurrencySymbol(item);
         List<OrderEntity> orders = item.getOrders();
         model.addAttribute("item", item);
@@ -112,5 +116,11 @@ public class ItemController {
             model.addAttribute("orders", orders);
             model.addAttribute("customers", customers);
         }
+    }
+
+    @GetMapping("/user/{id}")
+    public String redirect(@PathVariable(value = "id") Integer id) {
+        loggedInUser = customerService.findById(id);
+        return "redirect:/items";
     }
 }

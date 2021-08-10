@@ -2,7 +2,9 @@ package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoriesRequestDto;
 import com.springboot.mvc.dto.CategoryDto;
+import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.service.CategoryService;
+import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +22,21 @@ public class CategoryController {
     private static final String LIST = "category/list";
     private final CategoryService categoryService;
     private final ItemService itemService;
+    private final CustomerService customerService;
+    private CustomerDto loggedInUser;
 
     @Autowired
-    public CategoryController(CategoryService categoryService, ItemService itemService) {
+    public CategoryController(CategoryService categoryService,
+                              ItemService itemService,
+                              CustomerService customerService) {
         this.categoryService = categoryService;
         this.itemService = itemService;
+        this.customerService = customerService;
     }
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
+        model.addAttribute("user", loggedInUser);
         model.addAttribute("ctgEdits", categoryService.selectAllToDto());
         model.addAttribute("newCtg", new CategoryDto());
         return LIST;
@@ -37,6 +45,7 @@ public class CategoryController {
     @PostMapping("/add")
     public String add(@ModelAttribute(name = "newCtg") @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
+        model.addAttribute("user", loggedInUser);
         if (result.hasErrors()) {
             model.addAttribute("ctgEdits", categoryService.selectAllToDto());
             return LIST;
@@ -55,6 +64,7 @@ public class CategoryController {
     @PutMapping("/update")
     public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesRequestDto edits,
                          BindingResult result, Model model) {
+        model.addAttribute("user", loggedInUser);
         if (result.hasErrors()) return LIST;
 
         List<CategoryDto> currentCtgs = categoryService.selectAll();
@@ -83,5 +93,11 @@ public class CategoryController {
         }
 
         return getAll(model);
+    }
+
+    @GetMapping("/user/{id}")
+    public String redirect(@PathVariable(value = "id") Integer id) {
+        loggedInUser = customerService.findById(id);
+        return "redirect:/categories";
     }
 }

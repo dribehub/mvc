@@ -25,25 +25,25 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
+        <a th:href="@{/customers/user/{id}(id=${user.id})}" class="nav-link active" aria-current="page">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
           <span>Customers</span>
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a th:href="@{/orders/user/{id}(id=${user.id})}" class="nav-link text-white">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
           <span>Orders</span>
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a th:href="@{/items/user/{id}(id=${user.id})}" class="nav-link text-white">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
           <span>Items</span>
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a th:href="@{/categories/user/{id}(id=${user.id})}" class="nav-link text-white">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
           <span>Categories</span>
         </a>

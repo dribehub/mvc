@@ -15,35 +15,36 @@
     }
     form {
       position: absolute;
-      top: 50%;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
+      top: 40%;
+      -ms-transform: translateY(-40%);
+      transform: translateY(-40%);
     }
     footer {
       position: relative;
-      top: 80%;
+      top: 85%;
     }
   </style>
 </head>
 <body class="text-center">
 <main class="form-login accent">
   <form class="align-self-center" method="POST" th:action="@{/perform_login}" th:object="${user}">
+    <a th:href="@{/home}"><img class="mb-2" src="https://i.imgur.com/khyNqXm.png" width="72" height="72"></a>
     <h1 class="h3 mb-3 fw-normal">Log In</h1>
     <div class="form-floating mb-2">
       <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required th:field="*{email}">
       <label class="input-placeholder" for="floatingInput">Email address</label>
       <p th:if="${invalidEmailError}" class="error" th:text="${invalidEmailError}">[invalidEmailError]</p>
     </div>
-    <div class="form-floating">
+    <div class="form-floating mb-4">
       <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required th:field="*{password}">
       <label class="input-placeholder" for="floatingPassword">Password</label>
       <p th:if="${invalidPassError}" class="error" th:text="${invalidPassError}">[invalidPassError]</p>
     </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
     <div class="checkbox mb-3 mt-2">
       <input type="checkbox" value="remember-me">
       <span>Remember me</span>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
     <br><br><br><span class="text-muted">Don't have an account? </span>
     <a th:href="@{/signup}" class="text-decoration-none">Sign Up</a>
   </form>

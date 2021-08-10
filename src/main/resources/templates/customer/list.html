@@ -3,17 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Customer List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <style>
     thead { font-weight: bold; }
     td {
       width: 150px;
       text-align: center;
     }
+    main {
+      display: flex;
+      flex-flow: column;
+      height: 100vh;
+    }
+    .sidebar, aside {
+      display: flex;
+      flex-flow: column;
+      height: 100vh;
+      text-align: left;
+      float: left;
+    }
   </style>
   <script type="text/javascript" th:src="@{/functions.js}"></script>
 </head>
 <body>
 <main>
+  <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
   <!-- replace with 'Search customers...' -->
   <h2>Get customer by ID</h2>
   <input type="number" id="input" name="input" min="1" th:max="${customers.size}">
