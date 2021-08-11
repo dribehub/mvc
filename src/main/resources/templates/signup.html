@@ -30,7 +30,7 @@
 <main class="form-login accent">
   <form class="align-self-center" method="POST" th:action="@{/perform_signup}" th:object="${user}"
         th:with="isEmailUnique = ${nonUniqueEmailError} ? ${false} : ${true}">
-    <a th:href="@{/home}"><img class="mb-2" src="https://i.imgur.com/khyNqXm.png" width="72" height="72"></a>
+    <a th:href="@{/}"><img class="mb-2" src="https://i.imgur.com/khyNqXm.png" width="72" height="72"></a>
     <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
     <div class="form-floating mb-1">
       <input type="text" class="form-control" id="floatingFirstName" placeholder="name@example.com"

@@ -8,10 +8,14 @@
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+  <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
   <style>
     thead { font-weight: bold; }
     td {
-      width: 150px;
+      /*width: 150px;*/
       text-align: center;
     }
     main {
@@ -19,6 +23,7 @@
       flex-flow: column;
       height: 100vh;
     }
+    aside { position: fixed; }
     .sidebar, aside {
       display: flex;
       flex-flow: column;
@@ -31,42 +36,42 @@
 </head>
 <body>
 <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
-<main style="float: right; width: 80%;">
-  <!-- replace with 'Search customers...' -->
+<main class="align-items-center float-end" style="width: 80%;">
+            <!-- replace with 'Search customers...' -->
 <!--  <h2>Get customer by ID</h2>-->
 <!--  <input type="number" id="input" name="input" min="1" th:max="${customers.size}">-->
 <!--  <input type="button" id="search-btn" value="Search" onclick="goToCustomer()">-->
-  <nav class="navbar navbar-light bg-light align-self-center">
-    <form class="form-inline">
-      <input class="form-control mr-sm-2 d-inline" type="search" placeholder="Search customers..." aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0 position-absolute" type="submit">Search</button>
-    </form>
-  </nav>
-
-  <table class="table">
+  <table id="users" class="table">
     <thead class="thead-dark">
     <tr>
       <td scope="col">#</td>
-      <td scope="col">Role</td>
       <td scope="col">First Name</td>
       <td scope="col">Last Name</td>
-      <td scope="col">Email</td>
+      <td scope="col">Role</td>
+      <td scope="col">Modify</td>
     </tr>
     </thead>
+    <tbody>
     <tr th:each="customer:${customers}">
       <td scope="row" th:text="${customer.id}">[ID]</td>
-      <td th:text="${customer.role}">[Role]</td>
       <td th:text="${customer.firstName}">[First Name]</td>
       <td th:text="${customer.lastName}">[Last Name]</td>
-      <td th:text="${customer.email}">[Email]</td>
+      <td th:text="${customer.role}">[Role]</td>
+      <td>
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/no-comments.png" height="20" width="20"><span class="mx-2"></span>
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png" height="20" width="20">
+      </td>
     </tr>
+    </tbody>
   </table>
-  <br>
 </main>
 <script type="text/javascript">
-  const input = document.getElementById("input");
-  const goToCustomer = () => goTo("/customers/" + input.value);
-  onEnter(input, goToCustomer);
+  // const input = document.getElementById("input");
+  // const goToCustomer = () => goTo("/customers/" + input.value);
+  // onEnter(input, goToCustomer);
+  $(document).ready(function() {
+    $('#users').DataTable();
+  } );
 </script>
 </body>
 </html>

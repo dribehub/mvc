@@ -18,8 +18,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/**").permitAll()
                 .antMatchers("/").hasAnyRole("admin", "user")
-                .anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").permitAll();
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().rememberMe();
 //                .and().logout().logoutUrl("/logout").permitAll();
     }
 

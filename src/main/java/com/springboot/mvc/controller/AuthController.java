@@ -6,11 +6,9 @@ import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -33,12 +31,14 @@ public class AuthController {
 
     @GetMapping("/signup")
     public String signup(Model model) {
+        if (isLoggedIn()) return "redirect:/";
         model.addAttribute("user", new CustomerDto());
         return SIGNUP;
     }
 
     @GetMapping("/login")
     public String login(Model model) {
+        if (isLoggedIn()) return "redirect:/";
         model.addAttribute("user", new CustomerDto());
         return LOGIN;
     }
@@ -60,7 +60,7 @@ public class AuthController {
         } else {
             customer.setRole("user");
             loggedInUser = customerService.addCustomer(customer);
-            return "redirect:/home";
+            return "redirect:/";
         }
     }
 
@@ -76,17 +76,21 @@ public class AuthController {
             return LOGIN;
         } else {
             loggedInUser = customerService.findByEmail(customer.getEmail());;
-            return "redirect:/home";
+            return "redirect:/";
         }
     }
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(Model model) {
-        if (loggedInUser == null) {
-            return "redirect:/login";
-        } else {
+        if (isLoggedIn()) {
             model.addAttribute("user", loggedInUser);
             return INDEX;
+        } else {
+            return "redirect:/login";
         }
+    }
+
+    private boolean isLoggedIn() {
+        return loggedInUser != null;
     }
 }
