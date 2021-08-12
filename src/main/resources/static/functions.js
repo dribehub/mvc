@@ -11,3 +11,6 @@ const onEnter = (input, action) => {
         }
     })
 }
+const onClick = (input, action) => {
+    input.addEventListener("click", action);
+}

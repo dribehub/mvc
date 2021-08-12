@@ -2,6 +2,7 @@ package com.springboot.mvc.service.impl;
 
 import com.springboot.mvc.dto.CategoriesRequestDto;
 import com.springboot.mvc.dto.CategoryDto;
+import com.springboot.mvc.entity.CategoryEntity;
 import com.springboot.mvc.mapper.CategoryMapper;
 import com.springboot.mvc.repository.CategoryRepository;
 import com.springboot.mvc.service.CategoryService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.NonUniqueResultException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +30,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override public CategoryDto findByName(String name) {
-        return CategoryMapper.toDto(repository.findByName(name));
+        return repository.findByName(name)
+                .map(CategoryMapper::toDto)
+                .orElse(null);
     }
 
     @Override public Boolean exists(CategoryDto category) {

@@ -1,0 +1,25 @@
+.sidebar, aside, main {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+.icon {
+    fill: currentColor;
+    vertical-align: -.125em;
+}
+aside { position: fixed; }
+thead { font-weight: bold; }
+td { text-align: center; }
+.pagination { justify-content: center !important; }
+.col-md-5 { display: none; }
+.col-md-7 { width: 100%; }
+.page-link { color: #1a81a4; }
+.page-item.active .page-link {
+    background-color: #1a81a4;
+    border-color: #1a81a4;
+}
+.dataTables_wrapper:nth-child(3) {
+    position: fixed;
+    bottom: 15px;
+}
+

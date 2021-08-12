@@ -34,7 +34,7 @@ public class CustomerController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         List<CustomerDto> customers = customerService.selectAll();
         model.addAttribute("customers", customers);
         return CUSTOMER_LIST;
@@ -42,8 +42,8 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
+        addLoggedInUser(model);
         CustomerDto customer = customerService.findById(id);
-        model.addAttribute("user", loggedInUser);
         if (customer == null) { // if customer doesn't exist, throw error
             String message = "Requested customer could not be found!";
             model.addAttribute("error", message);
@@ -56,7 +56,7 @@ public class CustomerController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         model.addAttribute("customer", new CustomerDto());
         return FORM;
     }
@@ -64,26 +64,24 @@ public class CustomerController {
     @PostMapping("/add")
     public String addCustomer(@ModelAttribute(name = "customer") @Valid CustomerDto customer,
                               BindingResult result, Model model) {
-        model.addAttribute("user", loggedInUser);
-        if (result.hasErrors()) return FORM;
-
-        if (customerService.existsByEmail(customer)) { // if customer email exists
-            // do not add customer, throw error instead
+        addLoggedInUser(model);
+        if (result.hasErrors()) {
+            return FORM;
+        } else if (customerService.existsByEmail(customer)) {
             model.addAttribute("nonUniqueEmailError", Utils.EMAIL_NOT_UNIQUE);
             model.addAttribute("customer", customer);
             return FORM;
+        } else {
+            customer.setRole("user");
+            CustomerDto newCustomer = customerService.addCustomer(customer);
+            model.addAttribute("customer", newCustomer);
+            return RESULT;
         }
-
-        // else, add customer (as user)
-        customer.setRole("user");
-        CustomerDto newCustomer = customerService.addCustomer(customer);
-        model.addAttribute("customer", newCustomer);
-        return RESULT;
     }
 
     @PutMapping("/{id}/edit")
     public String editById(Model model, @PathVariable(value = "id") Integer id) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         CustomerDto customer = customerService.findById(id);
         model.addAttribute("customer", customer);
         return EDIT;
@@ -93,5 +91,9 @@ public class CustomerController {
     public String redirect(@PathVariable(value = "id") Integer id) {
         loggedInUser = customerService.findById(id);
         return "redirect:/customers";
+    }
+
+    private void addLoggedInUser(Model model) {
+        model.addAttribute("user", loggedInUser);
     }
 }
