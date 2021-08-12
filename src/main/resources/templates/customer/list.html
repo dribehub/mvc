@@ -14,10 +14,7 @@
   <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
   <style>
     thead { font-weight: bold; }
-    td {
-      /*width: 150px;*/
-      text-align: center;
-    }
+    td { text-align: center; }
     main {
       display: flex;
       flex-flow: column;
@@ -37,11 +34,8 @@
 <body>
 <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
 <main class="align-items-center float-end" style="width: 80%;">
-            <!-- replace with 'Search customers...' -->
-<!--  <h2>Get customer by ID</h2>-->
-<!--  <input type="number" id="input" name="input" min="1" th:max="${customers.size}">-->
-<!--  <input type="button" id="search-btn" value="Search" onclick="goToCustomer()">-->
-  <table id="users" class="table">
+  <p class="mb-5"></p>
+  <table id="users" class="table border-s">
     <thead class="thead-dark">
     <tr>
       <td scope="col">#</td>
@@ -66,12 +60,13 @@
   </table>
 </main>
 <script type="text/javascript">
-  // const input = document.getElementById("input");
-  // const goToCustomer = () => goTo("/customers/" + input.value);
-  // onEnter(input, goToCustomer);
-  $(document).ready(function() {
-    $('#users').DataTable();
-  } );
+  $(document).ready(() => $('#users').DataTable({
+    "columnDefs": [{
+        "targets": [4],
+        "searchable": false,
+        "orderable": false
+    }]
+  }));
 </script>
 </body>
 </html>

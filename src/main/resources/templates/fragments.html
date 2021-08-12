@@ -25,13 +25,13 @@
     <hr>
     <ul th:if="${isAdmin}" class="nav nav-pills flex-column mb-auto">
       <li class="nav-item"><a th:href="@{/customers/user/{id}(id=${user.id})}" class="nav-link active" aria-current="page">
-          <span>View all users</span></a></li>
+          <span>Users</span></a></li>
       <li><a th:href="@{/orders/user/{id}(id=${user.id})}" class="nav-link text-white">
-          <span>View all orders</span></a></li>
+          <span>Orders</span></a></li>
       <li><a th:href="@{/items/user/{id}(id=${user.id})}" class="nav-link text-white">
-          <span>View all items</span></a></li>
+          <span>Items</span></a></li>
       <li><a th:href="@{/categories/user/{id}(id=${user.id})}" class="nav-link text-white">
-          <span>View all categories</span></a></li>
+          <span>Categories</span></a></li>
     </ul>
     <ul th:if="${not isAdmin}" class="nav nav-pills flex-column mb-auto">
       <li class="nav-item"><a th:href="@{/customers/user/{id}(id=${user.id})}" class="nav-link active" aria-current="page">
