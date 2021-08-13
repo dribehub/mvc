@@ -1,3 +1,4 @@
+body { background: whitesmoke; }
 main { width: 80%; }
 .sidebar, aside, main {
     display: flex;
@@ -8,7 +9,10 @@ main { width: 80%; }
     fill: #1a81a4;
     vertical-align: -.125em;
 }
-aside { position: fixed; }
+aside {
+    position: fixed;
+    width: 280px;
+}
 thead { font-weight: bold; }
 td { text-align: center; }
 .dataTables_wrapper, .row:nth-child(3) { position: sticky; }

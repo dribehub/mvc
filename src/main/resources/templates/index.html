@@ -11,8 +11,9 @@
   <link th:href="@{/styles/tables.css}" rel="stylesheet">
 </head>
 <body>
-<main>
-  <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
+<aside th:include="/fragments::sidebar"></aside>
+<main class="align-items-center float-end">
+  <footer th:include="/fragments::copyright"></footer>
 </main>
 </body>
 </html>

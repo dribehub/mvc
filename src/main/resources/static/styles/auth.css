@@ -1,0 +1,22 @@
+.error {
+    color: red;
+}
+
+.form-login {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    background: whitesmoke;
+}
+
+form {
+    position: absolute;
+    top: 40%;
+    -ms-transform: translateY(-40%);
+    transform: translateY(-40%);
+}
+
+footer {
+    position: relative;
+    top: 85%;
+}

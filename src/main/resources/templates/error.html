@@ -4,10 +4,39 @@
   <meta charset="UTF-8">
   <title>Error</title>
   <link rel="icon" href="https://i.imgur.com/khyNqXm.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script type="text/javascript" th:src="@{/functions.js}"></script>
+  <style>
+    main {
+      background: whitesmoke;
+      display: flex;
+      flex-flow: column;
+      height: 100vh;
+    }
+
+    div {
+      position: absolute;
+      top: 40%;
+      -ms-transform: translateY(-40%);
+      transform: translateY(-40%);
+    }
+
+    footer {
+      position: relative;
+      top: 85%;
+    }
+  </style>
 </head>
-<body>
-<h2 th:text="${error}"></h2><br>
-<input type="button" value="<== Go to index" onclick="goToIndex()">
-<script type="text/javascript" th:src="@{/functions.js}"></script>
+<body class="text-center">
+<main>
+  <div class="align-self-center">
+    <!--  <h2 th:text="${error}"></h2><br>-->
+    <img class="mb-2" src="https://i.imgur.com/khyNqXm.png" width="72" height="72" alt=" ">
+    <h3 class="py-3">Looks like you encountered<br>an unexpected error :(</h3>
+    <a th:href="@{/}" class="text-decoration-none">Go back</a>
+  </div>
+  <footer th:include="/fragments::copyright"></footer>
+</main>
 </body>
 </html>
