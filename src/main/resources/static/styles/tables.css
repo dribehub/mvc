@@ -1,4 +1,8 @@
-body { background: whitesmoke; }
+:root {
+    --primary: #1a81a4;
+    --bg: whitesmoke;
+}
+body { background: var(--bg); }
 main { width: 80%; }
 .sidebar, aside, main {
     display: flex;
@@ -6,12 +10,13 @@ main { width: 80%; }
     height: 100vh;
 }
 .icon {
-    fill: #1a81a4;
+    fill: var(--primary);
     vertical-align: -.125em;
 }
 aside {
     position: fixed;
     width: 280px;
+    z-index: 1;
 }
 thead { font-weight: bold; }
 td { text-align: center; }
@@ -19,10 +24,10 @@ td { text-align: center; }
 .pagination { justify-content: center !important; }
 .col-md-5 { display: none; }
 .col-md-7 { width: 100%; }
-.page-link { color: #1a81a4; }
+.page-link { color: var(--primary); }
 .page-item.active .page-link {
-    background-color: #1a81a4;
-    border-color: #1a81a4;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 footer {
     position: sticky;
