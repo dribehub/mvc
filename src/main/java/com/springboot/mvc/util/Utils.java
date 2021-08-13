@@ -18,18 +18,6 @@ public class Utils {
             EMAIL_REGEX = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z]+\\.[a-z]+$",
             CURRENCY_REGEX = "^[A-Z]{3}$";
 
-    public static final Integer
-            PENDING = 1,
-            APPROVED = 2,
-            ARRIVED = 3;
-
-    public enum OrderStatus {
-        PENDING(1), APPROVED(2), ARRIVED(3);
-        private final Integer value;
-        OrderStatus(Integer value) { this.value = value; }
-        public Integer value() { return value;}
-    }
-
     public static final String
             CURRENCY_NOT_SUPPORTED = "This currency is not supported!",
             EMAIL_NOT_UNIQUE = "This email already exists!",
