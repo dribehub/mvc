@@ -46,7 +46,7 @@ public class ItemController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         List<ItemDto> items = itemService.selectAll();
         Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("items", items);
@@ -56,6 +56,7 @@ public class ItemController {
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
+        addLoggedInUser(model);
         ItemDto item = itemService.findById(id);
         if (item == null) {
             model.addAttribute("error", Utils.ITEM_NOT_FOUND);
@@ -68,7 +69,7 @@ public class ItemController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         List<CategoryDto> categories = categoryService.selectAll();
         model.addAttribute("categories", categories);
         model.addAttribute("item", new ItemDto());
@@ -78,6 +79,7 @@ public class ItemController {
     @PostMapping("/add")
     public String addItem(@ModelAttribute(name = "item") @Valid ItemDto item,
                           BindingResult result, Model model) {
+        addLoggedInUser(model);
         if (result.hasErrors()) return FORM;
 
         if (itemService.isPresent(item)) {
@@ -98,7 +100,7 @@ public class ItemController {
     }
 
     private void getItemData(Model model, ItemDto item) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         String symbol = Utils.getCurrencySymbol(item);
         List<OrderEntity> orders = item.getOrders();
         model.addAttribute("item", item);
@@ -122,5 +124,9 @@ public class ItemController {
     public String redirect(@PathVariable(value = "id") Integer id) {
         loggedInUser = customerService.findById(id);
         return "redirect:/items";
+    }
+
+    private void addLoggedInUser(Model model) {
+        model.addAttribute("user", loggedInUser);
     }
 }

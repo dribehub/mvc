@@ -9,7 +9,8 @@
   <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
   <link th:href="@{/styles/tables.css}" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+          crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
@@ -17,45 +18,45 @@
 </head>
 <body>
 <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
-<main class="align-items-center float-end" style="width: 80%;">
+<main class="align-items-center float-end">
   <p class="mb-5"></p>
-<table  id="orders" class="table border-s">
-  <thead class="thead-dark">
-  <tr>
-    <td scope="col">#</td>
-    <td scope="col">Customer</td>
-    <td scope="col">Date Created</td>
-    <td scope="col">Actions</td>
-  </tr>
-  </thead>
-  <tbody>
-  <th:block th:each="customer:${customers}">
-    <tr th:each="order:${orders}" th:if="${order.customerId} == ${customer.id}">
-      <td th:text="${order.id}">ID</td>
-      <td th:text="${customer.name}">Customer</td>
-      <td th:text="${order.date}">YYYY-MM-DD</td>
-      <td>
-        <img src="https://img.icons8.com/ios-glyphs/30/000000/no-comments.png" height="20" width="20"><span class="mx-2"></span>
-        <img src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png" height="20" width="20">
-      </td>
+  <table id="orders" class="table border-s">
+    <thead class="thead-dark">
+    <tr>
+      <td scope="col">#</td>
+      <td scope="col">Customer</td>
+      <td scope="col">Date Created</td>
+      <td scope="col">Actions</td>
     </tr>
-  </th:block>
-  </tbody>
-</table><br>
+    </thead>
+    <tbody>
+    <th:block th:each="customer:${customers}">
+      <tr th:each="order:${orders}" th:if="${order.customerId} == ${customer.id}">
+        <td th:text="${order.id}">ID</td>
+        <td th:text="${customer.name}">Customer</td>
+        <td th:text="${order.date}">YYYY-MM-DD</td>
+        <td>
+          <a th:href="@{/orders/{id}(id=${order.id})}">
+            <img src="https://img.icons8.com/ios-glyphs/30/000000/view-delivery.png" height="20" width="20">
+          </a>
+          <span class="mx-2"></span>
+          <img src="https://img.icons8.com/ios-glyphs/30/000000/cancel.png" height="20" width="20">
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+  <footer th:include="/fragments::copyright"></footer>
 </main>
 <script type="text/javascript">
-  $(document).ready(() => $('#orders').DataTable(
-      {
-        "info": false
-      },
-      {
-        "columnDefs": [{
-          "targets": [3],
-          "searchable": false,
-          "orderable": false,
-        }]
-      }
-  ));
+  $(document).ready(() => $('#orders').DataTable({
+    "info": false,
+    "columnDefs": [{
+      "targets": [3],
+      "searchable": false,
+      "orderable": false,
+    }]
+  }));
 </script>
 </body>
 </html>

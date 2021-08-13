@@ -42,7 +42,7 @@ public class OrderController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         List<OrderDto> orders = orderService.selectAll();
         List<CustomerDto> customers = customerService.selectAll();
         model.addAttribute("orders", orders);
@@ -52,7 +52,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         OrderDto order = orderService.findById(id);
         if (order == null) {
             model.addAttribute("error", Utils.ORDER_NOT_FOUND);
@@ -70,7 +70,7 @@ public class OrderController {
 
     @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         List<ItemDto> items = itemService.selectAll();
         model.addAttribute("items", items);
         model.addAttribute("symbols", Utils.getAllSymbols(items));
@@ -81,7 +81,7 @@ public class OrderController {
 
     @PostMapping("/add")
     public String addOrder(Model model, @ModelAttribute(name = "order") OrderRequestDto order) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         List<ItemDto> items = new ArrayList<>();
         Set<Integer> itemIds = order.getItemIds().keySet();
         for (Integer itemId : itemIds)
@@ -102,5 +102,9 @@ public class OrderController {
     public String redirect(@PathVariable(value = "id") Integer id) {
         loggedInUser = customerService.findById(id);
         return "redirect:/orders";
+    }
+
+    private void addLoggedInUser(Model model) {
+        model.addAttribute("user", loggedInUser);
     }
 }

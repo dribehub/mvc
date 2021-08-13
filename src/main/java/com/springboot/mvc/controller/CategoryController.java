@@ -36,7 +36,7 @@ public class CategoryController {
 
     @GetMapping({"/", ""})
     public String getAll(Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         model.addAttribute("ctgEdits", categoryService.selectAllToDto());
         model.addAttribute("newCtg", new CategoryDto());
         return LIST;
@@ -45,7 +45,7 @@ public class CategoryController {
     @PostMapping("/add")
     public String add(@ModelAttribute(name = "newCtg") @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         if (result.hasErrors()) {
             model.addAttribute("ctgEdits", categoryService.selectAllToDto());
             return LIST;
@@ -64,7 +64,7 @@ public class CategoryController {
     @PutMapping("/update")
     public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesRequestDto edits,
                          BindingResult result, Model model) {
-        model.addAttribute("user", loggedInUser);
+        addLoggedInUser(model);
         if (result.hasErrors()) return LIST;
 
         List<CategoryDto> currentCtgs = categoryService.selectAll();
@@ -99,5 +99,9 @@ public class CategoryController {
     public String redirect(@PathVariable(value = "id") Integer id) {
         loggedInUser = customerService.findById(id);
         return "redirect:/categories";
+    }
+
+    private void addLoggedInUser(Model model) {
+        model.addAttribute("user", loggedInUser);
     }
 }

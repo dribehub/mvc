@@ -19,7 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().rememberMe();
-//                .and().logout().logoutUrl("/logout").permitAll();
     }
 
     @Bean

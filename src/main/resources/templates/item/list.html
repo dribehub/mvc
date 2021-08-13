@@ -4,42 +4,54 @@
   <meta charset="UTF-8">
   <title>Item List</title>
   <link rel="icon" href="https://i.imgur.com/khyNqXm.png">
-  <style>
-    thead { font-weight: bold; }
-    td { width: 150px; text-align: center; }
-  </style>
-  <script type="text/javascript" th:src="@{/functions.js}"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link th:href="@{/styles/tables.css}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
 </head>
 <body>
-
-<h2>Get item by ID</h2>
-<input type="number" id="input" name="input" min="1" th:max="${items.size}">
-<input type="button" id="search-btn" value="Search" onclick="goToItem()">
-
-<h2>List of items</h2>
-<table border="1">
-  <thead>
-  <tr>
-    <td>ID</td>
-    <td>Name</td>
-    <td>Category</td>
-    <td>Price</td>
-  </tr>
-  </thead>
-  <tr th:each="item:${items}">
-    <td th:text="${item.id}">[ID]</td>
-    <td th:text="${item.name}">[Name]</td>
-    <td th:text="${item.category}">[Category]</td>
-    <td th:text="${item.fullPrice}">[Price]</td>
-  </tr>
-</table><br>
-
-<input type="button" value="<== Go back" onclick="goToIndex()">
-
+<aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
+<main class="align-items-center float-end">
+  <p class="mb-5"></p>
+  <table id="items" class="table border-s">
+    <thead class="thead-dark">
+    <tr>
+      <td scope="col">#</td>
+      <td scope="col">Name</td>
+      <td scope="col">Category</td>
+      <td scope="col">Price</td>
+      <td scope="col">Actions</td>
+    </tr>
+    </thead>
+    <tr th:each="item:${items}">
+      <td th:text="${item.id}">ID</td>
+      <td th:text="${item.name}">Item</td>
+      <td th:text="${item.category}">Category</td>
+      <td th:text="${item.fullPrice}">Price</td>
+      <td>
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/no-comments.png" height="20" width="20"><span
+          class="mx-2"></span>
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png" height="20" width="20">
+      </td>
+    </tr>
+  </table>
+  <footer th:include="/fragments::copyright"></footer>
+</main>
 <script type="text/javascript">
-  const input = document.getElementById("input");
-  const goToItem = () => goTo("/items/" + input.value);
-  onEnter(input, goToItem);
+  $(document).ready(() => $('#items').DataTable({
+    "info": false,
+    "columnDefs": [{
+      "targets": [4],
+      "searchable": false,
+      "orderable": false,
+    }]
+  }));
 </script>
 </body>
 </html>
