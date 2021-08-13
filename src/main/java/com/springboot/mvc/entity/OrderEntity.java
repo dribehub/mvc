@@ -13,6 +13,7 @@ public class OrderEntity {
     private Integer id;
     private LocalDate date;
     private Integer customerId;
+    private Integer status;
     @ManyToMany
     @JoinTable(
             name = "order_item",
@@ -24,10 +25,12 @@ public class OrderEntity {
     public Integer getId() { return id; }
     public LocalDate getDate() { return date; }
     public Integer getCustomerId() { return customerId; }
+    public Integer getStatus() { return status; }
     public List<ItemEntity> getItems() { return items; }
 
     public void setId(Integer id) { this.id = id; }
     public void setDate(LocalDate date) { this.date = date; }
     public void setCustomerId(Integer customerId) { this.customerId = customerId; }
+    public void setStatus(Integer status) { this.status = status; }
     public void setItems(List<ItemEntity> items) { this.items = items; }
 }

@@ -12,6 +12,7 @@ public class OrderMapper {
         entity.setId(dto.getId());
         entity.setDate(dto.getDate());
         entity.setCustomerId(dto.getCustomerId());
+        entity.setStatus(dto.getStatus());
         entity.setItems(dto.getItems()
                 .stream().map(ItemMapper::toEntity)
                 .collect(Collectors.toList()));
@@ -23,6 +24,7 @@ public class OrderMapper {
         dto.setId(entity.getId());
         dto.setDate(entity.getDate());
         dto.setCustomerId(entity.getCustomerId());
+        dto.setStatus(entity.getStatus());
         dto.setItems(entity.getItems()
                 .stream().map(ItemMapper::toDto)
                 .collect(Collectors.toList()));

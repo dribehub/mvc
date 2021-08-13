@@ -7,6 +7,7 @@ import com.springboot.mvc.mapper.ItemMapper;
 import com.springboot.mvc.mapper.OrderMapper;
 import com.springboot.mvc.service.OrderService;
 import com.springboot.mvc.repository.OrderRepository;
+import com.springboot.mvc.util.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity entity = new OrderEntity();
         entity.setDate(LocalDate.now());
         entity.setCustomerId(customerId);
+        entity.setStatus(OrderStatus.PENDING.code());
         entity.setItems(items.stream()
                 .map(ItemMapper::toEntity)
                 .collect(Collectors.toList()));
@@ -42,8 +44,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override public OrderDto addOrder(OrderDto order) {
-        order.setDate(LocalDate.now());
-        repository.save(OrderMapper.toEntity(order));
-        return order;
+        return addOrder(order.getCustomerId(), order.getItems());
     }
 }

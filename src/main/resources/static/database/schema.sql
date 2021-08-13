@@ -31,6 +31,7 @@ CREATE TABLE orders (
     id    		INT         AUTO_INCREMENT,
     date  		DATE,
     customer_id INT         NOT NULL,
+    status      INT         NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id)
         REFERENCES customers(id)

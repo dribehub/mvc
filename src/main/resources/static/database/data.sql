@@ -26,10 +26,10 @@ INSERT INTO items VALUES (NULL, 'Scarf',         'Accessories',      52.9, 'EUR'
 INSERT INTO items VALUES (NULL, 'Set of plates', 'Kitchen Utensils', 23.7, 'GBP');
 
 -- insert orders
-INSERT INTO orders VALUES (NULL, DATE('2021-07-25'), 1);
-INSERT INTO orders VALUES (NULL, DATE('2021-07-21'), 2);
-INSERT INTO orders VALUES (NULL, DATE('2021-07-21'), 2);
-INSERT INTO orders VALUES (NULL, DATE('2021-07-26'), 3);
+INSERT INTO orders VALUES (NULL, DATE('2021-07-25'), 1, 1);
+INSERT INTO orders VALUES (NULL, DATE('2021-07-21'), 2, 1);
+INSERT INTO orders VALUES (NULL, DATE('2021-07-21'), 2, 1);
+INSERT INTO orders VALUES (NULL, DATE('2021-07-26'), 3, 1);
 
 -- insert order-item joins
 INSERT INTO order_item VALUES (1, 1);
