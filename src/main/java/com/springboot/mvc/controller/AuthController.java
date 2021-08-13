@@ -17,8 +17,8 @@ import javax.validation.Valid;
 public class AuthController {
 
     private static final String
-            SIGNUP = "signup",
-            LOGIN = "login",
+            SIGNUP = "auth/signup",
+            LOGIN = "auth/login",
             INDEX = "index";
 
     private final CustomerService customerService;
