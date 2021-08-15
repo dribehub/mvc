@@ -3,6 +3,7 @@ package com.springboot.mvc.controller;
 import com.springboot.mvc.dto.*;
 import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.service.ItemService;
+import com.springboot.mvc.util.OrderStatus;
 import com.springboot.mvc.util.Utils;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,8 @@ import com.springboot.mvc.service.OrderService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")
@@ -46,8 +45,10 @@ public class OrderController {
         addLoggedInUser(model);
         List<OrderDto> orders = orderService.selectAll();
         List<CustomerDto> customers = customerService.selectAll();
+        Object[] statuses = Arrays.stream(OrderStatus.values()).map(OrderStatus::value).toArray();
         model.addAttribute("orders", orders);
         model.addAttribute("customers", customers);
+        model.addAttribute("statuses", statuses);
         return ORDER_LIST;
     }
 
