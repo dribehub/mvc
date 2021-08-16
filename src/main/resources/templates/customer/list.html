@@ -31,8 +31,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="customer:${customers}">
-      <td scope="row" th:text="${customer.id}">ID</td>
+    <tr th:each="customer,stats:${customers}">
+      <td th:text="${stats.index+1}">ID</td>
       <td th:text="${customer.firstName}">First Name</td>
       <td th:text="${customer.lastName}">Last Name</td>
       <td th:text="${customer.role}">Role</td>

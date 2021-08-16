@@ -22,16 +22,13 @@ public class CategoryController {
     private static final String LIST = "category/list";
     private final CategoryService categoryService;
     private final ItemService itemService;
-    private final CustomerService customerService;
     private CustomerDto loggedInUser;
 
     @Autowired
     public CategoryController(CategoryService categoryService,
-                              ItemService itemService,
-                              CustomerService customerService) {
+                              ItemService itemService) {
         this.categoryService = categoryService;
         this.itemService = itemService;
-        this.customerService = customerService;
     }
 
     @GetMapping({"/", ""})
@@ -95,9 +92,9 @@ public class CategoryController {
         return getAll(model);
     }
 
-    @GetMapping("/user/{id}")
-    public String redirect(@PathVariable(value = "id") Integer id) {
-        loggedInUser = customerService.findById(id);
+    @GetMapping("/rdr")
+    public String redirect(Model model) {
+        loggedInUser = (CustomerDto) model.getAttribute("user");
         return "redirect:/categories";
     }
 

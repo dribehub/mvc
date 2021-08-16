@@ -70,19 +70,19 @@
       <span class="fs-4">Home</span></a>
     <hr>
     <ul th:if="${isAdmin}" class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item"><a th:href="@{/customers/user/{id}(id=${user.id})}" class="nav-link text-white">
+      <li class="nav-item"><a th:href="@{/u/customers}" class="nav-link text-white">
         <svg class="bi me-2 icon" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
         <span>Users</span></a></li>
-      <li class="nav-item"><a th:href="@{/orders/user/{id}(id=${user.id})}" class="nav-link text-white">
+      <li class="nav-item"><a th:href="@{/u/orders}" class="nav-link text-white">
         <svg class="bi me-2 icon" width="16" height="16"><use xlink:href="#table"></use></svg>
         <span>Orders</span></a></li>
-      <li class="nav-item"><a th:href="@{/items/user/{id}(id=${user.id})}" class="nav-link text-white">
+      <li class="nav-item"><a th:href="@{/u/items}" class="nav-link text-white">
         <svg class="bi me-2 icon" width="16" height="16"><use xlink:href="#grid"></use></svg>
         <span>Items</span></a></li>
-      <li class="nav-item"><a th:href="@{/categories/user/{id}(id=${user.id})}" class="nav-link text-white">
+      <li class="nav-item"><a th:href="@{/u/categories}" class="nav-link text-white">
         <svg class="bi me-2 icon" width="16" height="16"><use xlink:href="#collection"></use></svg>
         <span>Categories</span></a></li>
-      <li class="nav-item"><a th:href="@{/requests/user/{id}(id=${user.id})}" class="nav-link text-white">
+      <li class="nav-item"><a th:href="@{/u/requests}" class="nav-link text-white">
         <svg class="bi me-2 icon" width="16" height="16"><use xlink:href="#geo-fill"></use></svg>
         <span>Requests</span></a></li>
     </ul>

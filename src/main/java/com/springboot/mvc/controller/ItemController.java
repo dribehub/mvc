@@ -54,7 +54,7 @@ public class ItemController {
         return ITEM_LIST;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // TODO: to be deleted
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
         addLoggedInUser(model);
         ItemDto item = itemService.findById(id);
@@ -67,7 +67,7 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/create")
+    @GetMapping("/create") // TODO: to be deleted
     public String createForm(Model model) {
         addLoggedInUser(model);
         List<CategoryDto> categories = categoryService.selectAll();
@@ -76,7 +76,7 @@ public class ItemController {
         return FORM;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add") // TODO: to be deleted
     public String addItem(@ModelAttribute(name = "item") @Valid ItemDto item,
                           BindingResult result, Model model) {
         addLoggedInUser(model);
@@ -120,9 +120,9 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/user/{id}")
-    public String redirect(@PathVariable(value = "id") Integer id) {
-        loggedInUser = customerService.findById(id);
+    @GetMapping("/rdr")
+    public String redirect(Model model) {
+        loggedInUser = (CustomerDto) model.getAttribute("user");
         return "redirect:/items";
     }
 

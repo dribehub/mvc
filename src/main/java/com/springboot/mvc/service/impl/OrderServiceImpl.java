@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElse(null);
     }
 
-    @Override public OrderDto addOrder(Integer customerId, List<ItemDto> items) {
+    @Override public OrderDto add(Integer customerId, List<ItemDto> items) {
         OrderEntity entity = new OrderEntity();
         entity.setDate(LocalDate.now());
         entity.setCustomerId(customerId);
@@ -43,7 +43,30 @@ public class OrderServiceImpl implements OrderService {
         return OrderMapper.toDto(repository.save(entity));
     }
 
-    @Override public OrderDto addOrder(OrderDto order) {
-        return addOrder(order.getCustomerId(), order.getItems());
+    @Override public OrderDto add(OrderDto order) {
+        return add(order.getCustomerId(), order.getItems());
+    }
+
+    @Override public OrderDto update(OrderDto current, OrderDto updated) {
+        repository.save(OrderMapper.toEntity(updated));
+        return current;
+    }
+
+    @Override public boolean approve(OrderDto order) {
+        if (order.getStatus().equals(OrderStatus.PENDING.code())) {
+            OrderDto updated = new OrderDto(order);
+            updated.setId(order.getId());
+            updated.setStatus(OrderStatus.APPROVED.code());
+            update(order, updated);
+            return true;
+        } else return false;
+    }
+
+    @Override public OrderDto deleteById(Integer id) {
+        OrderEntity order = repository.findById(id).orElse(null);
+        if (order != null) {
+            repository.delete(order);
+            return OrderMapper.toDto(order);
+        } else return null;
     }
 }

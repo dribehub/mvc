@@ -5,7 +5,6 @@ import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.util.OrderStatus;
 import com.springboot.mvc.util.Utils;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.springboot.mvc.service.OrderService;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")
@@ -91,7 +89,7 @@ public class OrderController {
                 items.add(itemService.findById(itemId));
         Map<String, String> symbols = Utils.getAllSymbols(items);
         Integer customerId = order.getCustomerId();
-        OrderDto newOrder = orderService.addOrder(customerId, items);
+        OrderDto newOrder = orderService.add(customerId, items);
         CustomerDto customer = customerService.findById(customerId);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
@@ -100,9 +98,23 @@ public class OrderController {
         return RESULT;
     }
 
-    @GetMapping("/user/{id}")
-    public String redirect(@PathVariable(value = "id") Integer id) {
-        loggedInUser = customerService.findById(id);
+    @RequestMapping(value = "/{id}/delete")
+    public String deleteById(@PathVariable(value = "id") Integer id) {
+        orderService.deleteById(id);
+        return "redirect:/orders";
+    }
+
+    @RequestMapping(value = "/{id}/approve")
+    public String approveById(@PathVariable(value = "id") Integer id) {
+        OrderDto order = orderService.findById(id);
+        if (order != null)
+            orderService.approve(order); // FIXME: don't reinsert, update instead
+        return "redirect:/orders";
+    }
+
+    @GetMapping("/rdr")
+    public String redirect(Model model) {
+        loggedInUser = (CustomerDto) model.getAttribute("user");
         return "redirect:/orders";
     }
 

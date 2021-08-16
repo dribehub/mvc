@@ -11,6 +11,15 @@ public class OrderDto {
     private Integer status;
     private List<ItemDto> items;
 
+    public OrderDto() {}
+    public OrderDto(OrderDto o) {
+        id = o.id;
+        date = o.date;
+        customerId = o.customerId;
+        status = o.status;
+        items = o.items;
+    }
+
     public Integer getId() { return id; }
     public LocalDate getDate() { return date; }
     public Integer getCustomerId() { return customerId; }
