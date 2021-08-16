@@ -36,7 +36,8 @@
       <td th:text="${customer.firstName}">First Name</td>
       <td th:text="${customer.lastName}">Last Name</td>
       <td th:text="${customer.role}">Role</td>
-      <td class="mx-2">
+      <td class="mx-2" th:if="${customer.id == user.id}"></td>
+      <td class="mx-2" th:if="${customer.id != user.id}">
         <a th:href="@{/customers/{id}/message(id=${customer.id})}"><img class="mx-1"
            src="https://img.icons8.com/ios-glyphs/30/000000/no-comments.png" height="20" width="20"></a>
         <a th:href="@{/customers/{id}/delete(id=${customer.id})}"><img class="mx-1"
