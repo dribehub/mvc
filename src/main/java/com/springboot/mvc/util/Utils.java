@@ -3,6 +3,7 @@ package com.springboot.mvc.util;
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.ItemDto;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
@@ -49,6 +50,13 @@ public class Utils {
     public static String capAll(String str) {
         return str.toUpperCase();
     }
+    public static String convertToLongDate(LocalDate localDate) {
+        String[] months = {"January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"};
+        String[] info = localDate.toString().split("-");
+        int monthIndex = Integer.parseInt(info[1]) - 1;
+        return String.format("%s %s %s", info[2], months[monthIndex], info[0]);
+    }
 
     public static Boolean isSupported(String currency) {
         try {
@@ -61,7 +69,6 @@ public class Utils {
     public static Boolean isCurrencySupported(ItemDto item) {
         return isSupported(item.getCurrency());
     }
-
     public static String getSymbol(String currency) throws IllegalArgumentException {
         return Currency.getInstance(currency).getSymbol();
     }

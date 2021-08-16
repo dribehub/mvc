@@ -1,5 +1,7 @@
 package com.springboot.mvc.dto;
 
+import com.springboot.mvc.util.Utils;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class OrderDto {
 
     public Integer getId() { return id; }
     public LocalDate getDate() { return date; }
+    public String getLongDate() { return Utils.convertToLongDate(date); }
     public Integer getCustomerId() { return customerId; }
     public Integer getStatus() { return status; }
     public List<ItemDto> getItems() { return items; }

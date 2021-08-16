@@ -19,10 +19,8 @@
 <body>
 <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
 <main class="align-items-center float-end">
-  <h2 th:text="|Order #${order.id}|">[Order #]</h2>
-  <h3>Customer: <span th:text="${customer.name}" class="normal">[Customer]</span></h3>
-  <h3>Order Date: <span th:text="${order.date}" class="normal">[Date]</span></h3>
-
+  <h3 class="mt-5">Customer: <span th:text="${customer.name}" class="normal">Customer</span></h3>
+  <h5 class="mb-5">Order Date: <span th:text="${order.longDate}" class="normal">Date</span></h5>
   <table id="items" class="table border-s">
     <thead class="thead-dark">
     <tr>
