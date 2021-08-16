@@ -87,6 +87,12 @@ public class CustomerController {
         return EDIT;
     }
 
+    @RequestMapping(value = "/{id}/delete")
+    public String deleteById(@PathVariable(value = "id") Integer id) {
+        customerService.deleteById(id);
+        return "redirect:/customers/";
+    }
+
     @GetMapping("/user/{id}")
     public String redirect(@PathVariable(value = "id") Integer id) {
         loggedInUser = customerService.findById(id);

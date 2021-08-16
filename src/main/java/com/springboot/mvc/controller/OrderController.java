@@ -45,7 +45,7 @@ public class OrderController {
         addLoggedInUser(model);
         List<OrderDto> orders = orderService.selectAll();
         List<CustomerDto> customers = customerService.selectAll();
-        Object[] statuses = Arrays.stream(OrderStatus.values()).map(OrderStatus::value).toArray();
+        String[] statuses = OrderStatus.getAllStatuses();
         model.addAttribute("orders", orders);
         model.addAttribute("customers", customers);
         model.addAttribute("statuses", statuses);

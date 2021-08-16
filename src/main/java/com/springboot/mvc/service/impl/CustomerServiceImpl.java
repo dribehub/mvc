@@ -53,4 +53,12 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerEntity entity = CustomerMapper.toEntity(newCustomer);
         return CustomerMapper.toDto(repository.save(entity));
     }
+
+    @Override public CustomerDto deleteById(Integer id) {
+        CustomerEntity customer = repository.findById(id).orElse(null);
+        if (customer != null) {
+            repository.delete(customer);
+            return CustomerMapper.toDto(customer);
+        } else return null;
+    }
 }

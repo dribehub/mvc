@@ -37,12 +37,11 @@
         <td th:text="${customer.name}">Customer</td>
         <td th:text="${order.date}">YYYY-MM-DD</td>
         <td th:text="${statuses['__${order.status}-1__']}">Status</td>
-        <td>
-          <a th:href="@{/orders/{id}(id=${order.id})}">
+        <td class="mx-3">
+          <a class="mx-1" th:href="@{/orders/{id}(id=${order.id})}">
             <img src="https://img.icons8.com/ios-glyphs/30/000000/view-delivery.png" height="20" width="20">
           </a>
-          <span class="mx-2"></span>
-          <img src="https://img.icons8.com/ios-glyphs/30/000000/cancel.png" height="20" width="20">
+          <img class="mx-1" src="https://img.icons8.com/ios-glyphs/30/000000/cancel.png" height="20" width="20">
         </td>
       </tr>
     </th:block>

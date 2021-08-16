@@ -14,4 +14,5 @@ public interface CustomerService {
     CustomerDto findByEmail(String email);
     CustomerDto findByEmail(CustomerDto customer);
     CustomerDto addCustomer(CustomerDto newCustomer);
+    CustomerDto deleteById(Integer id);
 }

@@ -1,5 +1,7 @@
 package com.springboot.mvc.util;
 
+import java.util.Arrays;
+
 public enum OrderStatus {
 
     PENDING(1),
@@ -16,4 +18,10 @@ public enum OrderStatus {
 
     public Integer code() { return code; }
     public String value() { return value; }
+
+    public static String[] getAllStatuses() {
+        return Arrays.stream(values())
+                .map(OrderStatus::value)
+                .toArray(String[]::new);
+    }
 }
