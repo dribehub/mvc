@@ -13,5 +13,5 @@ Admins are granted with CRUD privileges (create, read, update, delete customers,
 #### To be implemented
 * All users can view and edit their profiles (update full name, email address, password etc...).
 * Customers can request admins to add specific items and categories in the system.
-* Admins can approve or dismiss above mentioned customer requests.
+* Admins can respond (approve or dismiss) to above mentioned requests.
 * Admins can elevate customer privileges on request.
