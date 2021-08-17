@@ -3,8 +3,8 @@ package com.springboot.mvc.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "customers")
-public class CustomerEntity {
+@Table(name = "users")
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

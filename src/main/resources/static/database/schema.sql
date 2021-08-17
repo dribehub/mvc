@@ -4,7 +4,7 @@ CREATE DATABASE order_management;
 USE order_management;
 
 -- create database schema
-CREATE TABLE customers (
+CREATE TABLE users (
     id 			INT         AUTO_INCREMENT,
     role        VARCHAR(10) NOT NULL,
     first_name  VARCHAR(20) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE orders (
     status      INT         NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id)
-        REFERENCES customers(id)
+        REFERENCES users(id)
         ON DELETE CASCADE
 );
 CREATE TABLE order_item (

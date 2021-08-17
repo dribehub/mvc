@@ -1,11 +1,11 @@
 package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoryDto;
-import com.springboot.mvc.dto.CustomerDto;
+import com.springboot.mvc.dto.UserDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.entity.OrderEntity;
 import com.springboot.mvc.service.CategoryService;
-import com.springboot.mvc.service.CustomerService;
+import com.springboot.mvc.service.UserService;
 import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,17 +30,17 @@ public class ItemController {
             RESULT = "item/result",
             ERROR = "error";
 
+    private final AuthController auth;
     private final ItemService itemService;
-    private final CustomerService customerService;
+    private final UserService userService;
     private final CategoryService categoryService;
-    private CustomerDto loggedInUser;
 
     @Autowired
-    public ItemController(ItemService itemService,
-                          CustomerService customerService,
-                          CategoryService categoryService) {
+    public ItemController(AuthController auth, ItemService itemService,
+                          UserService userService, CategoryService categoryService) {
+        this.auth = auth;
         this.itemService = itemService;
-        this.customerService = customerService;
+        this.userService = userService;
         this.categoryService = categoryService;
     }
 
@@ -100,7 +100,6 @@ public class ItemController {
     }
 
     private void getItemData(Model model, ItemDto item) {
-        addLoggedInUser(model);
         String symbol = Utils.getCurrencySymbol(item);
         List<OrderEntity> orders = item.getOrders();
         model.addAttribute("item", item);
@@ -108,10 +107,10 @@ public class ItemController {
 
         if (!orders.isEmpty()) {
             System.out.println(orders.size());
-            Map<Integer, CustomerDto> customers = new HashMap<>();
+            Map<Integer, UserDto> customers = new HashMap<>();
             for (OrderEntity order : orders) {
                 Integer customerId = order.getCustomerId();
-                CustomerDto customer = customerService.findById(customerId);
+                UserDto customer = userService.findById(customerId);
                 customers.put(customerId, customer);
             }
 
@@ -120,13 +119,7 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/redirect")
-    public String redirect(Model model) {
-        loggedInUser = (CustomerDto) model.getAttribute("user");
-        return "redirect:/items";
-    }
-
     private void addLoggedInUser(Model model) {
-        model.addAttribute("user", loggedInUser);
+        model.addAttribute("user", auth.getLoggedInUser());
     }
 }

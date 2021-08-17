@@ -22,7 +22,19 @@
       transform: translateY(-40%);
     }
 
-    /*h3 { color: #1a81a4; }*/
+    span { margin: 10px; }
+
+    .box {
+      background-color: #0d6efd;
+      color: whitesmoke;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    a:hover {
+      background-color: #0b5ed7;
+      color: whitesmoke;
+    }
 
     footer {
       position: relative;
@@ -33,9 +45,12 @@
 <body class="text-center">
 <main>
   <div class="align-self-center">
-    <img class="mb-2" src="https://i.imgur.com/khyNqXm.png" width="72" height="72" alt=" ">
-    <h3 class="py-3">Looks like you encountered<br>an unexpected error :(</h3>
-    <a th:href="@{/}" class="text-decoration-none">Go back</a>
+    <img src="https://i.imgur.com/khyNqXm.png" width="72" height="72" alt=" ">
+    <h2 class="py-5">
+      <span>404 Page not found</span><br>
+      <span class="fs-5">This page can't be loaded or may not exist.</span>
+    </h2>
+    <button class="w-50 btn btn-lg btn-primary" onclick="goTo('/')">Go back</button>
   </div>
   <footer th:include="/fragments::copyright"></footer>
 </main>

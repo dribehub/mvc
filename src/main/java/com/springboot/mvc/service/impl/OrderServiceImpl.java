@@ -31,6 +31,13 @@ public class OrderServiceImpl implements OrderService {
                 .stream().map(OrderMapper::toDto)
                 .collect(Collectors.toList());
     }
+    @Override public List<OrderDto> selectAllFromUser(Integer customerId) {
+        return repository.findAll()
+                .stream().map(OrderMapper::toDto)
+                .filter(o -> o.getCustomerId().equals(customerId))
+                .collect(Collectors.toList());
+    }
+
     @Override public OrderDto findById(Integer id) {
         return repository.findById(id)
                 .map(OrderMapper::toDto)

@@ -1,7 +1,7 @@
 package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.*;
-import com.springboot.mvc.service.CustomerService;
+import com.springboot.mvc.service.UserService;
 import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.util.OrderStatus;
 import com.springboot.mvc.util.Utils;
@@ -18,23 +18,24 @@ import java.util.*;
 public class OrderController {
 
     private static final String
-            ORDER_LIST = "order/list",
-            ORDER_BY_ID = "order/id",
+            LIST = "order/list",
+            ACTIVE = "order/active",
+            ORDER = "order/id",
             FORM = "order/form",
             RESULT = "order/result",
             ERROR = "error";
 
+    private final AuthController auth;
     private final OrderService orderService;
-    private final CustomerService customerService;
+    private final UserService userService;
     private final ItemService itemService;
-    private CustomerDto loggedInUser;
 
     @Autowired
-    public OrderController(OrderService orderService,
-                           CustomerService customerService,
-                           ItemService itemService) {
+    public OrderController(AuthController auth, OrderService orderService,
+                           UserService userService, ItemService itemService) {
+        this.auth = auth;
         this.orderService = orderService;
-        this.customerService = customerService;
+        this.userService = userService;
         this.itemService = itemService;
     }
 
@@ -42,12 +43,25 @@ public class OrderController {
     public String getAll(Model model) {
         addLoggedInUser(model);
         List<OrderDto> orders = orderService.selectAll();
-        List<CustomerDto> customers = customerService.selectAll();
+        List<UserDto> customers = userService.selectAll();
         String[] statuses = OrderStatus.getAllStatuses();
         model.addAttribute("orders", orders);
         model.addAttribute("customers", customers);
         model.addAttribute("statuses", statuses);
-        return ORDER_LIST;
+        return LIST;
+    }
+
+    @GetMapping("/active")
+    public String getActive(Model model) {
+        addLoggedInUser(model);
+        UserDto user = auth.getLoggedInUser();
+        List<OrderDto> orders = orderService.selectAllFromUser(user.getId());
+        List<UserDto> customers = userService.selectAll();
+        String[] statuses = OrderStatus.getAllStatuses();
+        model.addAttribute("orders", orders);
+        model.addAttribute("customers", customers);
+        model.addAttribute("statuses", statuses);
+        return ACTIVE;
     }
 
     @GetMapping("/{id}")
@@ -58,13 +72,13 @@ public class OrderController {
             model.addAttribute("error", Utils.ORDER_NOT_FOUND);
             return ERROR;
         } else {
-            CustomerDto customer = customerService.findById(order.getCustomerId());
+            UserDto customer = userService.findById(order.getCustomerId());
             List<ItemDto> items = itemService.selectAllByOrder(order);
             Map<String, String> symbols = Utils.getAllSymbols(items);
             model.addAttribute("order", order);
             model.addAttribute("customer", customer);
             model.addAttribute("symbols", symbols);
-            return ORDER_BY_ID;
+            return ORDER;
         }
     }
 
@@ -74,7 +88,7 @@ public class OrderController {
         List<ItemDto> items = itemService.selectAll();
         model.addAttribute("items", items);
         model.addAttribute("symbols", Utils.getAllSymbols(items));
-        model.addAttribute("customers", customerService.selectAll());
+        model.addAttribute("customers", userService.selectAll());
         model.addAttribute("order", new OrderRequestDto(items));
         return FORM;
     }
@@ -90,7 +104,7 @@ public class OrderController {
         Map<String, String> symbols = Utils.getAllSymbols(items);
         Integer customerId = order.getCustomerId();
         OrderDto newOrder = orderService.add(customerId, items);
-        CustomerDto customer = customerService.findById(customerId);
+        UserDto customer = userService.findById(customerId);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
         model.addAttribute("newOrder", newOrder);
@@ -112,13 +126,7 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    @GetMapping("/redirect")
-    public String redirect(Model model) {
-        loggedInUser = (CustomerDto) model.getAttribute("user");
-        return "redirect:/orders";
-    }
-
     private void addLoggedInUser(Model model) {
-        model.addAttribute("user", loggedInUser);
+        model.addAttribute("user", auth.getLoggedInUser());
     }
 }

@@ -1,12 +1,12 @@
 -- print database schema
-DESCRIBE customers;
+DESCRIBE users;
 DESCRIBE categories;
 DESCRIBE items;
 DESCRIBE orders;
 DESCRIBE order_item;
 
 -- print data
-SELECT * FROM customers;
+SELECT * FROM users;
 SELECT * FROM categories;
 SELECT * FROM items;
 SELECT * FROM orders;

@@ -1,12 +1,12 @@
 package com.springboot.mvc.mapper;
 
-import com.springboot.mvc.dto.CustomerDto;
-import com.springboot.mvc.entity.CustomerEntity;
+import com.springboot.mvc.dto.UserDto;
+import com.springboot.mvc.entity.UserEntity;
 
-public class CustomerMapper {
+public class UserMapper {
 
-    public static CustomerEntity toEntity(CustomerDto dto) {
-        CustomerEntity entity = new CustomerEntity();
+    public static UserEntity toEntity(UserDto dto) {
+        UserEntity entity = new UserEntity();
         entity.setId(dto.getId());
         entity.setRole(dto.getRole());
         entity.setFirstName(dto.getFirstName());
@@ -16,8 +16,8 @@ public class CustomerMapper {
         return entity;
     }
 
-    public static CustomerDto toDto(CustomerEntity entity) {
-        CustomerDto dto = new CustomerDto();
+    public static UserDto toDto(UserEntity entity) {
+        UserDto dto = new UserDto();
         dto.setId(entity.getId());
         dto.setRole(entity.getRole());
         dto.setFirstName(entity.getFirstName());

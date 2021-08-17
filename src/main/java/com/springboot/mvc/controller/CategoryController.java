@@ -1,10 +1,8 @@
 package com.springboot.mvc.controller;
 
-import com.springboot.mvc.dto.CategoriesRequestDto;
+import com.springboot.mvc.dto.CategoriesDto;
 import com.springboot.mvc.dto.CategoryDto;
-import com.springboot.mvc.dto.CustomerDto;
 import com.springboot.mvc.service.CategoryService;
-import com.springboot.mvc.service.CustomerService;
 import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +18,15 @@ import java.util.List;
 public class CategoryController {
 
     private static final String LIST = "category/list";
+
+    private final AuthController auth;
     private final CategoryService categoryService;
     private final ItemService itemService;
-    private CustomerDto loggedInUser;
 
     @Autowired
-    public CategoryController(CategoryService categoryService,
+    public CategoryController(AuthController auth, CategoryService categoryService,
                               ItemService itemService) {
+        this.auth = auth;
         this.categoryService = categoryService;
         this.itemService = itemService;
     }
@@ -59,7 +59,7 @@ public class CategoryController {
     }
 
     @PutMapping("/update")
-    public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesRequestDto edits,
+    public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesDto edits,
                          BindingResult result, Model model) {
         addLoggedInUser(model);
         if (result.hasErrors()) return LIST;
@@ -92,13 +92,7 @@ public class CategoryController {
         return getAll(model);
     }
 
-    @GetMapping("/redirect")
-    public String redirect(Model model) {
-        loggedInUser = (CustomerDto) model.getAttribute("user");
-        return "redirect:/categories";
-    }
-
     private void addLoggedInUser(Model model) {
-        model.addAttribute("user", loggedInUser);
+        model.addAttribute("user", auth.getLoggedInUser());
     }
 }

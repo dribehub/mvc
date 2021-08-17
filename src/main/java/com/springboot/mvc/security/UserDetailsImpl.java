@@ -3,7 +3,7 @@ package com.springboot.mvc.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.springboot.mvc.dto.CustomerDto;
+import com.springboot.mvc.dto.UserDto;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ public class UserDetailsImpl implements UserDetails {
     private final String password;
     private final List<GrantedAuthority> authorities;
 
-    public UserDetailsImpl(CustomerDto customer) {
+    public UserDetailsImpl(UserDto customer) {
         email = customer.getEmail();
         password = customer.getPassword();
         List<GrantedAuthority> list = new ArrayList<>();

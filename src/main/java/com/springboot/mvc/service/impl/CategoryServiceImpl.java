@@ -1,6 +1,6 @@
 package com.springboot.mvc.service.impl;
 
-import com.springboot.mvc.dto.CategoriesRequestDto;
+import com.springboot.mvc.dto.CategoriesDto;
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.mapper.CategoryMapper;
 import com.springboot.mvc.repository.CategoryRepository;
@@ -27,8 +27,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .stream().map(CategoryMapper::toDto)
                 .collect(Collectors.toList());
     }
-    @Override public CategoriesRequestDto selectAllToDto() {
-        return new CategoriesRequestDto(selectAll());
+    @Override public CategoriesDto selectAllToDto() {
+        return new CategoriesDto(selectAll());
     }
     @Override public CategoryDto findByName(String name) {
         return repository.findByName(name)

@@ -5,7 +5,7 @@ import com.springboot.mvc.util.Utils;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class CustomerDto {
+public class UserDto {
 
     private Integer id;
     private String role;
@@ -33,7 +33,7 @@ public class CustomerDto {
     public void setEmail(String email) { this.email = email; }
     public void setPassword(String password) { this.password = password; }
 
-    public boolean equals(CustomerDto customer) {
+    public boolean equals(UserDto customer) {
         return customer == this
             || customer != null
             && customer.email.equals(email)

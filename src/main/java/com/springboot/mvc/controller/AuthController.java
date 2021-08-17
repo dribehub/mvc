@@ -1,7 +1,7 @@
 package com.springboot.mvc.controller;
 
-import com.springboot.mvc.dto.CustomerDto;
-import com.springboot.mvc.service.CustomerService;
+import com.springboot.mvc.dto.UserDto;
+import com.springboot.mvc.service.UserService;
 import com.springboot.mvc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,25 +23,25 @@ public class AuthController {
             LOGIN = "auth/login",
             INDEX = "index";
 
-    private final CustomerService customerService;
-    private CustomerDto loggedInUser;
+    private final UserService userService;
+    private UserDto loggedInUser;
 
     @Autowired
-    public AuthController(CustomerService customerService) {
-        this.customerService = customerService;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/signup")
     public String signup(Model model) {
         if (isLoggedIn()) return "redirect:/";
-        model.addAttribute("user", new CustomerDto());
+        model.addAttribute("user", new UserDto());
         return SIGNUP;
     }
 
     @GetMapping("/login")
     public String login(Model model) {
         if (isLoggedIn()) return "redirect:/";
-        model.addAttribute("user", new CustomerDto());
+        model.addAttribute("user", new UserDto());
         return LOGIN;
     }
 
@@ -52,32 +52,32 @@ public class AuthController {
     }
 
     @PostMapping("/perform_signup")
-    public String performSignup(@ModelAttribute(name = "user") @Valid CustomerDto customer,
+    public String performSignup(@ModelAttribute(name = "user") @Valid UserDto customer,
                                 BindingResult result, Model model) {
-        if (customerService.existsByEmail(customer)) {
+        if (userService.existsByEmail(customer)) {
             model.addAttribute("nonUniqueEmailError", Utils.EMAIL_NOT_UNIQUE);
             return SIGNUP;
         } else if (result.hasErrors()) {
             return SIGNUP;
         } else {
             customer.setRole("user");
-            loggedInUser = customerService.addCustomer(customer);
+            loggedInUser = userService.addUser(customer);
             return "redirect:/";
         }
     }
 
     @PostMapping("/perform_login")
-    public String performLogin(@ModelAttribute(name = "user") CustomerDto customer, Model model) {
-        if (!customerService.existsByEmail(customer)) {
+    public String performLogin(@ModelAttribute(name = "user") UserDto customer, Model model) {
+        if (!userService.existsByEmail(customer)) {
             model.addAttribute("user", customer);
             model.addAttribute("invalidEmailError", Utils.EMAIL_NOT_FOUND);
             return LOGIN;
-        } else if (!customerService.isValid(customer)) {
+        } else if (!userService.isValid(customer)) {
             model.addAttribute("user", customer);
             model.addAttribute("invalidPassError", Utils.INVALID_PASS);
             return LOGIN;
         } else {
-            loggedInUser = customerService.findByEmail(customer.getEmail());;
+            loggedInUser = userService.findByEmail(customer.getEmail());;
             return "redirect:/";
         }
     }
@@ -92,13 +92,6 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/u/{url}")
-    public String redirect(RedirectAttributes ra, @PathVariable(value = "url") String url) {
-        ra.addFlashAttribute("user", loggedInUser);
-        return "redirect:/" + url + "/redirect";
-    }
-
-    private boolean isLoggedIn() {
-        return loggedInUser != null;
-    }
+    private boolean isLoggedIn() { return loggedInUser != null; }
+    public UserDto getLoggedInUser() { return loggedInUser; }
 }
