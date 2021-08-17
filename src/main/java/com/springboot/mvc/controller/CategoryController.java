@@ -92,7 +92,7 @@ public class CategoryController {
         return getAll(model);
     }
 
-    @GetMapping("/rdr")
+    @GetMapping("/redirect")
     public String redirect(Model model) {
         loggedInUser = (CustomerDto) model.getAttribute("user");
         return "redirect:/categories";

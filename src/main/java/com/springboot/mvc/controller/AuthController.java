@@ -95,7 +95,7 @@ public class AuthController {
     @GetMapping("/u/{url}")
     public String redirect(RedirectAttributes ra, @PathVariable(value = "url") String url) {
         ra.addFlashAttribute("user", loggedInUser);
-        return "redirect:/" + url + "/rdr";
+        return "redirect:/" + url + "/redirect";
     }
 
     private boolean isLoggedIn() {

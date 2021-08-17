@@ -20,7 +20,7 @@ aside {
 }
 thead { font-weight: bold; }
 td { text-align: center; }
-.dataTable { min-width: 500px; }
+.dataTable { min-width: 700px; }
 .dataTables_wrapper, .row:nth-child(3) { position: sticky; }
 .pagination { justify-content: center !important; }
 .col-md-5 { display: none; }

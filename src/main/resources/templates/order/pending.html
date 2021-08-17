@@ -5,7 +5,8 @@
   <title>Order List</title>
   <link rel="icon" href="https://i.imgur.com/khyNqXm.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+        crossorigin="anonymous">
   <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
   <link th:href="@{/styles/tables.css}" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -32,20 +33,18 @@
     </thead>
     <tbody>
     <th:block th:each="customer:${customers}">
-      <tr th:each="order,stats:${orders}" th:if="${order.customerId} == ${customer.id}">
-        <td th:text="${stats.index+1}">ID</td>
+      <tr th:each="order:${orders}" th:if="${order.customerId} == ${customer.id}">
+        <td th:text="${order.id}">ID</td>
         <td th:text="${customer.name}">Customer</td>
-        <td th:text="${order.longDate}">Date</td>
+        <td th:text="${order.date}">YYYY-MM-DD</td>
         <td th:text="${statuses['__${order.status}-1__']}">Status</td>
         <td class="mx-3">
           <a th:href="@{/orders/{id}(id=${order.id})}"><img class="mx-1" title="View details"
              src="https://img.icons8.com/ios-glyphs/30/000000/view-delivery.png" height="20" width="20"></a>
-          <span th:if="${order.status == 1}">
-            <a th:href="@{/orders/{id}/delete(id=${order.id})}"><img class="mx-1" title="Cancel order"
-               src="https://img.icons8.com/ios-glyphs/30/000000/cancel.png" height="20" width="20"></a>
-            <a th:href="@{/orders/{id}/approve(id=${order.id})}"><img class="mx-1" title="Approve order"
-               src="https://img.icons8.com/ios-glyphs/30/000000/checked--v1.png" height="20" width="20"></a>
-          </span>
+          <a th:if="${order.status == 1}" th:href="@{/orders/{id}/delete(id=${order.id})}"><img class="mx-1"
+             src="https://img.icons8.com/ios-glyphs/30/000000/cancel.png" height="20" width="20"></a>
+          <a th:if="${order.status == 1}" th:href="@{/orders/{id}/approve(id=${order.id})}"><img class="mx-1"
+             src="https://img.icons8.com/ios-glyphs/30/000000/checked--v1.png" height="20" width="20"></a>
         </td>
       </tr>
     </th:block>

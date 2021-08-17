@@ -15,7 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired private CustomerRepository repository;
+    private final CustomerRepository repository;
+
+    @Autowired
+    public CustomerServiceImpl(CustomerRepository repository) {
+        this.repository = repository;
+    }
 
     @Override public Boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
@@ -26,7 +31,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override public Boolean isValid(CustomerDto customer) {
         return customer.equals(findByEmail(customer));
     }
-
     @Override public CustomerDto findById(Integer id) {
         return repository.findById(id)
                 .map(CustomerMapper::toDto)
@@ -40,20 +44,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Override public CustomerDto findByEmail(CustomerDto customer) {
         return findByEmail(customer.getEmail());
     }
-
     @Override public List<CustomerDto> selectAll() {
         return repository.findAll()
                 .stream().map(CustomerMapper::toDto)
                 .collect(Collectors.toList());
     }
-
     @Override public CustomerDto addCustomer(CustomerDto newCustomer) {
         if (existsByEmail(newCustomer))
             throw new NonUniqueResultException("This email is already inserted!");
         CustomerEntity entity = CustomerMapper.toEntity(newCustomer);
         return CustomerMapper.toDto(repository.save(entity));
     }
-
     @Override public CustomerDto deleteById(Integer id) {
         CustomerEntity customer = repository.findById(id).orElse(null);
         if (customer != null) {
