@@ -69,7 +69,7 @@ public class OrderController {
         addLoggedInUser(model);
         OrderDto order = orderService.findById(id);
         if (order == null) {
-            model.addAttribute("error", Utils.ORDER_NOT_FOUND);
+            model.addAttribute("error", Utils.ORDER_NOT_FOUND); // TODO: to be deleted
             return ERROR;
         } else {
             UserDto customer = userService.findById(order.getCustomerId());
@@ -120,9 +120,7 @@ public class OrderController {
 
     @RequestMapping(value = "/{id}/approve")
     public String approveById(@PathVariable(value = "id") Integer id) {
-        OrderDto order = orderService.findById(id);
-        if (order != null)
-            orderService.approve(order); // FIXME: don't reinsert, update instead
+        orderService.approveById(id);
         return "redirect:/orders";
     }
 

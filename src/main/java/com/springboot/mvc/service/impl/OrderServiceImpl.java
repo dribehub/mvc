@@ -31,13 +31,12 @@ public class OrderServiceImpl implements OrderService {
                 .stream().map(OrderMapper::toDto)
                 .collect(Collectors.toList());
     }
-    @Override public List<OrderDto> selectAllFromUser(Integer customerId) {
+    @Override public List<OrderDto> selectAllFromUser(Integer id) {
         return repository.findAll()
                 .stream().map(OrderMapper::toDto)
-                .filter(o -> o.getCustomerId().equals(customerId))
+                .filter(order -> order.getCustomerId().equals(id))
                 .collect(Collectors.toList());
     }
-
     @Override public OrderDto findById(Integer id) {
         return repository.findById(id)
                 .map(OrderMapper::toDto)
@@ -60,14 +59,16 @@ public class OrderServiceImpl implements OrderService {
         repository.save(OrderMapper.toEntity(updated));
         return current;
     }
-    @Override public boolean approve(OrderDto order) {
-        if (order.getStatus().equals(OrderStatus.PENDING.code())) {
+    @Override public Boolean approveById(Integer id) {
+        OrderDto order = findById(id);
+        if (order != null && order.getStatus().equals(OrderStatus.PENDING.code())) {
             OrderDto updated = new OrderDto(order);
-            updated.setId(order.getId());
             updated.setStatus(OrderStatus.APPROVED.code());
             update(order, updated);
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
     }
     @Override public OrderDto deleteById(Integer id) {
         OrderEntity order = repository.findById(id).orElse(null);
@@ -75,6 +76,8 @@ public class OrderServiceImpl implements OrderService {
             OrderDto dto = OrderMapper.toDto(order);
             repository.delete(order);
             return dto;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 }

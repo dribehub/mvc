@@ -4,16 +4,16 @@ import java.util.Arrays;
 
 public enum OrderStatus {
 
-    PENDING(1),
-    APPROVED(2),
-    ARRIVED(3);
+    PENDING(1, "Pending"),
+    APPROVED(2, "Approved"),
+    ARRIVED(3, "Arrived");
 
     private final Integer code;
     private final String value;
 
-    OrderStatus(Integer code) {
+    OrderStatus(Integer code, String value) {
         this.code = code;
-        this.value = Utils.capFirst(name());
+        this.value = value;
     }
 
     public Integer code() { return code; }

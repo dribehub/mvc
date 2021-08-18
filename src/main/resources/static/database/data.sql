@@ -1,10 +1,10 @@
 -- insert customers
-INSERT INTO users VALUES (NULL, 'admin', 'Beder',   'Butka',    'beder.butka@gmail.com', 'beder.butka');
-INSERT INTO users VALUES (NULL, 'user',  'Aretha',  'Sydney', 'aretha.sydney@gmail.com', 'aretha.sydney');
-INSERT INTO users VALUES (NULL, 'user',  'Michael', 'Hall',    'michael.hall@gmail.com', 'michael.hall');
-INSERT INTO users VALUES (NULL, 'user',  'David',   'Reed',      'david.reed@gmail.com', 'david.reed');
-INSERT INTO users VALUES (NULL, 'user',  'Linda',   'Baker',    'linda.baker@gmail.com', 'linda.baker');
-INSERT INTO users VALUES (NULL, 'user',  'William', 'Ford',    'william.ford@gmail.com', 'william.ford');
+INSERT INTO users VALUES (NULL, 'ADMIN', 'Beder',   'Butka',    'beder.butka@gmail.com', 'beder.butka');
+INSERT INTO users VALUES (NULL, 'USER',  'Aretha',  'Sydney', 'aretha.sydney@gmail.com', 'aretha.sydney');
+INSERT INTO users VALUES (NULL, 'USER',  'Michael', 'Hall',    'michael.hall@gmail.com', 'michael.hall');
+INSERT INTO users VALUES (NULL, 'USER',  'David',   'Reed',      'david.reed@gmail.com', 'david.reed');
+INSERT INTO users VALUES (NULL, 'USER',  'Linda',   'Baker',    'linda.baker@gmail.com', 'linda.baker');
+INSERT INTO users VALUES (NULL, 'USER',  'William', 'Ford',    'william.ford@gmail.com', 'william.ford');
 
 -- insert categories
 INSERT INTO categories VALUES ('Accessories');

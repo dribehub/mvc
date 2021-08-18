@@ -39,7 +39,7 @@
       <td class="btn" onclick="deleteCtg(this)"
           onmouseenter="setColor(this, 'red')"
           onmouseleave="setColor(this, 'black')">Delete</td>
-      <td><input type="hidden" value="false" th:field="*{areDeleted[__${stats.index}__]}"></td>
+      <td><input type="hidden" value="false" th:field="*{deleted[__${stats.index}__]}"></td>
       <td>
         <span th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"
               th:errorclass="error" th:errors="*{ctg.name}">[patternError]</span>

@@ -14,6 +14,6 @@ public interface OrderService {
     OrderDto add(Integer customerId, List<ItemDto> items);
     OrderDto add(OrderDto order);
     OrderDto update(OrderDto current, OrderDto updated);
-    boolean approve(OrderDto order);
+    Boolean approveById(Integer id);
     OrderDto deleteById(Integer id);
 }
