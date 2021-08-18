@@ -16,10 +16,12 @@ public class UserDetailsImpl implements UserDetails {
     private final List<GrantedAuthority> authorities;
 
     public UserDetailsImpl(UserDto customer) {
+        System.out.println("UserDetailsImpl");
         email = customer.getEmail();
         password = customer.getPassword();
         List<GrantedAuthority> list = new ArrayList<>();
         list.add(new SimpleGrantedAuthority(customer.getRole()));
+        System.out.println(list.get(0));
         authorities = list;
     }
 
