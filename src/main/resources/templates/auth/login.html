@@ -13,16 +13,15 @@
   <form class="align-self-center" method="POST" th:action="@{/perform_login}" th:object="${user}">
     <img class="mb-2" src="https://i.imgur.com/khyNqXm.png" width="72" height="72" alt=" ">
     <h1 class="h3 mb-3 fw-normal">Log In</h1>
+    <p th:if="${invalidEmailError}" class="error" th:text="${invalidEmailError}">invalidEmailError</p>
+    <p th:if="${invalidPassError}" class="error" th:text="${invalidPassError}">invalidPassError</p>
     <div class="form-floating mb-2">
-      <input type="email" class="form-control" id="floatingInput" autofocus
-             placeholder="name@example.com" th:field="*{email}" required>
+      <input type="email" class="form-control" id="floatingInput" th:field="*{email}" required>
       <label class="input-placeholder" for="floatingInput">Email address</label>
-      <p th:if="${invalidEmailError}" class="error" th:text="${invalidEmailError}">[invalidEmailError]</p>
     </div>
     <div class="form-floating mb-4">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required th:field="*{password}">
+      <input type="password" class="form-control" id="floatingPassword" th:field="*{password}" required>
       <label class="input-placeholder" for="floatingPassword">Password</label>
-      <p th:if="${invalidPassError}" class="error" th:text="${invalidPassError}">[invalidPassError]</p>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
     <div class="checkbox mb-3 mt-2">
@@ -34,5 +33,9 @@
   </form>
   <footer th:include="/fragments::copyright"></footer>
 </main>
+<script th:inline="javascript">
+  document.getElementById([[${invalidPassError}]]
+      ? "floatingPassword" : "floatingInput").focus();
+</script>
 </body>
 </html>

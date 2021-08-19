@@ -3,7 +3,7 @@ const goToIndex = () => goTo("/");
 const goToCustomers = () => goTo("/customers");
 const goToOrders = () => goTo("/orders");
 const goToItems = () => goTo("/items");
-const onEnter = (input, action) => {
+function onEnter(input, action) {
     input.addEventListener("keyup", e => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -11,6 +11,11 @@ const onEnter = (input, action) => {
         }
     })
 }
-const onClick = (input, action) => {
+function onClick(input, action) {
     input.addEventListener("click", action);
+}
+function focusError(error, input) {
+    $(error).removeAttr("hidden");
+    $(input).focus();
+    $(input).select();
 }

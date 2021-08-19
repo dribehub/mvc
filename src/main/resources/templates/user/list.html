@@ -12,6 +12,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
   <link th:href="@{/styles/tables.css}" rel="stylesheet">
   <script type="text/javascript" th:src="@{/functions.js}"></script>
@@ -40,7 +41,7 @@
       <td class="mx-2" th:if="${customer.id != user.id}">
         <a th:href="@{/users/{id}/message (id = ${customer.id})}"><img class="mx-1" title="Message user"
            src="https://img.icons8.com/ios-glyphs/30/000000/no-comments.png" height="20" width="20"></a>
-        <a th:href="@{/users/{id}/delete (id = ${customer.id})}"><img class="mx-1" title="Remove user"
+        <a th:onclick="|deleteUser(${customer.id});|" href=""><img class="mx-1" title="Remove user"
            src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png" height="20" width="20"></a>
       </td>
     </tr>
@@ -57,6 +58,18 @@
       "orderable": false,
     }]
   }));
+  function deleteUser(id) {
+    swal({
+      title: "Are you sure?",
+      text: "All user data will also be deleted",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete)
+        window.location.href = "/users/" + id + "/delete";
+    });
+  }
 </script>
 </body>
 </html>
