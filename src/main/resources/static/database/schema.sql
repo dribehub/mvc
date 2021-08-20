@@ -48,3 +48,16 @@ CREATE TABLE order_item (
         REFERENCES items(id)
         ON DELETE CASCADE
 );
+CREATE TABLE messages (
+    id          INT         AUTO_INCREMENT,
+    text    VARCHAR(200)    NOT NULL,
+    sender_id   INT         NOT NULL,
+    receiver_id INT         NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (sender_id)
+          REFERENCES users(id)
+          ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id)
+          REFERENCES users(id)
+          ON DELETE CASCADE
+);

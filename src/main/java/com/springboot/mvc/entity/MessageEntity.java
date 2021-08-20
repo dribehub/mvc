@@ -1,7 +1,13 @@
-package com.springboot.mvc.dto;
+package com.springboot.mvc.entity;
 
-public class MessageDto {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "messages")
+public class MessageEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String text;
     private Integer senderId;

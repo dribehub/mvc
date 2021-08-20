@@ -51,8 +51,8 @@
     </tr>
     </tbody>
   </table>
-  <form id="form" method="post" th:action="@{/users/message}" th:object="${message}">
-    <input id="userId" type="number" th:field="*{userId}"/>
+  <form id="form" method="post" th:action="@{/messages/new}" th:object="${message}">
+    <input id="receiverId" type="number" th:field="*{receiverId}"/>
     <input id="text" type="text" th:field="*{text}"/>
   </form>
   <footer th:include="/fragments::copyright"></footer>
@@ -90,14 +90,11 @@
       },
     }).then(text => {
       if (!text) throw null;
-      sendMessage(id, text);
+      const form = $('#form');
+      $('#receiverId').val(id);
+      $('#text').val(text);
+      form.submit();
     })
-  }
-  function sendMessage(userId, message) {
-    const form = $('#form');
-    $('#userId').val(userId);
-    $('#text').val(message);
-    form.submit();
   }
 </script>
 </body>
