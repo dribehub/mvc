@@ -1,5 +1,6 @@
 package com.springboot.mvc.controller;
 
+import com.springboot.mvc.dto.MessageDto;
 import com.springboot.mvc.dto.UserDto;
 import com.springboot.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,21 @@ public class UserController {
         addLoggedInUser(model);
         List<UserDto> users = userService.selectAll();
         model.addAttribute("customers", users);
+        model.addAttribute("message", new MessageDto());
         return LIST;
     }
 
     @RequestMapping(value = "/{id}/delete")
     public String deleteById(@PathVariable(value = "id") Integer id) {
         userService.deleteById(id);
+        return "redirect:/users";
+    }
+
+    @PostMapping(value = "/message")
+    public String messageUser(@ModelAttribute(name = "message") MessageDto messageDto) {
+        Integer userId = messageDto.getUserId();
+        String text = messageDto.getText();
+        System.out.println(userId + ": " + text);
         return "redirect:/users";
     }
 

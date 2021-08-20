@@ -58,7 +58,7 @@ public class AuthController {
         } else if (result.hasErrors()) {
             return SIGNUP;
         } else {
-            customer.setRole("user");
+            customer.setRole("USER");
             loggedInUser = userService.addUser(customer);
             return "redirect:/";
         }

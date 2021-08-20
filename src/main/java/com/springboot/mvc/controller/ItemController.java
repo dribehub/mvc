@@ -56,12 +56,12 @@ public class ItemController {
 
     @GetMapping("/{id}") // TODO: to be deleted
     public String getById(Model model, @PathVariable(value = "id") Integer id) {
-        addLoggedInUser(model);
         ItemDto item = itemService.findById(id);
         if (item == null) {
             model.addAttribute("error", Utils.ITEM_NOT_FOUND);
             return ERROR;
         } else {
+            addLoggedInUser(model);
             getItemData(model, item);
             return ITEM_BY_ID;
         }
