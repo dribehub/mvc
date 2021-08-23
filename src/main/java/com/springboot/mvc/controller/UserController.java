@@ -2,7 +2,6 @@ package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.MessageDto;
 import com.springboot.mvc.dto.UserDto;
-import com.springboot.mvc.service.MessageService;
 import com.springboot.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

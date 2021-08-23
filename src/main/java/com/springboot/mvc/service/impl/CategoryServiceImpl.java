@@ -22,40 +22,96 @@ public class CategoryServiceImpl implements CategoryService {
         this.repository = repository;
     }
 
-    @Override public List<CategoryDto> selectAll() {
+    /**
+     * Selects all categories in the repository
+     * @return a list of all categories
+     */
+    @Override
+    public List<CategoryDto> selectAll() {
         return repository.findAll()
                 .stream().map(CategoryMapper::toDto)
                 .collect(Collectors.toList());
     }
-    @Override public CategoriesDto selectAllToDto() {
+
+    /**
+     * Selects all categories in the repository
+     * @return a list of all categories wrapped by a DTO
+     */
+    @Override
+    public CategoriesDto selectAllToDto() {
         return new CategoriesDto(selectAll());
     }
-    @Override public CategoryDto findByName(String name) {
+
+    /**
+     * Finds any category by the given name
+     * @param name the name filter
+     * @return the category if one is found, otherwise null
+     */
+    @Override
+    public CategoryDto findByName(String name) {
         return repository.findByName(name)
                 .map(CategoryMapper::toDto)
                 .orElse(null);
     }
-    @Override public Boolean exists(CategoryDto category) {
+
+    /**
+     * Checks if the given category is present in the repository
+     * @param category the category to be checked
+     * @return true if the given category is present
+     */
+    @Override
+    public Boolean exists(CategoryDto category) {
         return repository.existsByName(category.getName());
     }
-    @Override public CategoryDto add(CategoryDto newCategory)
+
+    /**
+     * Adds the new category to the repository
+     * @param newCategory the new category to be inserted
+     * @return the inserted category if it wasn't already present
+     * @throws NonUniqueResultException if category is already present
+     */
+    @Override
+    public CategoryDto add(CategoryDto newCategory)
             throws NonUniqueResultException {
         if (exists(newCategory))
             throw new NonUniqueResultException(newCategory.getName());
         return CategoryMapper.toDto(repository
                 .save(CategoryMapper.toEntity(newCategory)));
     }
-    @Override public CategoryDto delete(CategoryDto category) {
+
+    /**
+     * Removes a given category from the repository
+     * @param category the category to be deleted
+     * @return the deleted category
+     */
+    @Override
+    public CategoryDto delete(CategoryDto category) {
         repository.delete(CategoryMapper.toEntity(category));
         return category;
     }
-    @Override public CategoryDto update(CategoryDto current, CategoryDto updated)
+
+    /**
+     * Updates the current category in the repository
+     * @param current the current category to be updated
+     * @param updated the updated category
+     * @return the updated category on success
+     * @throws NonUniqueResultException if category is already present
+     */
+    @Override
+    public CategoryDto update(CategoryDto current, CategoryDto updated)
             throws NonUniqueResultException {
         CategoryDto newCtg = add(updated);
         delete(current);
         return newCtg;
     }
-    @Override public CategoryDto deleteByName(String name) {
+
+    /**
+     * Removes a given category by name from the repository
+     * @param name the name of the category to be deleted
+     * @return the deleted category
+     */
+    @Override
+    public CategoryDto deleteByName(String name) {
         return delete(findByName(name));
     }
 }

@@ -34,7 +34,10 @@ public class CategoryController {
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         addLoggedInUser(model);
-        model.addAttribute("ctgEdits", categoryService.selectAllToDto());
+        CategoriesDto ctgEdits = categoryService.selectAllToDto();
+        for (CategoryDto ctg : ctgEdits.getCategories())
+            ctg.setNumOfItems(itemService.getNumOfItems(ctg));
+        model.addAttribute("ctgEdits", ctgEdits);
         model.addAttribute("newCtg", new CategoryDto());
         return LIST;
     }
@@ -90,6 +93,12 @@ public class CategoryController {
         }
 
         return getAll(model);
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute(name = "current") CategoryDto current,
+                         @ModelAttribute(name = "updated") CategoryDto updated) {
+
     }
 
     private void addLoggedInUser(Model model) {

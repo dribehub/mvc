@@ -4,59 +4,80 @@
   <meta charset="UTF-8">
   <title>Category List</title>
   <link rel="icon" href="https://i.imgur.com/khyNqXm.png">
-  <style>
-    td { padding-right: 10px; }
-    #newCtg { margin-right: 10px; }
-    .input { width: 200px; }
-    .btn { cursor: pointer; }
-    .error { color: red; }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link th:href="@{/styles/tables.css}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
   <script type="text/javascript" th:src="@{/functions.js}"></script>
-  <script type="text/javascript" th:src="@{/ctgFunctions.js}"></script>
+<!--  <script type="text/javascript" th:src="@{/ctgFunctions.js}"></script>-->
 </head>
 <body>
-<h2>Add a new category</h2>
-<form method="POST" th:action="@{/categories/add}" th:object="${newCtg}">
-  <input id="newCtg" class="input" type="text" th:field="*{name}" required>
-  <span class="btn" onclick="addNewCtg()"
-        onmouseenter="setColor(this, 'green')"
-        onmouseleave="setColor(this, 'black')">Save</span>
-  <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}">[Pattern Error]</p>
-  <p th:if="${nonUniqueCtgError}" class="error" th:text="${nonUniqueCtgError}">[Duplicate Error]</p>
-  <input type="submit" id="submitNew" hidden>
-</form>
-
-<h2>List of categories</h2>
-<form th:method="PUT" th:action="@{/categories/update}" th:object="${ctgEdits}">
-  <table id="table">
-    <tr th:each="ctg, stats : *{categories}"
-        th:class="${stats.index}">
-      <td><input type="text" class="input" th:value="${ctg.name}"
-                 th:field="*{categories[__${stats.index}__].name}" readonly></td>
-      <td class="btn" onclick="editCtg(this)"
-          onmouseenter="setColor(this, 'darkorange')"
-          onmouseleave="setColor(this, 'black')">Edit</td>
-      <td class="btn" onclick="deleteCtg(this)"
-          onmouseenter="setColor(this, 'red')"
-          onmouseleave="setColor(this, 'black')">Delete</td>
-      <td><input type="hidden" value="false" th:field="*{deleted[__${stats.index}__]}"></td>
-      <td>
-        <span th:if="${#fields.hasErrors('categories[__${stats.index}__].name')}"
-              th:errorclass="error" th:errors="*{ctg.name}">[patternError]</span>
-        <span th:if="${__${'nonUniqueCtgError' + stats.index}__}" class="error"
-              th:text="${__${'nonUniqueCtgError' + stats.index}__}">[nonUniqueCtgError]</span>
-        <span th:if="${__${'isPresentError' + stats.index}__}" class="error"
-              th:text="${__${'isPresentError' + stats.index}__}">[isPresentError]</span>
+<aside th:include="/fragments::sidebar"></aside>
+<main class="align-items-center float-end">
+  <p class="mb-5"></p>
+  <table id="categories" class="table border-s">
+    <thead class="thead-dark">
+    <tr>
+      <td scope="col">#</td>
+      <td scope="col">Category</td>
+      <td scope="col"># of items</td>
+      <td scope="col">Actions</td>
+    </tr>
+    </thead>
+    <tr th:each="ctg, stats : ${ctgEdits.categories}" th:class="${stats.index}">
+      <td th:text="${stats.index + 1}">#</td>
+      <!--        <td><input type="text" class="input" th:value="${ctg.name}"-->
+      <!--                   th:field="*{categories[__${stats.index}__].name}" readonly></td>-->
+      <td th:text="${ctg.name}">Category</td>
+      <td th:text="${ctg.numOfItems > 0 ? ctg.numOfItems : 'none'}"># of items</td>
+      <td class="mx-2">
+        <a th:attr="onclick=|editCtg(${ctg.id}, '${ctg.name}')|"><img class="mx-1" title="Edit item"
+           src="https://img.icons8.com/ios-glyphs/30/000000/edit--v1.png" height="20" width="20"></a>
+        <a><img class="mx-1" title="Remove item" height="20" width="20"
+                src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png"></a>
       </td>
     </tr>
-  </table><br>
-  <input type="button" value="<== Go back" onclick="goToIndex()">
-  <input type="submit" id="submitAll" value="==> Submit changes" hidden>
-</form>
-
+  </table>
+  <form id="form" th:method="post" th:action="@{/categories/update}">
+    <input id="id" type="number" th:field="${id}"/>
+    <input id="newCtg" type="text" th:field="${newCtg}"/>
+  </form>
+  <footer th:include="/fragments::copyright"></footer>
+</main>
 <script type="text/javascript">
-  const input = document.getElementById("newCtg");
-  onEnter(input, addNewCtg);
+  $(document).ready(() => $('#categories').DataTable({
+    "info": false,
+    "columnDefs": [{
+      "targets": [3],
+      "searchable": false,
+      "orderable": false,
+    }]
+  }));
+  function editCtg(id, name) {
+    swal({
+      text: `Rename category '${name}'?`,
+      content: "input",
+      buttons: {
+        cancel: true,
+        send: {
+          text: "Rename",
+          closeModal: false,
+        }
+      },
+    }).then(newCtg => {
+      if (!newCtg) throw null;
+      const form = $('#form');
+      $('#receiverId').val(id);
+      $('#text').val(newCtg);
+      form.submit();
+    })
+  }
 </script>
 </body>
 </html>

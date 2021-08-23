@@ -82,7 +82,7 @@ public class ItemController {
         addLoggedInUser(model);
         if (result.hasErrors()) return FORM;
 
-        if (itemService.isPresent(item)) {
+        if (itemService.isUnique(item)) {
             model.addAttribute("categories", categoryService.selectAll());
             model.addAttribute("nonUniqueItemError", Utils.ItemNotUnique(item));
             return FORM;

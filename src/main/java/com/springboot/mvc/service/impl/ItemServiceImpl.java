@@ -2,7 +2,6 @@ package com.springboot.mvc.service.impl;
 
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.ItemDto;
-import com.springboot.mvc.dto.OrderDto;
 import com.springboot.mvc.mapper.ItemMapper;
 import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.repository.ItemRepository;
@@ -23,45 +22,118 @@ public class ItemServiceImpl implements ItemService {
         this.repository = repository;
     }
 
-    @Override public Boolean contains(ItemDto item) {
+    /**
+     * Checks if the given item is present
+     * @param item the ItemDto to be checked
+     * @return true if item is present
+     */
+    @Override
+    public Boolean contains(ItemDto item) {
         return selectAll().contains(item);
     }
-    @Override public Boolean contains(CategoryDto category) {
+
+    /**
+     * Checks if the given category holds any items
+     * @param category the category to be checked
+     * @return true if category contains at least one item
+     */
+    @Override
+    public Boolean contains(CategoryDto category) {
         return selectAll().stream().anyMatch(item ->
                 category.getName().equals(item.getCategory()));
     }
-    @Override public ItemDto findById(Integer id) {
+
+    /**
+     * Finds the amount of items in the category
+     * @param categoryDto the category to be filtered
+     * @return the number of items in the given category
+     */
+    @Override
+    public Long getNumOfItems(CategoryDto category) {
+        return selectAll().stream()
+                .map(ItemDto::getCategory)
+                .filter(category::equals)
+                .count();
+    }
+
+    /**
+     * Finds any item by the given item id
+     * @param id the item id (unique)
+     * @return the item if one is found, otherwise null
+     */
+    @Override
+    public ItemDto findById(Integer id) {
         return repository.findById(id)
                 .map(ItemMapper::toDto)
                 .orElse(null);
     }
-    @Override public List<ItemDto> selectAll() {
+
+    /**
+     * Selects all items in the repository
+     * @return a list of all items found in the repository
+     */
+    @Override
+    public List<ItemDto> selectAll() {
         return repository.findAll()
                 .stream().map(ItemMapper::toDto)
                 .collect(Collectors.toList());
     }
-    @Override public List<ItemDto> selectAllByOrder(OrderDto order) {
-        return order.getItems();
-    }
-    @Override public ItemDto add(ItemDto item) throws NonUniqueResultException {
-        if (isPresent(item))
+
+    /**
+     * Adds the given item to the repository if it's not already present
+     * @param item the item to be inserted
+     * @return the given item if it's not already present
+     * @throws NonUniqueResultException if the given item is already present
+     */
+    @Override
+    public ItemDto add(ItemDto item) throws NonUniqueResultException {
+        if (isUnique(item))
             throw new NonUniqueResultException(item.getName());
         return ItemMapper.toDto(repository.save(ItemMapper.toEntity(item)));
     }
-    @Override public Boolean isPresent(ItemDto newItem) {
-        return selectAll().stream().anyMatch(item -> item.equalsLogically(newItem));
+
+    /**
+     * Checks if the given item's name and category are unique within the item repository
+     * @param newItem the item to be checked for uniqueness
+     * @return true if no item in the repository is found to have newItem's name and category
+     */
+    @Override
+    public Boolean isUnique(ItemDto newItem) {
+        return selectAll().stream().noneMatch(item -> item.equalsLogically(newItem));
     }
-    @Override public ItemDto delete(ItemDto item) {
-        repository.delete(ItemMapper.toEntity(item));
-        return item;
-    }
-    @Override public CategoryDto updateCategory(CategoryDto current, CategoryDto updated) {
-        for (ItemDto item : selectAll()) {
-            if (current.equals(item.getCategory())) {
-                item.setCategory(updated);
-                add(item);
-            }
+
+    /**
+     * Removes the given item from the repository
+     * @param item the item to be deleted
+     * @return the deleted item if one is found, otherwise null
+     */
+    @Override
+    public ItemDto delete(ItemDto item) {
+        if (contains(item)) {
+            repository.delete(ItemMapper.toEntity(item));
+            return item;
         }
-        return updated;
+        return null;
+    }
+
+    /**
+     * Updates the 'current' item's category with the new 'updated' category
+     * @param current the category already present in the repository
+     * @param updated the updated category
+     * @return the updated category if items of that category are found, otherwise null
+     * @throws NonUniqueResultException if current == updated
+     */
+    @Override
+    public CategoryDto updateCategory(CategoryDto current, CategoryDto updated) {
+        if (contains(current)) {
+            for (ItemDto item : selectAll()) {
+                if (current.equals(item.getCategory())) {
+                    item.setCategory(updated);
+                    add(item);
+                }
+            }
+            return updated;
+        }
+        return null;
     }
 }

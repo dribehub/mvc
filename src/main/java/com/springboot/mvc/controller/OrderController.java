@@ -73,7 +73,7 @@ public class OrderController {
             return ERROR;
         } else {
             UserDto customer = userService.findById(order.getCustomerId());
-            List<ItemDto> items = itemService.selectAllByOrder(order);
+            List<ItemDto> items = order.getItems();
             Map<String, String> symbols = Utils.getAllSymbols(items);
             model.addAttribute("order", order);
             model.addAttribute("customer", customer);
