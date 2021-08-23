@@ -10,6 +10,11 @@ public class CategoryDto {
     private String name;
     private Long numOfItems;
 
+    public CategoryDto() {}
+    public CategoryDto(String name) {
+        this.name = name;
+    }
+
     public String getName() { return name; }
     public Long getNumOfItems() { return numOfItems; }
     public void setName(String name) { this.name = Utils.capFirst(name); }

@@ -51,7 +51,7 @@ public class OrderController {
         return LIST;
     }
 
-    @GetMapping("/active")
+    @GetMapping("/active") // WIP -> select only active orders
     public String getActive(Model model) {
         addLoggedInUser(model);
         UserDto user = auth.getLoggedInUser();

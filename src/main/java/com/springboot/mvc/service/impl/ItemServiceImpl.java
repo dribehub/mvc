@@ -45,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Finds the amount of items in the category
-     * @param categoryDto the category to be filtered
+     * @param category the category to be filtered
      * @return the number of items in the given category
      */
     @Override

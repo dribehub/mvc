@@ -64,7 +64,6 @@ public class CategoryController {
     @PutMapping("/update")
     public String update(@ModelAttribute(name = "ctgEdits") @Valid CategoriesDto edits,
                          BindingResult result, Model model) {
-        addLoggedInUser(model);
         if (result.hasErrors()) return LIST;
 
         List<CategoryDto> currentCtgs = categoryService.selectAll();
@@ -96,9 +95,20 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute(name = "current") CategoryDto current,
-                         @ModelAttribute(name = "updated") CategoryDto updated) {
-
+    public String update(@ModelAttribute(name = "current") String current,
+                         @ModelAttribute(name = "updated") String updated,
+                         BindingResult result, Model model) {
+        if (result.hasErrors()) return LIST;
+        CategoryDto currentCtg = new CategoryDto(current);
+        CategoryDto updatedCtg = new CategoryDto(updated);
+        if (categoryService.exists(updatedCtg)) {
+            model.addAttribute(("nonUniqueCtgError"), Utils.CtgNotUnique(currentCtg));
+        } else { // else, update category
+            categoryService.add(updatedCtg);
+            itemService.updateCategory(currentCtg, updatedCtg);
+            categoryService.delete(currentCtg);
+        }
+        return "redirect:/";
     }
 
     private void addLoggedInUser(Model model) {
