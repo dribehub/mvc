@@ -1,6 +1,5 @@
 package com.springboot.mvc.service.impl;
 
-import com.springboot.mvc.dto.CategoriesDto;
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.mapper.CategoryMapper;
 import com.springboot.mvc.repository.CategoryRepository;
@@ -31,15 +30,6 @@ public class CategoryServiceImpl implements CategoryService {
         return repository.findAll()
                 .stream().map(CategoryMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Selects all categories in the repository
-     * @return a list of all categories wrapped by a DTO
-     */
-    @Override
-    public CategoriesDto selectAllToDto() {
-        return new CategoriesDto(selectAll());
     }
 
     /**
@@ -111,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return the deleted category
      */
     @Override
-    public CategoryDto deleteByName(String name) {
+    public CategoryDto delete(String name) {
         return delete(findByName(name));
     }
 }

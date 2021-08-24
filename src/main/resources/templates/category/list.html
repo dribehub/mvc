@@ -14,8 +14,12 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script type="text/javascript" th:src="@{/functions.js}"></script>
-<!--  <script type="text/javascript" th:src="@{/ctgFunctions.js}"></script>-->
+  <style>
+    a { cursor: pointer; }
+    form { display: none; }
+  </style>
 </head>
 <body>
 <aside th:include="/fragments::sidebar"></aside>
@@ -30,23 +34,21 @@
       <td scope="col">Actions</td>
     </tr>
     </thead>
-    <tr th:each="ctg, stats : ${ctgEdits.categories}" th:class="${stats.index}">
+    <tr th:each="ctg, stats : ${categories}">
       <td th:text="${stats.index + 1}">#</td>
-      <!--        <td><input type="text" class="input" th:value="${ctg.name}"-->
-      <!--                   th:field="*{categories[__${stats.index}__].name}" readonly></td>-->
       <td th:text="${ctg.name}">Category</td>
       <td th:text="${ctg.numOfItems > 0 ? ctg.numOfItems : 'none'}"># of items</td>
       <td class="mx-2">
-        <a th:attr="onclick=|editCtg(${ctg.id}, '${ctg.name}')|"><img class="mx-1" title="Edit item"
+        <a th:attr="onclick=|editCtg('${ctg.name}')|"><img class="mx-1" title="Edit item"
            src="https://img.icons8.com/ios-glyphs/30/000000/edit--v1.png" height="20" width="20"></a>
         <a><img class="mx-1" title="Remove item" height="20" width="20"
                 src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png"></a>
       </td>
     </tr>
   </table>
-  <form id="form" th:method="post" th:action="@{/categories/update}">
-    <input id="id" type="number" th:field="${id}"/>
-    <input id="newCtg" type="text" th:field="${newCtg}"/>
+  <form id="form" th:method="post" th:action="@{/categories/update}" th:object="${newCtg}">
+    <input id="current" type="text" th:field="*{current}"/>
+    <input id="updated" type="text" th:field="*{updated}"/>
   </form>
   <footer th:include="/fragments::copyright"></footer>
 </main>
@@ -59,10 +61,16 @@
       "orderable": false,
     }]
   }));
-  function editCtg(id, name) {
+  function editCtg(current) {
     swal({
-      text: `Rename category '${name}'?`,
-      content: "input",
+      text: `Rename category '${current}'?`,
+      content: {
+        element: "input",
+        attributes: {
+          value: current,
+          type: "text",
+        }
+      },
       buttons: {
         cancel: true,
         send: {
@@ -70,13 +78,24 @@
           closeModal: false,
         }
       },
-    }).then(newCtg => {
-      if (!newCtg) throw null;
+    }).then(updated => {
+      if (!updated) throw null;
       const form = $('#form');
-      $('#receiverId').val(id);
-      $('#text').val(newCtg);
+      $('#current').val(current);
+      $('#updated').val(updated);
       form.submit();
     })
+  }
+  function deleteCtg(ctg) {
+    swal({
+      title: "Are you sure?",
+      text: "All included items will also be deleted",
+      icon: "warning",
+      buttons: [true, "Delete"],
+      dangerMode: true,
+    }).then(deleted => {
+      if (deleted) goTo("/categories/" + ctg + "/delete");
+    });
   }
 </script>
 </body>

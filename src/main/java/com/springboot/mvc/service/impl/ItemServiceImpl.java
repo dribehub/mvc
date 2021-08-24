@@ -82,13 +82,24 @@ public class ItemServiceImpl implements ItemService {
     /**
      * Adds the given item to the repository if it's not already present
      * @param item the item to be inserted
-     * @return the given item if it's not already present
-     * @throws NonUniqueResultException if the given item is already present
+     * @return the inserted item if it's not already present
+     * @throws NonUniqueResultException if item is already present
      */
     @Override
     public ItemDto add(ItemDto item) throws NonUniqueResultException {
         if (isUnique(item))
             throw new NonUniqueResultException(item.getName());
+        return ItemMapper.toDto(repository.save(ItemMapper.toEntity(item)));
+    }
+
+    /**
+     * Overwrites the given item if it's present in the repository,
+     * otherwise simply adds it to the repository
+     * @param item the item to be overwritten
+     * @return the item that was saved
+     */
+    @Override
+    public ItemDto overwrite(ItemDto item) {
         return ItemMapper.toDto(repository.save(ItemMapper.toEntity(item)));
     }
 
@@ -129,7 +140,7 @@ public class ItemServiceImpl implements ItemService {
             for (ItemDto item : selectAll()) {
                 if (current.equals(item.getCategory())) {
                     item.setCategory(updated);
-                    add(item);
+                    overwrite(item);
                 }
             }
             return updated;

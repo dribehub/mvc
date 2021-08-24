@@ -16,6 +16,7 @@ public interface ItemService {
     ItemDto findById(Integer id);
     Boolean isUnique(ItemDto item);
     ItemDto add(ItemDto item) throws NonUniqueResultException;
+    ItemDto overwrite(ItemDto item);
     ItemDto delete(ItemDto item);
     CategoryDto updateCategory(CategoryDto current, CategoryDto updated);
 }
