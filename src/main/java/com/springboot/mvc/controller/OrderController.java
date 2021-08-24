@@ -85,7 +85,7 @@ public class OrderController {
     @GetMapping("/create")
     public String createForm(Model model) {
         addLoggedInUser(model);
-        List<ItemDto> items = itemService.selectAllByCategory();
+        List<ItemDto> items = itemService.selectAll();
         model.addAttribute("items", items);
         model.addAttribute("symbols", Utils.getAllSymbols(items));
         model.addAttribute("customers", userService.selectAll());

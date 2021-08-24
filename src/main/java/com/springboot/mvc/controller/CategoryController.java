@@ -1,7 +1,7 @@
 package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoryDto;
-import com.springboot.mvc.dto.CategoryUpdateDto;
+import com.springboot.mvc.dto.UpdateDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.service.CategoryService;
 import com.springboot.mvc.service.ItemService;
@@ -41,7 +41,7 @@ public class CategoryController {
         List<CategoryDto> categories = categoryService.selectAll();
         for (CategoryDto ctg : categories)
             ctg.setNumOfItems(itemService.getNumOfItems(ctg));
-        model.addAttribute("updateCtg", new CategoryUpdateDto());
+        model.addAttribute("updateCtg", new UpdateDto());
         model.addAttribute("deleteCtg", new CategoryDto());
         model.addAttribute("categories", categories);
         return CTG_LIST;
@@ -54,6 +54,7 @@ public class CategoryController {
         Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
+        model.addAttribute("updateItem", new UpdateDto());
         return ITEM_LIST;
     }
 
@@ -72,7 +73,7 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute(name = "updateCtg") CategoryUpdateDto updateCtg,
+    public String update(@ModelAttribute(name = "updateCtg") UpdateDto updateCtg,
                          BindingResult result, Model model) {
         if (result.hasErrors()) return CTG_LIST;
         CategoryDto currentCtg = new CategoryDto(updateCtg.getCurrent());

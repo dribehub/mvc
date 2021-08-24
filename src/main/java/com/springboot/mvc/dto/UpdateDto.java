@@ -1,6 +1,6 @@
 package com.springboot.mvc.dto;
 
-public class CategoryUpdateDto {
+public class UpdateDto {
 
     private String current;
     private String updated;

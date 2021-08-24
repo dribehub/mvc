@@ -29,7 +29,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean contains(ItemDto item) {
-        return selectAllByCategory().contains(item);
+        return selectAll().contains(item);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean contains(CategoryDto category) {
-        return selectAllByCategory().stream().anyMatch(item ->
+        return selectAll().stream().anyMatch(item ->
                 category.getName().equals(item.getCategory()));
     }
 
@@ -50,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Long getNumOfItems(CategoryDto category) {
-        return selectAllByCategory().stream()
+        return selectAll().stream()
                 .map(ItemDto::getCategory)
                 .filter(category::equals)
                 .count();
@@ -73,7 +73,7 @@ public class ItemServiceImpl implements ItemService {
      * @return a list of all items found in the repository
      */
     @Override
-    public List<ItemDto> selectAllByCategory() {
+    public List<ItemDto> selectAll() {
         return repository.findAll()
                 .stream().map(ItemMapper::toDto)
                 .collect(Collectors.toList());
@@ -122,7 +122,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean isUnique(ItemDto newItem) {
-        return selectAllByCategory().stream().noneMatch(item -> item.equalsLogically(newItem));
+        return selectAll().stream().noneMatch(item -> item.equalsLogically(newItem));
     }
 
     /**
@@ -140,6 +140,16 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
+     * Removes the corresponding item from the repository
+     * @param id the id of the item to be deleted
+     * @return the deleted item if one is found, otherwise null
+     */
+    @Override
+    public ItemDto deleteById(Integer id) {
+        return delete(findById(id));
+    }
+
+    /**
      * Updates the 'current' item's category with the new 'updated' category
      * @param current the category already present in the repository
      * @param updated the updated category
@@ -149,7 +159,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CategoryDto updateCategory(CategoryDto current, CategoryDto updated) {
         if (contains(current)) {
-            for (ItemDto item : selectAllByCategory()) {
+            for (ItemDto item : selectAll()) {
                 if (current.equals(item.getCategory())) {
                     item.setCategory(updated);
                     overwrite(item);

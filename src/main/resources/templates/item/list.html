@@ -14,6 +14,8 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script type="text/javascript" th:src="@{/functions.js}"></script>
 </head>
 <body>
 <aside th:include="/fragments::sidebar"></aside>
@@ -35,13 +37,17 @@
       <td th:text="${item.category}">Category</td>
       <td th:text="${item.fullPrice}">Price</td>
       <td class="mx-2">
-        <a><img class="mx-1" title="Edit item" height="20" width="20"
-                src="https://img.icons8.com/ios-glyphs/30/000000/edit--v1.png"></a>
-        <a><img class="mx-1" title="Remove item" height="20" width="20"
-                src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png"></a>
+        <a th:attr="onclick=|editItem('${item.name}')|"><img class="mx-1" title="Edit item"
+                src="https://img.icons8.com/ios-glyphs/30/000000/edit--v1.png" height="20" width="20"></a>
+        <a th:attr="onclick=|deleteItem('${item.id}')|"><img class="mx-1" title="Remove item"
+                src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png" height="20" width="20"></a>
       </td>
     </tr>
   </table>
+  <form id="updateItem" th:method="post" th:action="@{/categories/update}" th:object="${updateItem}">
+    <input id="id" type="number" th:field="*{current}"/>
+    <input id="updated" type="text" th:field="*{updated}"/>
+  </form>
   <footer th:include="/fragments::copyright"></footer>
 </main>
 <script type="text/javascript">
@@ -53,6 +59,41 @@
       "orderable": false,
     }]
   }));
+  function editItem(current) {
+    swal({
+      text: `Rename item '${current}'?`,
+      content: {
+        element: "input",
+        attributes: {
+          value: current,
+          type: "text",
+        }
+      },
+      buttons: {
+        cancel: true,
+        send: {
+          text: "Rename",
+          closeModal: false,
+        }
+      },
+    }).then(updated => {
+      if (!updated) throw null;
+      $('#current').val(current);
+      $('#updated').val(updated);
+      $('#updateItem').submit();
+    });
+  }
+  function deleteItem(id) {
+    swal({
+      title: "Are you sure?",
+      text: "This item will also be removed from any active order",
+      icon: "warning",
+      buttons: [true, "Delete"],
+      dangerMode: true,
+    }).then(deleted => {
+      if (deleted) goTo(`/items/${id}/delete`)
+    });
+  }
 </script>
 </body>
 </html>

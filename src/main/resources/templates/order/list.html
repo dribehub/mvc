@@ -14,6 +14,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script type="text/javascript" th:src="@{/functions.js}"></script>
 </head>
 <body>
@@ -41,7 +42,7 @@
         <a th:href="@{/orders/{id} (id = ${order.id})}"><img class="mx-1" title="View details"
            src="https://img.icons8.com/ios-glyphs/30/000000/view-delivery.png" height="20" width="20"></a>
         <span th:if="${order.status == 1}">
-          <a th:href="@{/orders/{id}/delete (id = ${order.id})}"><img class="mx-1" title="Cancel order"
+          <a th:attr="onclick=|deleteOrder('${order.id}')|"><img class="mx-1" title="Cancel order"
              src="https://img.icons8.com/ios-glyphs/30/000000/cancel.png" height="20" width="20"></a>
           <a th:href="@{/orders/{id}/approve (id = ${order.id})}"><img class="mx-1" title="Approve order"
              src="https://img.icons8.com/ios-glyphs/30/000000/checked--v1.png" height="20" width="20"></a>
@@ -62,6 +63,17 @@
       "orderable": false,
     }]
   }));
+  function deleteOrder(id) {
+    swal({
+      title: "Are you sure?",
+      text: "This pending order will be permanently deleted",
+      icon: "warning",
+      buttons: [true, "Delete"],
+      dangerMode: true,
+    }).then(deleted => {
+      if (deleted) goTo(`/orders/${id}/delete`)
+    });
+  }
 </script>
 </body>
 </html>

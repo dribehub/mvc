@@ -1,6 +1,7 @@
 package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoryDto;
+import com.springboot.mvc.dto.UpdateDto;
 import com.springboot.mvc.dto.UserDto;
 import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.entity.OrderEntity;
@@ -47,10 +48,11 @@ public class ItemController {
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         addLoggedInUser(model);
-        List<ItemDto> items = itemService.selectAllByCategory();
+        List<ItemDto> items = itemService.selectAll();
         Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
+        model.addAttribute("updateItem", new UpdateDto());
         return ITEM_LIST;
     }
 
@@ -96,6 +98,12 @@ public class ItemController {
         }
 
         getItemData(model, itemService.add(item));
+        return RESULT;
+    }
+
+    @RequestMapping(value = "/{id}/delete")
+    public String deleteById(@PathVariable(value = "id") Integer id) {
+        itemService.deleteById(id);
         return RESULT;
     }
 

@@ -12,12 +12,13 @@ public interface ItemService {
     Boolean contains(ItemDto item);
     Boolean contains(CategoryDto category);
     Long getNumOfItems(CategoryDto category);
-    List<ItemDto> selectAllByCategory();
+    List<ItemDto> selectAll();
     List<ItemDto> selectAllByCategory(String category);
     ItemDto findById(Integer id);
     Boolean isUnique(ItemDto item);
     ItemDto add(ItemDto item) throws NonUniqueResultException;
     ItemDto overwrite(ItemDto item);
     ItemDto delete(ItemDto item);
+    ItemDto deleteById(Integer id);
     CategoryDto updateCategory(CategoryDto current, CategoryDto updated);
 }
