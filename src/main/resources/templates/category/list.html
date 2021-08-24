@@ -39,7 +39,7 @@
       <td th:text="${ctg.name}">Category</td>
       <td th:text="${ctg.numOfItems}"># of items</td>
       <td class="mx-2">
-        <a th:href="@{/categories/{name} (name = ${ctg.name})}"><img class="mx-1" title="View details"
+        <a th:href="@{/categories/{name} (name = ${ctg.name})}"><img class="mx-1" title="View items"
            src="https://img.icons8.com/ios-glyphs/30/000000/view-delivery.png" height="20" width="20"></a>
         <a th:attr="onclick=|editCtg('${ctg.name}')|"><img class="mx-1" title="Edit category"
            src="https://img.icons8.com/ios-glyphs/30/000000/edit--v1.png" height="20" width="20"></a>
