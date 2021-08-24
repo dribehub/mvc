@@ -12,7 +12,8 @@ public interface ItemService {
     Boolean contains(ItemDto item);
     Boolean contains(CategoryDto category);
     Long getNumOfItems(CategoryDto category);
-    List<ItemDto> selectAll();
+    List<ItemDto> selectAllByCategory();
+    List<ItemDto> selectAllByCategory(String category);
     ItemDto findById(Integer id);
     Boolean isUnique(ItemDto item);
     ItemDto add(ItemDto item) throws NonUniqueResultException;

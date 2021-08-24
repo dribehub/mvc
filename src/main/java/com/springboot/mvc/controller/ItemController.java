@@ -47,7 +47,7 @@ public class ItemController {
     @GetMapping({"/", ""})
     public String getAll(Model model) {
         addLoggedInUser(model);
-        List<ItemDto> items = itemService.selectAll();
+        List<ItemDto> items = itemService.selectAllByCategory();
         Map<String, String> symbols = Utils.getAllSymbols(items);
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);

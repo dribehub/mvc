@@ -58,4 +58,7 @@ public class ItemDto {
     public boolean equalsLogically(ItemDto o) {
         return this == o || name.equals(o.name) && category.equals(o.category);
     }
+    public boolean isOf(String category) {
+        return this.category.equals(category);
+    }
 }

@@ -29,7 +29,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean contains(ItemDto item) {
-        return selectAll().contains(item);
+        return selectAllByCategory().contains(item);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean contains(CategoryDto category) {
-        return selectAll().stream().anyMatch(item ->
+        return selectAllByCategory().stream().anyMatch(item ->
                 category.getName().equals(item.getCategory()));
     }
 
@@ -50,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Long getNumOfItems(CategoryDto category) {
-        return selectAll().stream()
+        return selectAllByCategory().stream()
                 .map(ItemDto::getCategory)
                 .filter(category::equals)
                 .count();
@@ -73,9 +73,21 @@ public class ItemServiceImpl implements ItemService {
      * @return a list of all items found in the repository
      */
     @Override
-    public List<ItemDto> selectAll() {
+    public List<ItemDto> selectAllByCategory() {
         return repository.findAll()
                 .stream().map(ItemMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Selects all items of the category in the repository
+     * @return a list of all items found in the repository
+     */
+    @Override
+    public List<ItemDto> selectAllByCategory(String category) {
+        return repository.findAll()
+                .stream().map(ItemMapper::toDto)
+                .filter(item -> item.isOf(category))
                 .collect(Collectors.toList());
     }
 
@@ -110,7 +122,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean isUnique(ItemDto newItem) {
-        return selectAll().stream().noneMatch(item -> item.equalsLogically(newItem));
+        return selectAllByCategory().stream().noneMatch(item -> item.equalsLogically(newItem));
     }
 
     /**
@@ -137,7 +149,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CategoryDto updateCategory(CategoryDto current, CategoryDto updated) {
         if (contains(current)) {
-            for (ItemDto item : selectAll()) {
+            for (ItemDto item : selectAllByCategory()) {
                 if (current.equals(item.getCategory())) {
                     item.setCategory(updated);
                     overwrite(item);

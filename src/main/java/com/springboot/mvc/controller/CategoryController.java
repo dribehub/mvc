@@ -2,6 +2,7 @@ package com.springboot.mvc.controller;
 
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.CategoryUpdateDto;
+import com.springboot.mvc.dto.ItemDto;
 import com.springboot.mvc.service.CategoryService;
 import com.springboot.mvc.service.ItemService;
 import com.springboot.mvc.util.Utils;
@@ -12,12 +13,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private static final String LIST = "category/list";
+    private static final String
+            CTG_LIST = "category/list",
+            ITEM_LIST = "item/list";
 
     private final AuthController auth;
     private final CategoryService categoryService;
@@ -37,16 +41,27 @@ public class CategoryController {
         List<CategoryDto> categories = categoryService.selectAll();
         for (CategoryDto ctg : categories)
             ctg.setNumOfItems(itemService.getNumOfItems(ctg));
-        model.addAttribute("newCtg", new CategoryUpdateDto());
+        model.addAttribute("updateCtg", new CategoryUpdateDto());
+        model.addAttribute("deleteCtg", new CategoryDto());
         model.addAttribute("categories", categories);
-        return LIST;
+        return CTG_LIST;
+    }
+
+    @GetMapping("/{name}")
+    public String getItems(@PathVariable(value = "name") String category, Model model) {
+        addLoggedInUser(model);
+        List<ItemDto> items = itemService.selectAllByCategory(category);
+        Map<String, String> symbols = Utils.getAllSymbols(items);
+        model.addAttribute("items", items);
+        model.addAttribute("symbols", symbols);
+        return ITEM_LIST;
     }
 
     @PostMapping("/add")
     public String add(@ModelAttribute(name = "newCtg") @Valid CategoryDto newCtg,
                       BindingResult result, Model model) {
         addLoggedInUser(model);
-        if (result.hasErrors()) return LIST;
+        if (result.hasErrors()) return CTG_LIST;
         if (categoryService.exists(newCtg)) { // if the new category is already present
             // do not add category, throw error instead
             model.addAttribute("nonUniqueCtgError", Utils.CtgNotUnique(newCtg));
@@ -57,11 +72,11 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute(name = "newCtg") CategoryUpdateDto newCtg,
+    public String update(@ModelAttribute(name = "updateCtg") CategoryUpdateDto updateCtg,
                          BindingResult result, Model model) {
-        if (result.hasErrors()) return LIST;
-        CategoryDto currentCtg = new CategoryDto(newCtg.getCurrent());
-        CategoryDto updatedCtg = new CategoryDto(newCtg.getUpdated());
+        if (result.hasErrors()) return CTG_LIST;
+        CategoryDto currentCtg = new CategoryDto(updateCtg.getCurrent());
+        CategoryDto updatedCtg = new CategoryDto(updateCtg.getUpdated());
         if (categoryService.exists(updatedCtg)) {
             model.addAttribute(("nonUniqueCtgError"), Utils.CtgNotUnique(currentCtg));
         } else { // else, update category
@@ -72,9 +87,9 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @RequestMapping(value = "/delete")
-    public String delete(@ModelAttribute(name = "deletedCtg") CategoryDto deletedCtg) {
-        categoryService.delete(deletedCtg);
+    @PostMapping("/delete")
+    public String delete(@ModelAttribute(name = "deleteCtg") CategoryDto deleteCtg) {
+        categoryService.delete(deleteCtg);
         return "redirect:/categories";
     }
 
