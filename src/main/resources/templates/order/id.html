@@ -31,8 +31,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="item:${order.items}">
-      <td th:text="${item.id}">#</td>
+    <tr th:each="item,stats:${order.items}">
+      <td th:text="${stats.index+1}">#</td>
       <td th:text="${item.name}">Name</td>
       <td th:text="${item.category}">Category</td>
       <td th:text="${item.fullPrice}">Price</td>

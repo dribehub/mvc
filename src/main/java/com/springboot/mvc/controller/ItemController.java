@@ -50,8 +50,10 @@ public class ItemController {
         addLoggedInUser(model);
         List<ItemDto> items = itemService.selectAll();
         Map<String, String> symbols = Utils.getAllSymbols(items);
+        List<CategoryDto> categories = categoryService.selectAll();
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
+        model.addAttribute("categories", categories);
         model.addAttribute("updateItem", new UpdateDto());
         return ITEM_LIST;
     }
