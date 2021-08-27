@@ -54,7 +54,7 @@ public class ItemController {
         model.addAttribute("items", items);
         model.addAttribute("symbols", symbols);
         model.addAttribute("categories", categories);
-        model.addAttribute("updateItem", new UpdateDto());
+        model.addAttribute("updateItem", new ItemDto());
         return ITEM_LIST;
     }
 
@@ -81,7 +81,7 @@ public class ItemController {
     }
 
     @PostMapping("/add") // TODO: to be deleted
-    public String addItem(@ModelAttribute(name = "item") @Valid ItemDto item,
+    public String add(@ModelAttribute(name = "item") @Valid ItemDto item,
                           BindingResult result, Model model) {
         addLoggedInUser(model);
         if (result.hasErrors()) return FORM;
@@ -101,6 +101,13 @@ public class ItemController {
 
         getItemData(model, itemService.add(item));
         return RESULT;
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute(name = "updateItem") ItemDto updated) {
+        fillOut(updated);
+        itemService.update(updated);
+        return "redirect:/items";
     }
 
     @RequestMapping(value = "/{id}/delete")
@@ -127,6 +134,18 @@ public class ItemController {
             model.addAttribute("orders", orders);
             model.addAttribute("customers", customers);
         }
+    }
+
+    private void fillOut(ItemDto updated) {
+        ItemDto current = itemService.findById(updated.getId());
+        if (updated.getName() == null)
+            updated.setName(current.getName());
+        if (updated.getCategory() == null)
+            updated.setCategory(current.getCategory());
+        if (updated.getPrice() == null)
+            updated.setPrice(current.getPrice());
+        if (updated.getCurrency() == null)
+            updated.setCurrency(current.getCurrency());
     }
 
     private void addLoggedInUser(Model model) {

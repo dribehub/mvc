@@ -2,8 +2,6 @@ package com.springboot.mvc.service;
 
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.ItemDto;
-import com.springboot.mvc.dto.OrderDto;
-
 import javax.persistence.NonUniqueResultException;
 import java.util.List;
 
@@ -20,5 +18,6 @@ public interface ItemService {
     ItemDto overwrite(ItemDto item);
     ItemDto delete(ItemDto item);
     ItemDto deleteById(Integer id);
+    ItemDto update(ItemDto updated);
     CategoryDto updateCategory(CategoryDto current, CategoryDto updated);
 }

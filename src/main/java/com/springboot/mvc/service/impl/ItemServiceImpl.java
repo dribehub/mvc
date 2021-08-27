@@ -150,6 +150,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
+     * Updates (overwrites) the given item with changed attributes.
+     * @param updated the updated item
+     * @return the updated item
+     */
+    @Override
+    public ItemDto update(ItemDto updated) {
+        return ItemMapper.toDto(repository
+                .save(ItemMapper.toEntity(updated)));
+    }
+
+    /**
      * Updates the 'current' item's category with the new 'updated' category
      * @param current the category already present in the repository
      * @param updated the updated category

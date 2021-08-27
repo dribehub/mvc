@@ -37,115 +37,129 @@
       <td th:text="${item.category}">Category</td>
       <td th:text="${item.fullPrice}">Price</td>
       <td class="mx-2">
-        <a th:attr="onclick=|editName('${item.name}')|">
+        <a th:attr="onclick=|editName('${item.id}', '${item.name}')|">
           <img class="mx-1" title="Rename item"
            src="https://img.icons8.com/ios-glyphs/30/000000/edit--v1.png" height="20" width="20"
            onmouseover="editOn(this);" onmouseout="editOff(this);"></a>
-        <a th:attr="onclick=|editCtg('${item.name}', '${categories}')|">
+        <a th:attr="onclick=|editCtg('${item.id}', '${item.name}', '${item.category}')|">
           <img class="mx-1" title="Edit category"
            src="https://img.icons8.com/ios-glyphs/30/000000/category.png" height="20" width="20"
            onmouseover="ctgOn(this);" onmouseout="ctgOff(this);"></a>
-        <a th:attr="onclick=|editPrice('${item.price}', '${item.symbol}')|">
+        <a th:attr="onclick=|editPrice('${item.id}', '${item.name}', '${item.price}', '${item.symbol}')|">
           <img class="mx-1" title="Edit price"
            src="https://img.icons8.com/ios-glyphs/30/000000/price-tag-euro.png" height="20" width="20"
            onmouseover="priceOn(this);" onmouseout="priceOff(this);"></a>
-        <a th:attr="onclick=|deleteItem('${item.id}')|"><img class="mx-1" title="Remove item"
+        <a th:attr="onclick=|deleteItem('${item.id}', '${item.name}')|"><img class="mx-1" title="Remove item"
            src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png" height="20" width="20"
            onmouseover="trashOn(this);" onmouseout="trashOff(this);"></a>
       </td>
     </tr>
   </table>
-  <form id="updateItem" th:method="post" th:action="@{/categories/update}" th:object="${updateItem}">
-    <input id="id" type="number" th:field="*{current}"/>
-    <input id="updated" type="text" th:field="*{updated}"/>
+  <form id="updateItem" th:method="post" th:action="@{/items/update}" th:object="${updateItem}">
+    <input id="id" type="number" th:field="*{id}"/>
+    <input id="name" type="text" th:field="*{name}"/>
+    <input id="category" type="text" th:field="*{category}"/>
+    <input id="price" type="number" th:field="*{price}"/>
   </form>
   <footer th:include="/fragments::copyright"></footer>
 </main>
+<script type="text/javascript" th:inline="javascript">
+  function createDropdown(selected) {
+    const dropdown = document.createElement('select');
+    dropdown.setAttribute('th:field', '${updated}');
+    for (let ctg of [[${categories}]]) {
+      let option = document.createElement('option');
+      option.setAttribute('value', ctg.name);
+      option.innerHTML = ctg.name;
+      if (ctg.name === selected)
+        option.setAttribute('selected', '');
+      dropdown.insertAdjacentElement('beforeend', option);
+    }
+    return dropdown;
+  }
+</script>
 <script type="text/javascript">
   $(document).ready(() => $('#items').DataTable({
-    "info": false,
-    "columnDefs": [{
-      "targets": [4],
-      "searchable": false,
-      "orderable": false,
+    'info': false,
+    'columnDefs': [{
+      'targets': [4],
+      'searchable': false,
+      'orderable': false,
     }]
   }));
-  function editName(current) {
+  function editName(id, name) {
     swal({
-      text: `Rename item '${current}'?`,
+      text: `Rename item '${name}'?`,
       content: {
         element: "input",
         attributes: {
-          value: current,
+          value: name,
           type: "text",
         }
       },
       buttons: {
         cancel: true,
         send: {
-          text: "Rename",
+          text: 'Rename',
           closeModal: false,
         }
       },
     }).then(updated => {
       if (!updated) throw null;
-      $('#current').val(current);
-      $('#updated').val(updated);
+      $('#id').val(id);
+      $('#name').val(updated);
       $('#updateItem').submit();
     });
   }
-  function editCtg(current, ctgs) {
+  function editCtg(id, name, category) {
     swal({
-      text: `Edit category of item '${current}'?`,
-      content: {
-        element: "select",
-        inputOptions: ctgs,
-      },
+      text: `Edit category of item '${name}'?`,
+      content: createDropdown(category),
       buttons: {
         cancel: true,
         send: {
-          text: "Submit",
+          text: 'Submit',
           closeModal: false,
         }
       },
-    }).then(updated => {
-      if (!updated) throw null;
-      $('#current').val(current);
-      $('#updated').val(updated);
-      $('#updateItem').submit();
+    }).then(selected => {
+      console.log(selected);
+      $('#id').val(id);
+      $('#category').val(selected);
+      // $('#updateItem').submit();
     });
   }
-  function editPrice(current, symbol) {
+  function editPrice(id, name, price, symbol) {
     swal({
-      text: `Edit price (${symbol}):`,
+      text: `Edit price of item '${name}' (${symbol})?`,
       content: {
-        element: "input",
+        element: 'input',
         attributes: {
-          value: current,
-          type: "number",
+          value: price,
+          type: 'number',
           step: 0.5
         }
       },
       buttons: {
         cancel: true,
         send: {
-          text: "Submit",
+          text: 'Submit',
           closeModal: false,
         }
       },
     }).then(updated => {
       if (!updated) throw null;
-      $('#current').val(current);
-      $('#updated').val(updated);
+      $('#id').val(id);
+      $('#price').val(updated);
       $('#updateItem').submit();
     });
   }
-  function deleteItem(id) {
+  function deleteItem(id, name) {
     swal({
-      title: "Are you sure?",
-      text: "This item will also be removed from any active order",
-      icon: "warning",
-      buttons: [true, "Delete"],
+      title: 'Are you sure?',
+      text: `'${name}' will also be removed from any active order.`,
+      icon: 'warning',
+      buttons: [true, 'Delete'],
       dangerMode: true,
     }).then(deleted => {
       if (deleted) goTo(`/items/${id}/delete`)
