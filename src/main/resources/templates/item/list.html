@@ -56,10 +56,16 @@
       </td>
     </tr>
   </table>
-  <form id="updateItem" th:method="post" th:action="@{/items/update}" th:object="${updateItem}">
-    <input id="id" type="number" th:field="*{id}"/>
+  <form id="updateName" th:method="post" th:action="@{/items/update}" th:object="${updateItem}">
+    <input id="updateName-id" type="number" th:field="*{id}"/>
     <input id="name" type="text" th:field="*{name}"/>
+  </form>
+  <form id="updateCtg" th:method="post" th:action="@{/items/update}" th:object="${updateItem}">
+    <input id="updateCtg-id" type="number" th:field="*{id}"/>
     <input id="category" type="text" th:field="*{category}"/>
+  </form>
+  <form id="updatePrice" th:method="post" th:action="@{/items/update}" th:object="${updateItem}">
+    <input id="updatePrice-id" type="number" th:field="*{id}"/>
     <input id="price" type="number" th:field="*{price}"/>
   </form>
   <footer th:include="/fragments::copyright"></footer>
@@ -107,9 +113,9 @@
       },
     }).then(updated => {
       if (!updated) throw null;
-      $('#id').val(id);
+      $('#updateName-id').val(id);
       $('#name').val(updated);
-      $('#updateItem').submit();
+      $('#updateName').submit();
     });
   }
   function editCtg(id, name, category) {
@@ -125,9 +131,9 @@
       },
     }).then(selected => {
       console.log(selected);
-      $('#id').val(id);
+      $('#updateCtg-id').val(id);
       $('#category').val(selected);
-      // $('#updateItem').submit();
+      $('#updateCtg').submit();
     });
   }
   function editPrice(id, name, price, symbol) {
@@ -150,9 +156,9 @@
       },
     }).then(updated => {
       if (!updated) throw null;
-      $('#id').val(id);
+      $('#updatePrice-id').val(id);
       $('#price').val(updated);
-      $('#updateItem').submit();
+      $('#updatePrice').submit();
     });
   }
   function deleteItem(id, name) {
