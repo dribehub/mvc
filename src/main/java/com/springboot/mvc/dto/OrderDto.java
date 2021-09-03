@@ -1,10 +1,13 @@
 package com.springboot.mvc.dto;
 
 import com.springboot.mvc.util.Utils;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter @Setter
 public class OrderDto {
 
     private Integer id;
@@ -14,6 +17,7 @@ public class OrderDto {
     private List<ItemDto> items;
 
     public OrderDto() {}
+
     public OrderDto(OrderDto o) {
         id = o.id;
         date = o.date;
@@ -22,16 +26,7 @@ public class OrderDto {
         items = o.items;
     }
 
-    public Integer getId() { return id; }
-    public LocalDate getDate() { return date; }
-    public String getLongDate() { return Utils.convertToLongDate(date); }
-    public Integer getCustomerId() { return customerId; }
-    public Integer getStatus() { return status; }
-    public List<ItemDto> getItems() { return items; }
-
-    public void setId(Integer id) { this.id = id; }
-    public void setDate(LocalDate date) { this.date = date; }
-    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
-    public void setStatus(Integer status) { this.status = status; }
-    public void setItems(List<ItemDto> items) { this.items = items; }
+    public String getLongDate() {
+        return Utils.convertToLongDate(date);
+    }
 }

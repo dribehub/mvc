@@ -1,10 +1,13 @@
 package com.springboot.mvc.dto;
 
 import com.springboot.mvc.util.Utils;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@Getter @Setter
 public class UserDto {
 
     private Integer id;
@@ -18,25 +21,22 @@ public class UserDto {
     @Size(min = 8, message = "Password is too short!")
     private String password;
 
-    public Integer getId() { return id; }
-    public String getRole() { return role; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getName() { return firstName + " " + lastName; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 
-    public void setId(Integer id) { this.id = id; }
-    public void setRole(String role) { this.role = role; }
-    public void setFirstName(String firstName) { this.firstName = Utils.capFirst(firstName); }
-    public void setLastName(String lastName) { this.lastName = Utils.capFirst(lastName); }
-    public void setEmail(String email) { this.email = email; }
-    public void setPassword(String password) { this.password = password; }
+    public void setFirstName(String firstName) {
+        this.firstName = Utils.capFirst(firstName);
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = Utils.capFirst(lastName);
+    }
 
     public boolean equals(UserDto customer) {
         return customer == this
-            || customer != null
-            && customer.email.equals(email)
-            && customer.password.equals(password);
+                || customer != null
+                && customer.email.equals(email)
+                && customer.password.equals(password);
     }
 }

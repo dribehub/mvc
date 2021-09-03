@@ -1,11 +1,15 @@
 package com.springboot.mvc.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
+@Getter @Setter
 public class OrderEntity {
 
     @Id
@@ -21,16 +25,4 @@ public class OrderEntity {
             inverseJoinColumns = { @JoinColumn(name = "item_id") }
     )
     private List<ItemEntity> items;
-
-    public Integer getId() { return id; }
-    public LocalDate getDate() { return date; }
-    public Integer getCustomerId() { return customerId; }
-    public Integer getStatus() { return status; }
-    public List<ItemEntity> getItems() { return items; }
-
-    public void setId(Integer id) { this.id = id; }
-    public void setDate(LocalDate date) { this.date = date; }
-    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
-    public void setStatus(Integer status) { this.status = status; }
-    public void setItems(List<ItemEntity> items) { this.items = items; }
 }

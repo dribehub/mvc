@@ -2,11 +2,14 @@ package com.springboot.mvc.dto;
 
 import com.springboot.mvc.entity.OrderEntity;
 import com.springboot.mvc.util.Utils;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter @Setter
 public class ItemDto {
 
     private Integer id;
@@ -20,6 +23,7 @@ public class ItemDto {
     private List<OrderEntity> orders = new ArrayList<>();
 
     public ItemDto() {}
+
     public ItemDto(ItemDto o) {
         id = o.id;
         name = o.name;
@@ -29,35 +33,44 @@ public class ItemDto {
         orders = o.orders;
     }
 
-    public Integer getId() { return id; }
-    public String getName() { return name; }
-    public String getCategory() { return category; }
-    public Double getPrice() { return price; }
-    public String getCurrency() { return currency; }
-    public List<OrderEntity> getOrders() { return orders; }
-    public String getSymbol() { return Utils.getSymbol(currency); }
-    public String getFullPrice() { return getSymbol() + " " + price; }
+    public String getSymbol() {
+        return Utils.getSymbol(currency);
+    }
 
-    public void setId(Integer id) { this.id = id; }
-    public void setName(String name) { this.name = Utils.capFirst(name); }
-    public void setCategory(String category) { this.category = Utils.capFirst(category); }
-    public void setCategory(CategoryDto category) { this.category = Utils.capFirst(category); }
-    public void setPrice(Double price) { this.price = price; }
-    public void setCurrency(String currency) { this.currency = Utils.capAll(currency); }
-    public void setOrders(List<OrderEntity> orders) { this.orders = orders; }
+    public String getFullPrice() {
+        return getSymbol() + " " + price;
+    }
+
+    public void setName(String name) {
+        this.name = Utils.capFirst(name);
+    }
+
+    public void setCategory(String category) {
+        this.category = Utils.capFirst(category);
+    }
+
+    public void setCategory(CategoryDto category) {
+        this.category = Utils.capFirst(category);
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = Utils.capAll(currency);
+    }
 
     public boolean equals(ItemDto o) {
-        if (this == o) return true;
-        return id.equals(o.id)
-            && name.equals(o.name)
-            && category.equals(o.category)
-            && price.equals(o.price)
-            && currency.equals(o.currency)
-            && orders.equals(o.orders);
+        return this == o || id.equals(o.id)
+                && name.equals(o.name)
+                && category.equals(o.category)
+                && price.equals(o.price)
+                && currency.equals(o.currency)
+                && orders.equals(o.orders);
     }
+
     public boolean equalsLogically(ItemDto o) {
-        return this == o || name.equals(o.name) && category.equals(o.category);
+        return this == o || name.equals(o.name)
+                && category.equals(o.category);
     }
+
     public boolean isOf(String category) {
         return this.category.equals(category);
     }

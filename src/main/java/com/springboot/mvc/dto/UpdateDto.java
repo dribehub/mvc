@@ -1,12 +1,11 @@
 package com.springboot.mvc.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class UpdateDto {
 
     private String current;
     private String updated;
-
-    public String getCurrent() { return current; }
-    public String getUpdated() { return updated; }
-    public void setCurrent(String current) { this.current = current; }
-    public void setUpdated(String updated) { this.updated = updated; }
 }

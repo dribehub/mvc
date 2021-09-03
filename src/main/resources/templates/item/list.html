@@ -49,7 +49,8 @@
           <img class="mx-1" title="Edit price"
            src="https://img.icons8.com/ios-glyphs/30/000000/price-tag-euro.png" height="20" width="20"
            onmouseover="priceOn(this);" onmouseout="priceOff(this);"></a>
-        <a th:attr="onclick=|deleteItem('${item.id}', '${item.name}')|"><img class="mx-1" title="Remove item"
+        <a th:attr="onclick=|deleteItem('${item.id}', '${item.name}')|">
+          <img class="mx-1" title="Remove item"
            src="https://img.icons8.com/ios-glyphs/30/000000/filled-trash.png" height="20" width="20"
            onmouseover="trashOn(this);" onmouseout="trashOff(this);"></a>
       </td>
