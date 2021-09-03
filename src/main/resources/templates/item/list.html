@@ -73,7 +73,7 @@
 <script type="text/javascript" th:inline="javascript">
   function createDropdown(selected) {
     const dropdown = document.createElement('select');
-    dropdown.setAttribute('th:field', '${updated}');
+    dropdown.setAttribute('name', 'updated');
     for (let ctg of [[${categories}]]) {
       let option = document.createElement('option');
       option.setAttribute('value', ctg.name);
@@ -133,7 +133,7 @@
       console.log(selected);
       $('#updateCtg-id').val(id);
       $('#category').val(selected);
-      $('#updateCtg').submit();
+      // $('#updateCtg').submit();
     });
   }
   function editPrice(id, name, price, symbol) {
