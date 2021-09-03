@@ -19,8 +19,12 @@
 <body>
 <aside th:include="/fragments.html::sidebar" style="width: 280px;"></aside>
 <main class="align-items-center float-end">
-  <h3 class="mt-5">Customer: <span th:text="${customer.name}" class="normal">Customer</span></h3>
-  <h5 class="mb-5">Order Date: <span th:text="${order.longDate}" class="normal">Date</span></h5>
+  <div class="mt-5 mb-5">
+    <h3 th:if="${user.role.equals('ADMIN')}">Customer:
+      <span th:text="${customer.name}" class="normal">Customer</span>
+    </h3>
+    <h5>Order Date: <span th:text="${order.longDate}" class="normal">Date</span></h5>
+  </div>
   <table id="items" class="table border-s">
     <thead class="thead-dark">
     <tr>
