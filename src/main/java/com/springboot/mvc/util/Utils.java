@@ -3,6 +3,7 @@ package com.springboot.mvc.util;
 import com.springboot.mvc.dto.CategoryDto;
 import com.springboot.mvc.dto.ItemDto;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Currency;
@@ -56,6 +57,9 @@ public class Utils {
         String[] info = localDate.toString().split("-");
         int monthIndex = Integer.parseInt(info[1]) - 1;
         return String.format("%s %s %s", info[2], months[monthIndex], info[0]);
+    }
+    public static String removeTrailingZero(Double decimal) {
+        return new DecimalFormat("0.#####").format(decimal);
     }
 
     public static Boolean isSupported(String currency) {

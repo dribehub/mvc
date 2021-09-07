@@ -113,7 +113,7 @@ public class ItemController {
     @RequestMapping(value = "/{id}/delete")
     public String deleteById(@PathVariable(value = "id") Integer id) {
         itemService.deleteById(id);
-        return RESULT;
+        return "redirect:/items";
     }
 
     private void getItemData(Model model, ItemDto item) {

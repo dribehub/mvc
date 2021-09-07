@@ -132,11 +132,8 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public ItemDto delete(ItemDto item) {
-        if (contains(item)) {
-            repository.delete(ItemMapper.toEntity(item));
-            return item;
-        }
-        return null;
+        repository.delete(ItemMapper.toEntity(item));
+        return item;
     }
 
     /**

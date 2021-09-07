@@ -38,7 +38,7 @@ public class ItemDto {
     }
 
     public String getFullPrice() {
-        return getSymbol() + " " + price;
+        return getSymbol() + Utils.removeTrailingZero(price);
     }
 
     public void setName(String name) {
